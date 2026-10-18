@@ -3,373 +3,548 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Forest of Dean Planner</title>
-<meta name="description" content="Dog-friendly walks, lunches, dinners and towns near Forest Holidays Forest of Dean, 26–30 October.">
+<title>Holiday Planner</title>
+<meta name="description" content="Phone-friendly holiday planner: walks, food, towns and essentials near where we're staying.">
 <meta name="theme-color" content="#2f5d3a">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{
   --bg:#f6f4ee;--card:#ffffff;--ink:#1f2a22;--muted:#5d6a60;--line:#e2ddd0;
-  --brand:#2f5d3a;--brand-ink:#ffffff;--chip:#ebe7dc;--warn:#9a5b00;--warn-bg:#fff4dc;--done:#8a948c;
+  --brand:#2f5d3a;--brand-ink:#ffffff;--chip:#ebe7dc;--warn:#9a5b00;--warn-bg:#fff4dc;--done:#8a948c;--ok:#1d6b3a;--ok-bg:#e3f3e8;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#141815;--card:#1d231f;--ink:#e7ece8;--muted:#9faba2;--line:#2e3631;
-    --brand:#6fae7d;--brand-ink:#0f1a12;--chip:#273029;--warn:#f0b75a;--warn-bg:#2f2614;--done:#6a736c;
+    --brand:#6fae7d;--brand-ink:#0f1a12;--chip:#273029;--warn:#f0b75a;--warn-bg:#2f2614;--done:#6a736c;--ok:#8fd3a3;--ok-bg:#1c2f22;
   }
 }
 :root[data-theme="dark"]{
   --bg:#141815;--card:#1d231f;--ink:#e7ece8;--muted:#9faba2;--line:#2e3631;
-  --brand:#6fae7d;--brand-ink:#0f1a12;--chip:#273029;--warn:#f0b75a;--warn-bg:#2f2614;--done:#6a736c;
+  --brand:#6fae7d;--brand-ink:#0f1a12;--chip:#273029;--warn:#f0b75a;--warn-bg:#2f2614;--done:#6a736c;--ok:#8fd3a3;--ok-bg:#1c2f22;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 a{color:var(--brand)}
+button{font:inherit}
 .wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
 header{background:var(--brand);color:var(--brand-ink);padding:20px 16px 18px}
 header .wrap{padding-bottom:0}
 h1{margin:0 0 4px;font-size:1.5rem}
 header p{margin:0;opacity:.9;font-size:.95rem}
 .home{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.home a{background:var(--brand-ink);color:var(--brand);text-decoration:none;padding:8px 12px;border-radius:999px;font-weight:600;font-size:.9rem}
-.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 8px;border-bottom:1px solid var(--line)}
+.home a,.home button{background:var(--brand-ink);color:var(--brand);text-decoration:none;padding:8px 12px;border-radius:999px;font-weight:600;font-size:.9rem;border:0;cursor:pointer}
+.offline{display:none;background:var(--warn-bg);color:var(--warn);padding:6px 16px;font-size:.85rem;text-align:center}
+body.is-offline .offline{display:block}
+.weather{display:flex;gap:6px;overflow-x:auto;margin:14px 0 4px;scrollbar-width:none}
+.weather::-webkit-scrollbar{display:none}
+.day{flex:0 0 auto;min-width:74px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center;font-size:.8rem}
+.day.today{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand)}
+.day .ico{font-size:1.4rem;line-height:1.3}
+.day .t{font-weight:600;font-size:.9rem}
+.day .s{color:var(--muted)}
+.wx-note{font-size:.8rem;color:var(--muted);margin:4px 0 0}
+.bar{position:sticky;top:0;z-index:500;background:var(--bg);padding:12px 0 8px;border-bottom:1px solid var(--line)}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:0 0 auto;border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:7px 12px;border-radius:999px;font-size:.9rem;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
-.row{display:flex;gap:8px;align-items:center;margin-top:6px}
-input[type=search]{flex:1;min-width:0;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px}
+.row{display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap}
+input[type=search],input[type=time],select,textarea{padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px}
+input[type=search]{flex:1;min-width:160px}
 label.tog{font-size:.85rem;color:var(--muted);white-space:nowrap;display:flex;gap:4px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);color:var(--ink);padding:7px 10px;font-size:.85rem;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink)}
 h2{font-size:1.05rem;margin:22px 0 4px}
 .area-note{color:var(--muted);font-size:.88rem;margin:0 0 8px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0}
-.card.done{opacity:.55}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0;scroll-margin-top:150px}
+.card.done{opacity:.6}
 .card.done h3{text-decoration:line-through;color:var(--done)}
 .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 h3{margin:0;font-size:1rem}
 .dist{font-size:.85rem;color:var(--muted);white-space:nowrap;text-align:right}
+.dist .me{display:block;color:var(--brand)}
 .tags{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}
 .tag{font-size:.75rem;background:var(--chip);padding:2px 8px;border-radius:999px;color:var(--muted)}
+.tag.booked{background:var(--ok-bg);color:var(--ok);font-weight:600}
 .note{margin:4px 0 0;font-size:.92rem}
-.near{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
+.near,.walk{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
 .check{display:inline-block;margin-top:6px;font-size:.8rem;color:var(--warn);background:var(--warn-bg);padding:2px 8px;border-radius:6px}
 .actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-.btn{border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:7px 12px;border-radius:10px;font-size:.88rem;text-decoration:none;cursor:pointer}
+.btn{border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:7px 12px;border-radius:10px;font-size:.88rem;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
 .btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
 .btn[aria-pressed="true"]{background:var(--warn-bg);color:var(--warn);border-color:var(--warn)}
+.btn.small{padding:4px 9px;font-size:.8rem}
 .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:14px 0}
 .box h2{margin-top:0}
 .box ul{margin:6px 0 0;padding-left:18px}
 .box li{margin:4px 0}
-details.photo{margin-top:8px}
-details.photo summary{cursor:pointer;font-size:.88rem;color:var(--brand)}
-details.photo figure{margin:8px 0 0}
-details.photo img{width:100%;height:auto;max-height:320px;object-fit:cover;border-radius:10px;display:block;background:var(--chip)}
-figcaption,#creditList{font-size:.75rem;color:var(--muted)}
+.nights{list-style:none;padding:0!important;margin:0}
+.nights li{display:flex;justify-content:space-between;gap:8px;align-items:center;border-top:1px solid var(--line);padding:8px 0!important;margin:0!important;flex-wrap:wrap}
+.nights li:first-child{border-top:0}
+.nights .when{font-weight:600;min-width:90px}
+.nights .what{flex:1;min-width:150px;font-size:.92rem}
+.share-banner{background:var(--ok-bg);color:var(--ok);border-radius:12px;padding:10px 12px;margin-top:12px;font-size:.92rem;display:none}
+.share-banner .actions{margin-top:6px}
+details.sub{margin-top:8px}
+details.sub summary{cursor:pointer;font-size:.88rem;color:var(--brand)}
+details.sub figure{margin:8px 0 0}
+details.sub img{width:100%;height:auto;max-height:320px;object-fit:cover;border-radius:10px;display:block;background:var(--chip)}
+figcaption,.credits{font-size:.75rem;color:var(--muted)}
 figcaption{margin-top:4px}
+.stars{display:flex;gap:2px;margin:8px 0 6px}
+.stars button{border:0;background:none;font-size:1.3rem;cursor:pointer;padding:0 2px;color:var(--muted)}
+.stars button.on{color:#e0a400}
+textarea{width:100%;min-height:60px;resize:vertical}
+.bookform{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center}
+#map{height:70vh;min-height:360px;border-radius:14px;border:1px solid var(--line);margin-top:14px;display:none}
+body.map-mode #map{display:block}
+body.map-mode #list{display:none}
+.leaflet-popup-content{font:14px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.pack{columns:2;column-gap:20px;list-style:none;padding:0!important}
+.pack li{break-inside:avoid}
+.pack label{display:flex;gap:6px;align-items:flex-start;font-size:.92rem}
+@media (max-width:480px){.pack{columns:1}}
 .empty{color:var(--muted);text-align:center;padding:30px 0}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:.9rem;opacity:0;transition:opacity .2s;pointer-events:none;z-index:1000;max-width:90vw}
+.toast.show{opacity:1}
 footer{color:var(--muted);font-size:.8rem;margin-top:30px}
 </style>
 </head>
 <body>
+<div class="offline">You're offline. Showing the saved copy; photos, maps and weather need signal.</div>
 <header>
   <div class="wrap">
-    <h1>🌲 Forest of Dean · 26–30 Oct</h1>
-    <p>Dog-friendly walks, lunches, dinners and towns. Distances are rough road estimates from the cabins; tap Directions for the real time.</p>
+    <h1 id="title">Holiday planner</h1>
+    <p id="subtitle"></p>
     <div class="home">
-      <a id="homeDir" href="#">🏡 Directions back to cabin</a>
-      <a href="#tips">Tips</a>
-      <a href="#pairs">Good pairings</a>
+      <a id="homeDir" href="#" target="_blank" rel="noopener">🏡 Directions back</a>
+      <a href="#plan">🍽️ Nights &amp; bookings</a>
+      <button id="shareBtn" type="button">📤 Share picks</button>
+      <a href="#more">More…</a>
     </div>
   </div>
 </header>
 
 <div class="wrap">
+  <div class="share-banner" id="shareBanner"></div>
+  <div id="weather"></div>
+
+  <div class="box" id="plan">
+    <h2>Nights &amp; bookings</h2>
+    <p class="area-note">Tap "Book" on a place to add a booking. Tap "Eating in" on a night to mark it. Use Share picks to send these to the others.</p>
+    <ul class="nights" id="nights"></ul>
+  </div>
+
   <div class="bar">
     <div class="chips" id="chips"></div>
     <div class="row">
       <input type="search" id="q" placeholder="Search places…" aria-label="Search places">
       <label class="tog"><input type="checkbox" id="hideDone"> Hide done</label>
     </div>
+    <div class="row">
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" data-view="list" aria-pressed="true">☰ List</button>
+        <button type="button" data-view="map" aria-pressed="false">🗺️ Map</button>
+      </div>
+      <div class="seg" role="group" aria-label="Sort">
+        <button type="button" data-sort="base" aria-pressed="true">By area</button>
+        <button type="button" data-sort="me" aria-pressed="false">📍 Near me</button>
+      </div>
+    </div>
   </div>
 
+  <div id="map" aria-label="Map of places"></div>
   <div id="list"></div>
 
-  <div class="box" id="pairs">
-    <h2>Good pairings</h2>
-    <ul>
-      <li><b>Symonds Yat:</b> the Rock and the Biblins loop, then the Saracens Head, or 15 min on to Ross-on-Wye.</li>
-      <li><b>Staunton:</b> the Buckstone, then the White Horse, or 10 min on to Monmouth.</li>
-      <li><b>Central forest:</b> the Sculpture Trail, Beechenhurst Café, Cannop Ponds, and dinner at the Speech House.</li>
-      <li><b>Lakes:</b> Mallards Pike, stopping at New Fancy View on the way, then the Wild Boar Coffee café at Parkend.</li>
-      <li><b>Lower Wye:</b> the Devil's Pulpit at Tintern, then lunch and the castle in Chepstow (10 min).</li>
-      <li><b>Goodrich:</b> Goodrich Castle, then lunch at the Inn on the Wye (Kerne Bridge, just down the hill), then Ross.</li>
-      <li><b>Lydney side:</b> Dean Forest Railway and Taurus Crafts, then a flat walk at Lydney Harbour.</li>
-      <li><b>Rainy day:</b> Clearwell Caves (take turns, dogs stay on the surface) and Perrygrove Railway, both 5–10 min away.</li>
-    </ul>
+  <div id="more">
+    <div class="box"><h2>Good pairings</h2><ul id="pairings"></ul></div>
+    <div class="box"><h2>Tips</h2><ul id="tips"></ul></div>
+    <div class="box" id="packing"><h2>Packing checklist</h2><div id="packLists"></div></div>
+    <div class="box">
+      <h2>My notes</h2>
+      <p class="area-note">Ratings and notes you add on places are saved on this phone. Export them to keep for next time (they can go in the planner repo as <code>notes.json</code>).</p>
+      <div class="actions"><button class="btn" id="exportNotes" type="button">⬇️ Export my notes</button><button class="btn" id="copyNotes" type="button">📋 Copy notes</button></div>
+      <ul id="notesList" class="credits"></ul>
+    </div>
+    <div class="box" id="credits">
+      <h2>Photo credits</h2>
+      <p class="area-note">All photos are from Wikimedia Commons under the licences shown, unchanged apart from resizing. Each one shows the place or village named, not necessarily the exact venue.</p>
+      <ul id="creditList" class="credits"></ul>
+    </div>
+    <footer id="footer"></footer>
   </div>
-
-  <div class="box" id="tips">
-    <h2>Tips</h2>
-    <ul>
-      <li><b>It's half-term.</b> Book dinners early, and ask for a quiet corner table for the dog.</li>
-      <li><b>Clocks went back on 25 Oct.</b> It's dark by about 4:45pm. Pack head torches if you walk to the New Inn.</li>
-      <li><b>Wear boots:</b> leaves and mud make the paths slippery, especially carrying babies.</li>
-      <li><b>Keep the dog on a short lead in Wye Valley fields</b>; sheep and cattle graze there, and the Forest has free-roaming sheep and wild boar.</li>
-      <li><b>Skip Puzzlewood:</b> it allows no dogs and no pushchairs.</li>
-      <li><b>Places marked "Ring ahead"</b> are from listings that weren't confirmed; check dogs are still welcome.</li>
-      <li><b>Emergencies:</b> 999. Non-urgent medical: NHS 111. Vets and supplies are in the Essentials filter.</li>
-    </ul>
-  </div>
-
-  <div class="box" id="credits">
-    <h2>Photo credits</h2>
-    <p class="area-note">All photos are from Wikimedia Commons under the licences shown, unchanged apart from resizing. Each one shows the place or village named, not necessarily the exact venue.</p>
-    <ul id="creditList"></ul>
-  </div>
-
-  <footer>Compiled October 2026 from Visit Dean Wye, Forestry England, Visit Ross-on-Wye, Visit Monmouthshire and venue listings. Things change, so check opening hours before you set off. The ticks and stars are saved in this browser only.</footer>
 </div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-const ORIGIN = "Forest Holidays Forest of Dean, Bracelands Drive, Coleford GL16 7NN";
-
-const TYPES = {
-  walk:{label:"🥾 Walks"}, breakfast:{label:"🥐 Breakfast & brunch"}, lunch:{label:"🥪 Lunch"}, dinner:{label:"🍽️ Dinner"},
-  food:{label:"🛒 Food shops & bakeries"},
-  town:{label:"🏘️ Towns"}, todo:{label:"🎟️ Things to do"}, rainy:{label:"☔ Rainy day"},
-  essential:{label:"🧰 Essentials"}
-};
-
-const AREAS = [
-  ["doorstep","On your doorstep (0–5 mi)","Coleford, Staunton, Symonds Yat and Clearwell, all within about 10 minutes."],
-  ["central","Central forest (4–9 mi)","Beechenhurst, Cannop, Speech House, Parkend and Mallards Pike, a few minutes from each other."],
-  ["monmouth","Monmouth (5 mi west)","10 minutes from Staunton and Symonds Yat."],
-  ["ross","Ross-on-Wye and Goodrich (7–15 mi north)","Goodrich and Kerne Bridge are on the way to Ross; Symonds Yat is 15 minutes from Ross."],
-  ["lowerwye","Lower Wye Valley (11–16 mi south)","Tintern, Wyndcliff and Chepstow, each 5–10 minutes apart."],
-  ["lydney","Lydney and the Severn side (9–14 mi south-east)","The railway, Taurus Crafts and the harbour are all around Lydney."],
-  ["further","Further afield (25 min+)","Only if you fancy a longer drive."],
-  ["essentials","Essentials","Vets, food shopping and medical help."]
-];
-
-// mi = approx miles by road from the cabins, min = approx drive (walk if mode 'walking')
-const P = [
-  // Doorstep
-  {id:"highmeadow",a:"doorstep",n:"Highmeadow Woods",t:["walk"],mi:0,min:0,q:"Highmeadow Woods, Coleford",note:"Woodland tracks straight from the cabins. An easy first walk to let the dog settle in.",near:"On site"},
-  {id:"newinn",a:"doorstep",n:"The New Inn, Shortstanding",t:["dinner","lunch"],mi:0.6,min:12,mode:"walking",q:"The New Inn, Shortstanding, Coleford",note:"A dog- and child-friendly pub with a beer garden. You can walk there, so nobody has to drive.",near:"12 min walk from the cabins",check:true},
-  {id:"dogmuffler",a:"doorstep",n:"The Dog & Muffler, Joyford",t:["lunch","dinner","walk"],mi:1.5,min:4,q:"Dog and Muffler, Joyford, Coleford",note:"Country pub. Visit Dean Wye pairs it with a ~5 mi Joyford walk.",near:"Very close to the cabins",check:true},
-  {id:"coleford",a:"doorstep",n:"Coleford",t:["town","lunch"],mi:2,min:5,q:"Coleford, Gloucestershire",note:"Small market town for supplies, the Forest Deli and the Dog House micropub (very dog-friendly but small).",near:"Closest town"},
-  {id:"buckstone",a:"doorstep",n:"The Buckstone, Staunton",t:["walk"],mi:2.5,min:6,q:"Buckstone, Staunton, Coleford",note:"A short, steep climb to a huge rock with views into Wales. You can carry on through Highmeadow Woods for longer.",near:"Next to the White Horse; 10 min to Monmouth"},
-  {id:"whitehorse",a:"doorstep",n:"The White Horse, Staunton",t:["lunch","dinner"],mi:2.5,min:6,q:"The White Horse, Staunton, Coleford",note:"A country pub that welcomes walkers, families and dogs, and has its own host dog. Visit Dean Wye pairs it with an ~8 mi Staunton walk.",near:"Next to the Buckstone",check:true},
-  {id:"yatrock",a:"doorstep",n:"Symonds Yat Rock",t:["walk"],mi:3,min:8,q:"Symonds Yat Rock car park",note:"A famous viewpoint over a loop of the River Wye. The path from the car park to the viewpoint is short and easy. There's parking, toilets and bins.",near:"Start of the Biblins loop; 1 mi above the Saracens Head"},
-  {id:"biblins",a:"doorstep",n:"Biblins river loop",t:["walk"],mi:3,min:8,q:"Biblins Bridge, Symonds Yat",note:"About 4.5 mi from Symonds Yat Rock, down to the river and over the Biblins suspension footbridge. Steep at both ends, so use the carriers. Take the bridge rather than the hand-pulled ferry.",near:"Starts at Symonds Yat Rock"},
-  {id:"saracens",a:"doorstep",n:"The Saracens Head, Symonds Yat East",t:["lunch","dinner"],mi:4,min:12,q:"Saracens Head Inn, Symonds Yat East",note:"A riverside gastro-pub. Dogs are allowed in the bar and outside. Visit Dean Wye pairs it with a 5 or 7 mi River Wye walk. The road down is narrow and steep.",near:"1 mi below Symonds Yat Rock",check:true},
-  {id:"perrygrove",a:"doorstep",n:"Perrygrove Railway",t:["todo","rainy"],mi:3,min:8,q:"Perrygrove Railway, Coleford",note:"A small steam railway with woodland play trails. Listed as dog-friendly. Check the half-term timetable.",near:"Just south of Coleford; 5 min from Clearwell Caves",check:true},
-  {id:"clearwell",a:"doorstep",n:"Clearwell Caves",t:["todo","rainy"],mi:3.5,min:8,q:"Clearwell Caves",note:"Old iron mines with a café and shop. Dogs are welcome on the surface but not in the caves, so take turns. Booking online is recommended.",near:"Next to Tudor Farmhouse; 5 min from Perrygrove",check:true},
-  {id:"tudor",a:"doorstep",n:"Tudor Farmhouse, Clearwell",t:["dinner","lunch"],mi:3.5,min:8,q:"Tudor Farmhouse Hotel, Clearwell",note:"A smarter restaurant with rooms. Listed as dog-friendly. Good for a treat night.",near:"In Clearwell village, by the caves",check:true},
-  {id:"ostrich",a:"doorstep",n:"The Ostrich Inn, Newland",t:["lunch","dinner"],mi:4,min:10,q:"The Ostrich Inn, Newland",note:"A traditional old pub, listed as \"dogs welcome\". It may be snug, so ask for a quiet spot. Opening hours vary by day.",near:"5 min from Clearwell",check:true},
-  // Central
-  {id:"sculpture",a:"central",n:"Beechenhurst Sculpture Trail",t:["walk"],mi:4,min:10,q:"Beechenhurst, Forest of Dean",note:"About 3.5 mi on wide gravel paths past big sculptures. Easy to shorten. There's parking, toilets and bins.",near:"Café on site; 1 mi to Cannop Ponds and Speech House"},
-  {id:"beechcafe",a:"central",n:"Beechenhurst Café",t:["lunch"],mi:4,min:10,q:"Beechenhurst Cafe, Forest of Dean",note:"Refurbished, open every day. Dogs sit in \"the snug\", a quieter separate area. Serves soups, burgers and sharing plates.",near:"At the Sculpture Trail"},
-  {id:"cannop",a:"central",n:"Cannop Ponds",t:["walk"],mi:4,min:10,q:"Cannop Ponds car park",note:"Flat paths around two ponds with ducks. Parking, toilets and bins.",near:"Next to the Cycle Centre café; 1 mi from Beechenhurst"},
-  {id:"cyclecafe",a:"central",n:"Forest of Dean Cycle Centre Café",t:["lunch"],mi:4,min:10,q:"Pedalabikeaway Forest of Dean Cycle Centre",note:"Dog-friendly. Sandwiches, soups, and vegetarian, vegan and gluten-free options.",near:"Next to Cannop Ponds"},
-  {id:"speech",a:"central",n:"The Speech House",t:["dinner","lunch"],mi:4.5,min:10,q:"Speech House Hotel, Coleford",note:"A big country hotel with two restaurants and heated outdoor dining dens. The best roomy, calm pick for a nervous dog. Also serves morning coffee and afternoon tea.",near:"1 mi from Beechenhurst"},
-  {id:"whitemead",a:"central",n:"Wild Boar Coffee, Whitemead (Parkend)",t:["lunch"],mi:6,min:14,q:"Whitemead Forest Park, Parkend",note:"Newer café with indoor and outdoor seating, water bowls and dog biscuits. Toasties, paninis and cake.",near:"10 min from Mallards Pike"},
-  {id:"fancy",a:"central",n:"New Fancy View",t:["walk"],mi:6,min:15,q:"New Fancy View, Forest of Dean",note:"A viewpoint on an old colliery tip with a short walk up. A good quick stop.",near:"On the way to Mallards Pike"},
-  {id:"mallards",a:"central",n:"Mallards Pike lake and café",t:["walk","lunch"],mi:7.5,min:18,q:"Mallards Pike Lake, Forest of Dean",note:"An easy 1.5 mi lake loop with a lakeside café that has water bowls and dog treats (roughly 10am–4pm). Parking, toilets and bins.",near:"2 mi from New Fancy View"},
-  {id:"soudley",a:"central",n:"Soudley Ponds and Dean Heritage Centre",t:["walk","todo","rainy"],mi:9,min:20,q:"Dean Heritage Centre, Soudley",note:"A pretty walk round a chain of woodland ponds, next to the local museum and café. Check whether dogs are allowed inside the centre.",near:"East side of the forest",check:true},
-  // Monmouth
-  {id:"monmouth",a:"monmouth",n:"Monmouth",t:["town"],mi:5,min:12,q:"Monnow Bridge, Monmouth",note:"An easy town to wander: the 13th-century Monnow Bridge with its gatehouse, Agincourt Square, Church Street's shops and the riverside.",near:"10 min from the Buckstone and Symonds Yat"},
-  {id:"punch",a:"monmouth",n:"The Punch House, Monmouth",t:["lunch","dinner"],mi:5,min:12,q:"The Punch House, Agincourt Square, Monmouth",note:"Recently voted Wales' most dog-friendly pub. Pub food made with Welsh ingredients.",near:"Agincourt Square"},
-  {id:"coffilab",a:"monmouth",n:"Coffi Lab, Monmouth",t:["lunch"],mi:5,min:12,q:"Coffi Lab, Monmouth",note:"A coffee shop with a big outdoor area at the back and a menu for dogs. It can get busy at the counter.",near:"Town centre"},
-  {id:"estero",a:"monmouth",n:"Estero Lounge, Monmouth",t:["breakfast","lunch"],mi:5,min:12,q:"Estero Lounge, Monmouth",note:"Brunch and tapas. Dogs allowed inside and out, with water bowls and treats.",near:"Town centre"},
-  {id:"kymin",a:"monmouth",n:"The Kymin",t:["walk"],mi:5,min:12,q:"The Kymin, Monmouth",note:"A National Trust hilltop with the Round House and big views over Monmouth. There's a short walk from the car park, or a steep climb up from town.",near:"Just above Monmouth",check:true},
-  // Ross
-  {id:"goodrich",a:"ross",n:"Goodrich Castle",t:["todo"],mi:7,min:15,q:"Goodrich Castle",note:"A red sandstone castle run by English Heritage. Its listing says dogs are accepted; check which areas.",near:"Just up the hill from Kerne Bridge and the Inn on the Wye",check:true},
-  {id:"innwye",a:"ross",n:"Inn on the Wye, Kerne Bridge",t:["lunch","dinner"],mi:7,min:15,q:"Inn on the Wye, Kerne Bridge",note:"A traditional pub-restaurant, dog- and family-friendly. Dogs are welcome in the restaurant and bar, and it's a larger venue.",near:"Below Goodrich Castle; 10 min to Ross",check:true},
-  {id:"ross",a:"ross",n:"Ross-on-Wye",t:["town"],mi:11,min:22,q:"Market House, Ross-on-Wye",note:"The most dog-friendly town around. Over 30 shops, 14 pubs and a dozen cafés have joined the \"We Welcome Dogs\" scheme, so look for the purple stickers. See the Market House and the Prospect gardens over the river.",near:"15 min from Symonds Yat"},
-  {id:"hopeanchor",a:"ross",n:"Hope & Anchor, Ross",t:["breakfast","lunch","dinner"],mi:11,min:22,q:"Hope and Anchor, Ross-on-Wye",note:"By the river, fully dog-friendly, with a wood burner.",near:"Bottom of Wye Street"},
-  {id:"royal",a:"ross",n:"The Royal Hotel, Ross",t:["lunch","dinner"],mi:11,min:22,q:"The Royal Hotel, Ross-on-Wye",note:"A big terrace and gardens overlooking the Wye. Likely roomy inside too.",near:"Next to the Prospect",check:true},
-  {id:"truffles",a:"ross",n:"Truffles Deli, Ross",t:["lunch"],mi:11,min:22,q:"Truffles Delicatessen, Ross-on-Wye",note:"A deli with a secret courtyard garden at the back. Quiet, so good for a nervous dog.",near:"Town centre"},
-  {id:"thorns",a:"ross",n:"Thorn's Coffee Lounge, Ross",t:["lunch"],mi:11,min:22,q:"Thorns Coffee Lounge, Croft Court, Ross-on-Wye",note:"Plenty of space on the outdoor terrace.",near:"Croft Court"},
-  {id:"victorias",a:"ross",n:"Victorias Coffee Shop, Ross",t:["lunch"],mi:11,min:22,q:"Victorias Coffee Shop, Broad Street, Ross-on-Wye",note:"Dog-friendly, known for its cakes and savoury bakes.",near:"Bottom of Broad Street"},
-  {id:"mandy",a:"ross",n:"Mandy Moo's, Ross",t:["lunch"],mi:11,min:22,q:"Mandy Moo's, Cantilupe Road, Ross-on-Wye",note:"A friendly café where dogs are more than welcome.",near:"Cantilupe Road"},
-  {id:"whitelion",a:"ross",n:"The White Lion, Wilton",t:["lunch","dinner"],mi:11,min:22,q:"The White Lion, Wilton, Ross-on-Wye",note:"Listed as dog-friendly for lunch or dinner. A riverside spot just over the bridge from Ross.",near:"Across the bridge from Ross",check:true},
-  {id:"moodycow",a:"ross",n:"The Moody Cow, Upton Bishop",t:["dinner","lunch"],mi:15,min:25,q:"The Moody Cow, Upton Bishop",note:"A country pub listed as dog- and child-friendly, with good food.",near:"10 min beyond Ross",check:true},
-  // Lower Wye
-  {id:"pulpit",a:"lowerwye",n:"Devil's Pulpit from Tintern",t:["walk"],mi:11,min:25,q:"Tintern Abbey car park",note:"Cross the old railway bridge and climb Offa's Dyke Path to a rock viewpoint over the abbey. About 5 mi there and back, and steep. Use the carriers.",near:"Starts at Tintern; 10 min to Chepstow"},
-  {id:"tintern",a:"lowerwye",n:"Tintern Abbey and village",t:["todo","town","lunch"],mi:11,min:25,q:"Tintern Abbey",note:"Dramatic abbey ruins run by Cadw, plus a small village with pubs and cafés. Check whether dogs are allowed in the abbey grounds.",near:"Base of the Devil's Pulpit",check:true},
-  {id:"wyndcliff",a:"lowerwye",n:"Wyndcliff and the Eagle's Nest",t:["walk"],mi:14,min:28,q:"Wyndcliff car park, St Arvans",note:"A woodland climb up the \"365 steps\" to a viewpoint over the Wye's loops and the Severn. Steep; carriers only.",near:"Between Tintern and Chepstow",check:true},
-  {id:"chepstow",a:"lowerwye",n:"Chepstow and the castle",t:["town","todo"],mi:15,min:30,q:"Chepstow Castle",note:"A cliff-top castle above the Wye, run by Cadw, with an old town gate and a riverside to wander. Visitors report dogs are allowed on the ground floor.",near:"10 min from Tintern",check:true},
-  {id:"marmalade",a:"lowerwye",n:"Marmalade House, Chepstow",t:["breakfast","lunch"],mi:15,min:30,q:"Marmalade House, 28 High Street, Chepstow",note:"A dog-friendly tea room: brunch, lunch and cakes.",near:"High Street",check:true},
-  {id:"uglymug",a:"lowerwye",n:"The Ugly Mug, Chepstow",t:["breakfast","lunch"],mi:15,min:30,q:"The Ugly Mug Cafe, Beaufort Square, Chepstow",note:"An independent, family-run café with all-day breakfast and lunch. Dog-friendly.",near:"Beaufort Square",check:true},
-  {id:"pontio",a:"lowerwye",n:"Pontio Lounge, Chepstow",t:["lunch","dinner"],mi:15,min:30,q:"Pontio Lounge, High Street, Chepstow",note:"An all-day café-bar, listed as dog-friendly, and open in the evenings.",near:"High Street",check:true},
-  // Lydney
-  {id:"dfr",a:"lydney",n:"Dean Forest Railway (Norchard)",t:["todo","rainy"],mi:9,min:20,q:"Dean Forest Railway, Norchard, Lydney",note:"A heritage steam railway. Dogs are allowed on the trains but not in the café or dining car. Check the half-term timetable.",near:"5 min from Taurus Crafts and Lydney Harbour",check:true},
-  {id:"taurus",a:"lydney",n:"Taurus Crafts",t:["todo","rainy","lunch"],mi:9,min:18,q:"Taurus Crafts, Lydney",note:"Craft studios, shops and a café in old farm buildings. Check the dog policy indoors.",near:"Near the Dean Forest Railway",check:true},
-  {id:"harbour",a:"lydney",n:"Lydney Harbour",t:["walk"],mi:10,min:20,q:"Lydney Harbour",note:"A flat, open walk along the Severn estuary with big skies. Good when the forest is muddy. Windy, so wrap the babies up.",near:"5 min from the railway"},
-  {id:"silverfox",a:"lydney",n:"Silver Fox Café, Newnham-on-Severn",t:["lunch"],mi:14,min:25,q:"Silver Fox Cafe, Newnham on Severn",note:"A riverside café that's dog-friendly, open for breakfast and lunch seven days a week. Newnham is a pretty village on the Severn.",near:"North of Lydney on the A48",check:true},
-  // Further
-  {id:"aber",a:"further",n:"Abergavenny",t:["town"],mi:22,min:40,q:"Abergavenny town centre",note:"A market town under the Sugar Loaf with good food shops and a covered market.",near:"Via Monmouth"},
-  {id:"ledbury",a:"further",n:"Ledbury",t:["town"],mi:25,min:45,q:"Church Lane, Ledbury",note:"Black-and-white timbered buildings and the cobbled Church Lane.",near:"Via Ross"},
-  {id:"hay",a:"further",n:"Hay-on-Wye",t:["town"],mi:45,min:70,q:"Hay-on-Wye",note:"The book town. Lovely, but a long day with babies.",near:"North-west, past Abergavenny or Hereford"},
-  // Essentials
-  {id:"drybridge",a:"essentials",n:"Drybridge Veterinary Clinic",t:["essential"],mi:2.5,min:6,q:"Drybridge Veterinary Clinic, Railway Drive, Coleford GL16 8RH",note:"A vet in Coleford. Ring for hours and out-of-hours cover.",near:"Coleford"},
-  {id:"severnside",a:"essentials",n:"Severnside Vets, Coleford",t:["essential"],mi:2.5,min:6,q:"Severnside Veterinary Group, Cupola Close, Coleford GL16 8RD",note:"A small-animal vet on the Mushet Industrial Park.",near:"Coleford"},
-  {id:"shop",a:"essentials",n:"Supermarkets near the cabins",t:["essential","food"],mi:2,min:5,q:"supermarket near Coleford, Gloucestershire",note:"Opens a map search. Coleford has a Co-op and a Tesco (Lidl got planning permission in 2019, so check whether it's open). Monmouth and Ross have bigger shops.",near:"Coleford"},
-  {id:"pharmacy",a:"essentials",n:"Pharmacies nearby",t:["essential"],mi:2,min:5,q:"pharmacy near Coleford, Gloucestershire",note:"Opens a map search for nearby chemists.",near:"Coleford"},
-  {id:"miu",a:"essentials",n:"Minor injuries / urgent care",t:["essential"],mi:10,min:20,q:"Forest of Dean Community Hospital, Cinderford",note:"The local community hospital. Ring NHS 111 first to check where to go; 999 for emergencies.",near:"Cinderford",check:true},
-  {id:"petshop",a:"essentials",n:"Pet shops nearby",t:["essential"],mi:2,min:5,q:"pet shop near Coleford, Gloucestershire",note:"Opens a map search, for forgotten food, leads or poo bags.",near:"Coleford"}
-];
-
-P.push(
-  // Breakfast & brunch
-  {id:"scoffs",a:"doorstep",n:"Scoff's Coffee House, Coleford",t:["breakfast","lunch"],mi:2,min:5,q:"Scoffs Coffee House, Coleford",note:"The most recommended breakfast spot in Coleford: an independent café with home-cooked breakfasts, good veggie options, and indoor and outdoor seating. Listed as dog-friendly.",near:"Coleford town centre",check:true},
-  {id:"artofcoffee",a:"doorstep",n:"The Art of Coffee, Coleford",t:["breakfast","lunch"],mi:2,min:5,q:"The Art of Coffee, Market Place, Coleford",note:"Locally roasted coffee, plus breakfast, brunch and light lunches. Opens at 8am on weekdays.",near:"5–6 Market Place, Coleford",check:true},
-  {id:"sixteen",a:"doorstep",n:"Sixteen Community Café, Coleford",t:["breakfast","lunch"],mi:2,min:5,q:"Sixteen Community Cafe, Bank Street, Coleford",note:"A not-for-profit café cooking with local ingredients. Open Monday to Saturday from 9am. Its dog policy isn't listed, so ask.",near:"16 Bank Street, Coleford",check:true},
-  {id:"victoriasb",a:"ross",n:"Victorias Coffee Shop, Ross (brunch)",t:["breakfast"],mi:11,min:22,q:"Victorias Coffee Shop, Broad Street, Ross-on-Wye",note:"Brunch from 10am to 4pm. Known for its homemade sausage rolls, cakes and bakes. Dog-friendly.",near:"25 Broad Street"},
-  {id:"scrummy",a:"ross",n:"Scrummy Yummy Tearooms, Ross",t:["breakfast","lunch"],mi:11,min:22,q:"Scrummy Yummy Tearooms, Ross-on-Wye",note:"A bright, independent coffee shop with an all-day menu, homemade cakes and outdoor seating. Listed as dog-friendly.",near:"Town centre",check:true},
-  {id:"gingernut",a:"ross",n:"The Ginger Nut Café, Ross",t:["breakfast","lunch"],mi:11,min:22,q:"Ginger Nut Cafe, High Street, Ross-on-Wye",note:"Breakfast and brunch, with good gluten-free options.",near:"40 High Street",check:true},
-  // Food shops & bakeries
-  {id:"forestdeli",a:"doorstep",n:"Forest Deli, Coleford",t:["food"],mi:2,min:5,q:"Forest Deli, 4 Market Place, Coleford GL16 8AQ",note:"Local cheese (one of the best cheese counters in the area), honey, preserves, beer, cider and gin. Good for a night-in board.",near:"Market Place, Coleford"},
-  {id:"crustyloaf",a:"doorstep",n:"The Crusty Loaf, Coleford",t:["food","breakfast"],mi:2,min:5,q:"The Crusty Loaf, Coleford",note:"A bakery that bakes on site. Reviewers praise its rye bread, sausage rolls and sourdough.",near:"Coleford",check:true},
-  {id:"wigmores",a:"monmouth",n:"Wigmores Bakery, Monmouth",t:["food","breakfast"],mi:5,min:12,q:"Wigmores Bakery, St Mary Street, Monmouth",note:"An independent bakery for bread and cakes, from about 8am on weekdays.",near:"9 St Mary Street"},
-  {id:"thurabread",a:"monmouth",n:"Thurabread Bakery, Monmouth",t:["food","breakfast"],mi:5,min:12,q:"Thurabread Bakery, Monmouth",note:"Popular for baguettes and pastries.",near:"Town centre",check:true},
-  {id:"bakehouse",a:"lydney",n:"The Forest Bakehouse, Longhope",t:["food"],mi:14,min:28,q:"The Forest Bakehouse, Longhope",note:"A co-operative artisan bakery: long-fermentation bread and pastries made with locally milled organic flour. Check opening days before you go.",near:"North-east side of the forest, on the way to Gloucester",check:true},
-  {id:"smokery",a:"lydney",n:"Severn & Wye Smokery, Westbury-on-Severn",t:["food","lunch"],mi:16,min:30,q:"Severn and Wye Smokery, Chaxhill, Westbury-on-Severn",note:"A smokehouse with a food hall, fish counter, café and restaurant. Great for treat food for a night in. Check whether dogs are allowed inside.",near:"15 min beyond Newnham",check:true},
-  // More things to do
-  {id:"stbriavels",a:"lowerwye",n:"St Briavels village and castle",t:["walk","town"],mi:7,min:15,q:"St Briavels Castle",note:"A hilltop village with a small Norman castle (now a youth hostel, so you can only see it from outside) and views over the Wye. Walk down to the river from here.",near:"Above Brockweir; 15 min to Tintern"},
-  {id:"brockweir",a:"lowerwye",n:"Brockweir and the riverside",t:["walk"],mi:9,min:20,q:"Brockweir, Gloucestershire",note:"A quiet riverside village. A flat stretch of the Wye Valley Walk runs from here towards Tintern, about 1.5 mi each way.",near:"5 min north of Tintern"},
-  {id:"redbrook",a:"monmouth",n:"Redbrook",t:["walk"],mi:5,min:12,q:"Redbrook, Gloucestershire",note:"A riverside village with an old railway bridge over the Wye and walks along the river towards Monmouth.",near:"Between Monmouth and Tintern"},
-  {id:"cleddon",a:"lowerwye",n:"Cleddon Falls (Cleddon Shoots)",t:["walk"],mi:10,min:22,q:"Cleddon Falls, Trellech",note:"The biggest waterfalls in the area, at their best after rain. A short, steep woodland walk; carriers only.",near:"Above Llandogo, 10 min from Tintern",check:true},
-  {id:"skenfrith",a:"further",n:"Skenfrith Castle",t:["todo","walk"],mi:14,min:28,q:"Skenfrith Castle",note:"A small, free, open castle ruin by the River Monnow in a pretty village. Quiet, with open grass.",near:"North-west of Monmouth",check:true},
-  {id:"raglan",a:"further",n:"Raglan Castle",t:["todo"],mi:13,min:22,q:"Raglan Castle",note:"Big, grand ruins run by Cadw. Check whether dogs are allowed.",near:"15 min west of Monmouth",check:true},
-  {id:"westbury",a:"lydney",n:"Westbury Court Garden",t:["todo"],mi:16,min:30,q:"Westbury Court Garden",note:"A National Trust Dutch water garden. Quiet in October. Check the dog policy and opening days.",near:"Next to the Severn & Wye Smokery",check:true}
-);
-
-// Official websites, where we found one
-const WEB = {
-  sculpture:"https://www.forestryengland.uk/beechenhurst", beechcafe:"https://www.forestryengland.uk/beechenhurst/beechenhurst-cafe",
-  cyclecafe:"https://www.forestryengland.uk/forest-dean-cycle-centre/forest-dean-cycle-centre-cafe", mallards:"https://visitdeanwye.co.uk/food-and-drink/mallards-pike-cafe-p1440101",
-  cannop:"https://www.forestryengland.uk/cannop-ponds", yatrock:"https://www.forestryengland.uk/symonds-yat-rock", biblins:"https://www.forestryengland.uk/symonds-yat-rock",
-  speech:"https://thespeechhouse.co.uk/", saracens:"https://www.saracensheadinn.co.uk/", tudor:"https://tudorfarmhousehotel.co.uk/",
-  clearwell:"https://clearwellcaves.com/", perrygrove:"https://www.perrygrove.co.uk/", dfr:"https://deanforestrailway.co.uk/",
-  taurus:"https://www.camphillvillagetrust.org.uk/our-locations/taurus-crafts/", goodrich:"https://www.english-heritage.org.uk/visit/places/goodrich-castle/",
-  tintern:"https://cadw.gov.wales/visit/places-to-visit/tintern-abbey", chepstow:"https://cadw.gov.wales/visit/places-to-visit/chepstow-castle",
-  kymin:"https://www.nationaltrust.org.uk/visit/wales/the-kymin", innwye:"https://www.innonthewye.co.uk/", whitemead:"https://www.whitemead.co.uk/",
-  monmouth:"https://www.visitmonmouthshire.com/", punch:"https://visitmonmouthshire.com/food-and-drink/dog-friendly-pubs", coffilab:"https://coffilab.co.uk/",
-  ross:"https://visitrossonwye.com/?p=5578", coleford:"https://colefordtown.net/where-to-eat/", artofcoffee:"https://colefordtown.net/where-to-eat/", sixteen:"https://colefordtown.net/where-to-eat/",
-  bakehouse:"https://www.theforestbakehouse.co.uk/", dogmuffler:"https://www.visitdeanwye.co.uk/blog/our-five-favourite-dog-friendly-pubs-with-proper-walks",
-  whitehorse:"https://www.visitdeanwye.co.uk/blog/our-five-favourite-dog-friendly-pubs-with-proper-walks", pulpit:"https://cadw.gov.wales/visit/places-to-visit/tintern-abbey",
-  drybridge:"https://findavet.rcvs.org.uk/find-a-vet-practice/drybridge-veterinary-clinic-colefordgl16-8rh/"
-};
-
-// Freely licensed photos from Wikimedia Commons: place id -> Wikipedia article whose lead photo we show
-const PHOTO_FOR = {
-  coleford:"Coleford, Gloucestershire", buckstone:"Buckstone", yatrock:"Symonds Yat", clearwell:"Clearwell Caves", perrygrove:"Perrygrove Railway",
-  tudor:"Clearwell", ostrich:"Newland, Gloucestershire", sculpture:"Forest of Dean Sculpture Trail", cannop:"Cannop Ponds", speech:"Speech House",
-  whitemead:"Parkend", soudley:"Soudley Ponds", monmouth:"Monnow Bridge", kymin:"The Kymin", goodrich:"Goodrich Castle", ross:"Ross-on-Wye",
-  whitelion:"Wilton, Herefordshire", moodycow:"Upton Bishop", tintern:"Tintern Abbey", wyndcliff:"Wyndcliff", chepstow:"Chepstow Castle",
-  dfr:"Dean Forest Railway", silverfox:"Newnham on Severn", aber:"Abergavenny", ledbury:"Ledbury", hay:"Hay-on-Wye", highmeadow:"Forest of Dean",
-  stbriavels:"St Briavels Castle", brockweir:"Brockweir", redbrook:"Redbrook", cleddon:"Cleddon Shoots", skenfrith:"Skenfrith Castle",
-  raglan:"Raglan Castle", westbury:"Westbury Court Garden", bakehouse:"Longhope", smokery:"Westbury-on-Severn", harbour:"Lydney"
-};
-const PHOTOS = {"Symonds Yat":{"title":"Symonds Yat","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/River_Wye_at_Symonds_Yat_%289762%29.jpg/960px-River_Wye_at_Symonds_Yat_%289762%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:River_Wye_at_Symonds_Yat_(9762).jpg","artist":"Nilfanion","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0"},"Tintern Abbey":{"title":"Tintern Abbey","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/TinternAbbey_WestEnd.jpg/960px-TinternAbbey_WestEnd.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:TinternAbbey_WestEnd.jpg","artist":"Martinvl","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0"},"Chepstow Castle":{"title":"Chepstow Castle","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Chepstow_Castle_%284197%29.jpg/960px-Chepstow_Castle_%284197%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Chepstow_Castle_(4197).jpg","artist":"Nilfanion","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0"},"Goodrich Castle":{"title":"Goodrich Castle","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Goodrich_above.jpg/960px-Goodrich_above.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Goodrich_above.jpg","artist":"Scribwik","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0"},"Monnow Bridge":{"title":"Monnow Bridge","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Monmouth_-_Monnow_Bridge.jpg/960px-Monmouth_-_Monnow_Bridge.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Monmouth_-_Monnow_Bridge.jpg","artist":"Bob Crowther","license":"CC BY 2.0","licenseUrl":"https://creativecommons.org/licenses/by/2.0"},"Monmouth":{"title":"Monmouth","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Monmouth_-_Monnow_Bridge.jpg/960px-Monmouth_-_Monnow_Bridge.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Monmouth_-_Monnow_Bridge.jpg","artist":"Bob Crowther","license":"CC BY 2.0","licenseUrl":"https://creativecommons.org/licenses/by/2.0"},"Ross-on-Wye":{"title":"Ross-on-Wye","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/The_River_Wye_and_Ross-on-Wye_-_geograph.org.uk_-_7415567.jpg/960px-The_River_Wye_and_Ross-on-Wye_-_geograph.org.uk_-_7415567.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:The_River_Wye_and_Ross-on-Wye_-_geograph.org.uk_-_7415567.jpg","artist":"Philip Halling","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Coleford, Gloucestershire":{"title":"Coleford, Gloucestershire","img":"https://upload.wikimedia.org/wikipedia/commons/0/0a/Coleford_Market_Place_-_geograph.org.uk_-_743937_-_edit.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Coleford_Market_Place_-_geograph.org.uk_-_743937_-_edit.jpg","artist":"Graham Horn","license":"CC BY-SA 3.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/3.0"},"Clearwell Caves":{"title":"Clearwell Caves","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Clearwell_Mine.jpg/960px-Clearwell_Mine.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Clearwell_Mine.jpg","artist":"Sir Stig","license":"CC BY-SA 3.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/3.0"},"The Kymin":{"title":"The Kymin","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Round_House_on_the_Kymin%2C_Monmouth_%280146%29.jpg/960px-Round_House_on_the_Kymin%2C_Monmouth_%280146%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Round_House_on_the_Kymin,_Monmouth_(0146).jpg","artist":"Nilfanion","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0"},"Buckstone":{"title":"Buckstone","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/J.B.Buckstone.jpg/960px-J.B.Buckstone.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:J.B.Buckstone.jpg","artist":"Unknown author","license":"Public domain","licenseUrl":""},"Speech House":{"title":"Speech House","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/SpeechHouse2008.jpg/960px-SpeechHouse2008.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:SpeechHouse2008.jpg","artist":"Hotlorp","license":"CC BY-SA 3.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/3.0"},"Cannop Ponds":{"title":"Cannop Ponds","img":"https://upload.wikimedia.org/wikipedia/commons/2/27/Cannop_Ponds.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Cannop_Ponds.jpg","artist":"Stuart Wilding","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Dean Forest Railway":{"title":"Dean Forest Railway","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/Dean_Forest_Railway_near_Whitecroft_-_geograph.org.uk_-_7916304.jpg/960px-Dean_Forest_Railway_near_Whitecroft_-_geograph.org.uk_-_7916304.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Dean_Forest_Railway_near_Whitecroft_-_geograph.org.uk_-_7916304.jpg","artist":"Gareth James","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Perrygrove Railway":{"title":"Perrygrove Railway","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Perrygrove_station%2C_from_the_entrance_gate.jpg/960px-Perrygrove_station%2C_from_the_entrance_gate.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Perrygrove_station,_from_the_entrance_gate.jpg","artist":"Piston93","license":"CC0","licenseUrl":"http://creativecommons.org/publicdomain/zero/1.0/deed.en"},"Dean Heritage Centre":{"title":"Dean Heritage Centre","img":"https://upload.wikimedia.org/wikipedia/commons/b/b4/Dean_Heritage_-_geograph.org.uk_-_1168991.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Dean_Heritage_-_geograph.org.uk_-_1168991.jpg","artist":"andy dolman","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Soudley Ponds":{"title":"Soudley Ponds","img":"https://upload.wikimedia.org/wikipedia/commons/1/10/Largest_Pond_at_Soudley_-_geograph.org.uk_-_759359.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Largest_Pond_at_Soudley_-_geograph.org.uk_-_759359.jpg","artist":"Ian Hunter","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Wyndcliff":{"title":"Wyndcliff","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/View_from_the_Wyndcliff_%289371%29.jpg/960px-View_from_the_Wyndcliff_%289371%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:View_from_the_Wyndcliff_(9371).jpg","artist":"Nilfanion","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0"},"Newnham on Severn":{"title":"Newnham on Severn","img":"https://upload.wikimedia.org/wikipedia/commons/3/32/St_Peters_Church%2C_Newnham_-_geograph.org.uk_-_210626.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:St_Peters_Church,_Newnham_-_geograph.org.uk_-_210626.jpg","artist":"OLU","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Abergavenny":{"title":"Abergavenny","img":"https://upload.wikimedia.org/wikipedia/commons/a/ab/Abergavenny.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Abergavenny.jpg","artist":"Nigel Davies","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Ledbury":{"title":"Ledbury","img":"https://upload.wikimedia.org/wikipedia/commons/d/d1/LedburyMarketHouse.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:LedburyMarketHouse.JPG","artist":"Superstevegs","license":"CC BY-SA 3.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/3.0"},"Hay-on-Wye":{"title":"Hay-on-Wye","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Hay-on-Wye_Clock_Tower_%282%29.jpg/960px-Hay-on-Wye_Clock_Tower_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Hay-on-Wye_Clock_Tower_(2).jpg","artist":"Immanuel Giel","license":"CC0","licenseUrl":"http://creativecommons.org/publicdomain/zero/1.0/deed.en"},"Forest of Dean Sculpture Trail":{"title":"Forest of Dean Sculpture Trail","img":"https://upload.wikimedia.org/wikipedia/commons/4/48/Stained_Glass_Panel%2C_Sculpture_Trail%2C_Forest_of_Dean_-_geograph.org.uk_-_46816.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Stained_Glass_Panel,_Sculpture_Trail,_Forest_of_Dean_-_geograph.org.uk_-_46816.jpg","artist":"Pip Rolls","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Clearwell":{"title":"Clearwell","img":"https://upload.wikimedia.org/wikipedia/commons/f/f0/The_village_of_Clearwell_-_geograph.org.uk_-_1046158.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:The_village_of_Clearwell_-_geograph.org.uk_-_1046158.jpg","artist":"Pauline Eccles","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Newland, Gloucestershire":{"title":"Newland, Gloucestershire","img":"https://upload.wikimedia.org/wikipedia/commons/d/de/All_Saints_Church_Newland_Gloucestershire_-_geograph.org.uk_-_107131.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:All_Saints_Church_Newland_Gloucestershire_-_geograph.org.uk_-_107131.jpg","artist":"Clive Perrin","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Wilton, Herefordshire":{"title":"Wilton, Herefordshire","img":"https://upload.wikimedia.org/wikipedia/commons/f/f0/River_Wye_at_Wilton_Bridge_-_geograph.org.uk_-_453758.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:River_Wye_at_Wilton_Bridge_-_geograph.org.uk_-_453758.jpg","artist":"Pauline Eccles","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Parkend":{"title":"Parkend","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Parkend_village.jpg/960px-Parkend_village.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Parkend_village.jpg","artist":"Obscurasky","license":"Public domain","licenseUrl":""},"St Briavels Castle":{"title":"St Briavels Castle","img":"https://upload.wikimedia.org/wikipedia/commons/5/57/St_Briavels_Castle_-_geograph.org.uk_-_520136.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:St_Briavels_Castle_-_geograph.org.uk_-_520136.jpg","artist":"Roy Parkhouse","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Redbrook":{"title":"Redbrook","img":"https://upload.wikimedia.org/wikipedia/commons/6/6d/Redbrook.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Redbrook.jpg","artist":"John Thorn","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Brockweir":{"title":"Brockweir","img":"https://upload.wikimedia.org/wikipedia/commons/d/de/Brockweir.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Brockweir.jpg","artist":"Roy Parkhouse","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Cleddon Shoots":{"title":"Cleddon Shoots","img":"https://upload.wikimedia.org/wikipedia/commons/a/a4/Llandogo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Llandogo.jpg","artist":"Philip Halling","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Westbury Court Garden":{"title":"Westbury Court Garden","img":"https://upload.wikimedia.org/wikipedia/commons/4/49/Canal%2C_Westbury_Court_Garden_-_geograph.org.uk_-_1416966.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Canal,_Westbury_Court_Garden_-_geograph.org.uk_-_1416966.jpg","artist":"Pauline Eccles","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Raglan Castle":{"title":"Raglan Castle","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Raglan_Castle%27s_main_entrance.jpg/960px-Raglan_Castle%27s_main_entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Raglan_Castle%27s_main_entrance.jpg","artist":"Bob McCaffrey from Rickmansworth, UK","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Skenfrith Castle":{"title":"Skenfrith Castle","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/SKENFRITH_CASTLE.jpg/960px-SKENFRITH_CASTLE.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:SKENFRITH_CASTLE.jpg","artist":"Davidmholmes51","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0"},"Longhope":{"title":"Longhope","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Central_Stores_Longhope_-_geograph.org.uk_-_3213259.jpg/960px-Central_Stores_Longhope_-_geograph.org.uk_-_3213259.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Central_Stores_Longhope_-_geograph.org.uk_-_3213259.jpg","artist":"Philip Halling","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Wye Valley Walk":{"title":"Wye Valley Walk","img":"https://upload.wikimedia.org/wikipedia/commons/6/65/Wye_Valley_Walk_-_geograph.org.uk_-_418324.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Wye_Valley_Walk_-_geograph.org.uk_-_418324.jpg","artist":"Stuart Wilding","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Offa's Dyke Path":{"title":"Offa's Dyke Path","img":"https://upload.wikimedia.org/wikipedia/commons/a/ab/Offa%27s_Dyke_Path_signpost._-_geograph.org.uk_-_501938.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Offa%27s_Dyke_Path_signpost._-_geograph.org.uk_-_501938.jpg","artist":"David Quinn","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Tintern":{"title":"Tintern","img":"https://upload.wikimedia.org/wikipedia/commons/9/93/Into_the_valley_-_geograph.org.uk_-_1372412.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Into_the_valley_-_geograph.org.uk_-_1372412.jpg","artist":"Richard Croft","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Upton Bishop":{"title":"Upton Bishop","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Parish_Church_of_St._John_The_Baptist_in_Upton_Bishop.jpg/960px-Parish_Church_of_St._John_The_Baptist_in_Upton_Bishop.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Parish_Church_of_St._John_The_Baptist_in_Upton_Bishop.jpg","artist":"HenryWellingUXO","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0"},"Westbury-on-Severn":{"title":"Westbury-on-Severn","img":"https://upload.wikimedia.org/wikipedia/commons/4/4c/High_Street%2C_Westbury-on-Severn_-_geograph.org.uk_-_541530.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:High_Street,_Westbury-on-Severn_-_geograph.org.uk_-_541530.jpg","artist":"Pauline Eccles","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Lydney":{"title":"Lydney","img":"https://upload.wikimedia.org/wikipedia/commons/e/ec/Newerne_Street%2C_Lydney_-_geograph.org.uk_-_582223.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","page":"https://commons.wikimedia.org/wiki/File:Newerne_Street,_Lydney_-_geograph.org.uk_-_582223.jpg","artist":"Pauline Eccles","license":"CC BY-SA 2.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/2.0"},"Forest of Dean":{"title":"Forest of Dean","img":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Symonds_Yat_Rock_View.JPG/960px-Symonds_Yat_Rock_View.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","page":"https://commons.wikimedia.org/wiki/File:Symonds_Yat_Rock_View.JPG","artist":"Lemoncurd (English Wikipedia)","license":"CC BY-SA 3.0","licenseUrl":"http://creativecommons.org/licenses/by-sa/3.0/"}};
-
+(async function(){
+const $ = s => document.querySelector(s);
 const enc = encodeURIComponent;
-const mapUrl = p => `https://www.google.com/maps/search/?api=1&query=${enc(p.q)}`;
-const dirUrl = p => `https://www.google.com/maps/dir/?api=1&origin=${enc(ORIGIN)}&destination=${enc(p.q)}&travelmode=${p.mode||"driving"}`;
-document.getElementById("homeDir").href = `https://www.google.com/maps/dir/?api=1&destination=${enc(ORIGIN)}&travelmode=driving`;
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const toast = msg => { const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2500); };
 
+let D;
+try { D = await (await fetch("data.json", {cache:"no-cache"})).json(); }
+catch(e){ $("#list").innerHTML = `<p class="empty">Couldn't load the planner data. Open it once with signal so it can be saved for offline use.</p>`; return; }
+
+const T = D.trip, O = T.origin, PFX = (T.storagePrefix||"trip") + "-";
+const PH = D.photos || {};
+const byId = Object.fromEntries(D.places.map(p=>[p.id,p]));
+const TYPES = Object.fromEntries(D.types.map(t=>[t.id,t.label]));
+
+// ---------- storage (per phone) ----------
 const store = {
-  get(k){ try{ return JSON.parse(localStorage.getItem(k)) || {}; }catch(e){ return {}; } },
-  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  get(k, d){ try{ const v = localStorage.getItem(PFX+k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(PFX+k, JSON.stringify(v)); }catch(e){} }
 };
-let done = store.get("fod-done"), stars = store.get("fod-stars");
-let filter = "all";
-try{ filter = localStorage.getItem("fod-filter") || "all"; }catch(e){}
+let done = store.get("done", {}), stars = store.get("stars", {}), notes = store.get("notes", {});
+let bookings = store.get("bookings", {});   // id -> {date, time}
+let nightsIn = store.get("nightsIn", {});   // date -> true
+let packed = store.get("packed", {});
+let filter = store.get("filter", "all"), view = "list", sort = "base";
+let me = null;  // {lat, lon} once Near me is used
 
-const chips = [["all","All"],["star","⭐ Shortlist"],...Object.entries(TYPES).map(([k,v])=>[k,v.label])];
-const chipsEl = document.getElementById("chips");
-chipsEl.innerHTML = chips.map(([k,l])=>`<button class="chip" data-f="${k}" aria-pressed="${k===filter}">${l}</button>`).join("");
-chipsEl.addEventListener("click", e=>{
-  const b = e.target.closest(".chip"); if(!b) return;
-  filter = b.dataset.f;
-  try{ localStorage.setItem("fod-filter", filter); }catch(e){}
-  chipsEl.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.f===filter));
-  render();
-});
+// ---------- header ----------
+document.title = T.title.replace(/·.*$/, "").trim() + " Planner";
+$("#title").textContent = (T.emoji || "🌲") + " " + T.title;
+$("#subtitle").textContent = T.subtitle || ("Distances are road times from " + (O.name||"the base") + " (OpenStreetMap routing). Tap Directions for live traffic.");
+const homeQ = (O.lat!=null) ? `${O.lat},${O.lon}` : O.address;
+$("#homeDir").href = `https://www.google.com/maps/dir/?api=1&destination=${enc(homeQ)}&travelmode=driving`;
+$("#homeDir").textContent = "🏡 Directions back to " + (O.name || "base");
 
-const qEl = document.getElementById("q"), hideEl = document.getElementById("hideDone");
-qEl.addEventListener("input", render); hideEl.addEventListener("change", render);
+// ---------- helpers ----------
+const mapUrl = p => `https://www.google.com/maps/search/?api=1&query=${enc(p.q)}`;
+const dirUrl = p => `https://www.google.com/maps/dir/?api=1&origin=${enc(O.address)}&destination=${enc(p.q)}&travelmode=${p.mode||"driving"}`;
+const fromHereUrl = p => `https://www.google.com/maps/dir/?api=1&destination=${enc(p.q)}&travelmode=${p.mode||"driving"}`;
+const pathsUrl = p => p.lat!=null ? `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=15/${p.lat}/${p.lon}&layers=C` : null;
+const telHref = n => "tel:" + n.replace(/\s/g,"").replace(/^0/, "+44");
+function haversineMi(a, b){
+  const R=3958.8, r=x=>x*Math.PI/180, dLa=r(b.lat-a.lat), dLo=r(b.lon-a.lon);
+  const h=Math.sin(dLa/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dLo/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+function nights(){ const out=[]; const d=new Date(T.start+"T12:00:00"), e=new Date(T.end+"T12:00:00"); while(d<e){ out.push(iso(d)); d.setDate(d.getDate()+1);} return out; }
+const NIGHTS = nights();
+const dayName = s => new Date(s+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short", day:"numeric", month:"short"});
+const todayIso = iso(new Date());
 
 function distText(p){
-  if(p.mi===0) return "On site";
+  if(!p.mi) return "On site";
+  const approx = !p.routed || p.geoApprox;
   const t = p.mode==="walking" ? `${p.min} min walk` : `${p.min} min`;
-  return `~${p.mi} mi · ${t}`;
+  return `${approx?"~":""}${p.mi} mi · ${t}`;
 }
 
-const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// ---------- photos ----------
 function credit(ph){
   const lic = ph.licenseUrl ? `<a href="${esc(ph.licenseUrl)}" target="_blank" rel="noopener">${esc(ph.license)}</a>` : esc(ph.license);
   return `Photo: <a href="${esc(ph.page)}" target="_blank" rel="noopener">${esc(ph.title)}</a> by ${esc(ph.artist)}, ${lic}, via Wikimedia Commons`;
 }
 function photoHtml(p){
-  const ph = PHOTOS[PHOTO_FOR[p.id]];
-  if(!ph) return "";
-  return `<details class="photo"><summary>📷 Photo (${esc(ph.title)})</summary>
+  const ph = PH[p.photo]; if(!ph) return "";
+  return `<details class="sub"><summary>📷 Photo (${esc(ph.title)})</summary>
     <figure><img loading="lazy" src="${esc(ph.img)}" alt="${esc(ph.title)}"><figcaption>${credit(ph)}</figcaption></figure></details>`;
 }
 
+// ---------- cards ----------
+const bookable = p => p.t.some(t=>["dinner","lunch","breakfast"].includes(t));
+function walkHtml(p){
+  const w = p.walk; if(!w) return "";
+  const bits = [w.length, w.difficulty, w.parking && ("🅿️ "+w.parking), w.toilets && "🚻 Toilets"].filter(Boolean);
+  const paths = pathsUrl(p);
+  return `<p class="walk">🥾 ${bits.map(esc).join(" · ")}${paths?` · <a href="${paths}" target="_blank" rel="noopener">Footpath map</a>`:""}${w.route?` · <a href="${esc(w.route)}" target="_blank" rel="noopener">Route</a>`:""}</p>`;
+}
+function notesHtml(p){
+  const n = notes[p.id] || {};
+  const st = [1,2,3,4,5].map(i=>`<button type="button" data-rate="${p.id}" data-v="${i}" class="${(n.rating||0)>=i?"on":""}" aria-label="${i} star${i>1?"s":""}">★</button>`).join("");
+  return `<details class="sub"${n.rating||n.text?" open":""}><summary>📝 My notes${n.rating?" · "+"★".repeat(n.rating):""}</summary>
+    <div class="stars">${st}</div>
+    <textarea data-note="${p.id}" placeholder="How was it? (saved on this phone)">${esc(n.text||"")}</textarea></details>`;
+}
+function bookHtml(p){
+  if(!bookable(p)) return "";
+  const b = bookings[p.id];
+  const opts = NIGHTS.concat([T.end]).map(d=>`<option value="${d}" ${b&&b.date===d?"selected":""}>${dayName(d)}</option>`).join("");
+  return `<form class="bookform" data-bookform="${p.id}" hidden>
+      <select name="date" aria-label="Date">${opts}</select>
+      <input type="time" name="time" value="${b?esc(b.time):(p.t.includes("dinner")?"18:00":"12:30")}" aria-label="Time">
+      <button class="btn small primary" type="submit">Save</button>
+      ${b?`<button class="btn small" type="button" data-unbook="${p.id}">Remove booking</button>`:""}
+    </form>`;
+}
 function card(p){
-  const tags = p.t.map(t=>`<span class="tag">${TYPES[t].label}</span>`).join("");
-  return `<div class="card${done[p.id]?" done":""}">
-    <div class="top"><h3>${p.n}</h3><div class="dist">${distText(p)}</div></div>
-    <div class="tags">${tags}</div>
-    <p class="note">${p.note}</p>
-    ${p.near?`<p class="near">📍 ${p.near}</p>`:""}
-    ${p.check?`<span class="check">Ring ahead: dog policy not confirmed</span>`:""}
+  const tags = p.t.map(t=>`<span class="tag">${esc(TYPES[t]||t)}</span>`).join("");
+  const b = bookings[p.id];
+  const meDist = me && p.lat!=null ? `<span class="me">📍 ${haversineMi(me,p).toFixed(1)} mi from you</span>` : "";
+  return `<div class="card${done[p.id]?" done":""}" id="p-${p.id}">
+    <div class="top"><h3>${esc(p.n)}</h3><div class="dist">${distText(p)}${meDist}</div></div>
+    <div class="tags">${b?`<span class="tag booked">✅ Booked ${esc(dayName(b.date))} ${esc(b.time)}</span>`:""}${tags}</div>
+    <p class="note">${esc(p.note)}</p>
+    ${walkHtml(p)}
+    ${p.near?`<p class="near">📍 ${esc(p.near)}</p>`:""}
+    ${p.check?`<span class="check">${esc(T.checkLabel||"Ring ahead: not confirmed")}</span>`:""}
     ${photoHtml(p)}
     <div class="actions">
-      <a class="btn primary" href="${dirUrl(p)}" target="_blank" rel="noopener">Directions</a>
+      <a class="btn primary" href="${me?fromHereUrl(p):dirUrl(p)}" target="_blank" rel="noopener">Directions</a>
       <a class="btn" href="${mapUrl(p)}" target="_blank" rel="noopener">Map</a>
-      ${WEB[p.id]
-        ? `<a class="btn" href="${WEB[p.id]}" target="_blank" rel="noopener">Website</a>`
-        : (p.a!=="essentials" ? `<a class="btn" href="https://www.google.com/search?q=${enc(p.q)}" target="_blank" rel="noopener">Search</a>` : "")}
-      <button class="btn" data-star="${p.id}" aria-pressed="${!!stars[p.id]}">${stars[p.id]?"⭐ Starred":"☆ Star"}</button>
-      <button class="btn" data-done="${p.id}" aria-pressed="${!!done[p.id]}">${done[p.id]?"✓ Done":"Mark done"}</button>
+      ${p.web ? `<a class="btn" href="${esc(p.web)}" target="_blank" rel="noopener">Website</a>`
+              : (p.a!=="essentials" ? `<a class="btn" href="https://www.google.com/search?q=${enc(p.q)}" target="_blank" rel="noopener">Search</a>` : "")}
+      ${p.phone?`<a class="btn" href="${telHref(p.phone)}" title="${esc(p.phone)}, from ${esc(p.phoneSource||"")}">📞 Call</a>`:""}
+      ${bookable(p)?`<button class="btn" type="button" data-book="${p.id}">${b?"✅ Booked":"🗓️ Book"}</button>`:""}
+      <button class="btn" type="button" data-star="${p.id}" aria-pressed="${!!stars[p.id]}">${stars[p.id]?"⭐ Starred":"☆ Star"}</button>
+      <button class="btn" type="button" data-done="${p.id}" aria-pressed="${!!done[p.id]}">${done[p.id]?"✓ Done":"Mark done"}</button>
     </div>
+    ${bookHtml(p)}
+    ${notesHtml(p)}
   </div>`;
 }
 
-function render(){
-  const q = qEl.value.trim().toLowerCase();
-  const items = P.filter(p=>{
+// ---------- filters ----------
+const chips = [["all","All"],["star","⭐ Shortlist"],["booked","✅ Booked"],...D.types.map(t=>[t.id,t.label])];
+$("#chips").innerHTML = chips.map(([k,l])=>`<button class="chip" type="button" data-f="${k}" aria-pressed="${k===filter}">${esc(l)}</button>`).join("");
+function setFilter(f){
+  filter=f; store.set("filter",f);
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.f===f));
+  render();
+}
+$("#chips").addEventListener("click", e=>{ const b=e.target.closest(".chip"); if(b) setFilter(b.dataset.f); });
+$("#q").addEventListener("input", render);
+$("#hideDone").addEventListener("change", render);
+
+function visible(){
+  const q = $("#q").value.trim().toLowerCase();
+  return D.places.filter(p=>{
     if(filter==="star" && !stars[p.id]) return false;
-    if(filter!=="all" && filter!=="star" && !p.t.includes(filter)) return false;
-    if(hideEl.checked && done[p.id]) return false;
-    if(q && !(p.n+" "+p.note+" "+(p.near||"")).toLowerCase().includes(q)) return false;
+    if(filter==="booked" && !bookings[p.id]) return false;
+    if(!["all","star","booked"].includes(filter) && !p.t.includes(filter)) return false;
+    if($("#hideDone").checked && done[p.id]) return false;
+    if(q && !(p.n+" "+p.note+" "+(p.near||"")+" "+(p.town||"")).toLowerCase().includes(q)) return false;
     return true;
   });
-  const html = AREAS.map(([id,title,note])=>{
-    const list = items.filter(p=>p.a===id).sort((a,b)=>a.mi-b.mi);
-    if(!list.length) return "";
-    return `<h2>${title}</h2><p class="area-note">${note}</p>${list.map(card).join("")}`;
-  }).join("");
-  document.getElementById("list").innerHTML = html || `<p class="empty">Nothing matches. Try another filter.</p>`;
 }
 
-document.getElementById("list").addEventListener("click", e=>{
-  const s = e.target.closest("[data-star]"), d = e.target.closest("[data-done]");
-  if(s){ const id=s.dataset.star; stars[id]=!stars[id]; if(!stars[id]) delete stars[id]; store.set("fod-stars",stars); render(); }
-  if(d){ const id=d.dataset.done; done[id]=!done[id]; if(!done[id]) delete done[id]; store.set("fod-done",done); render(); }
+function render(){
+  const items = visible();
+  let html;
+  if(sort==="me" && me){
+    const list = items.filter(p=>p.lat!=null).sort((a,b)=>haversineMi(me,a)-haversineMi(me,b));
+    html = `<h2>Nearest to you</h2><p class="area-note">Straight-line distance from where you are now. Directions route from your location.</p>${list.map(card).join("")}`;
+  } else {
+    html = D.areas.map(a=>{
+      const list = items.filter(p=>p.a===a.id).sort((x,y)=>x.mi-y.mi);
+      if(!list.length) return "";
+      return `<h2>${esc(a.title)}</h2><p class="area-note">${esc(a.note)}</p>${list.map(card).join("")}`;
+    }).join("");
+  }
+  $("#list").innerHTML = html || `<p class="empty">Nothing matches. Try another filter.</p>`;
+  if(view==="map") drawMarkers();
+}
+
+// ---------- card actions ----------
+$("#list").addEventListener("click", e=>{
+  const t = e.target.closest("[data-star],[data-done],[data-book],[data-unbook],[data-rate]"); if(!t) return;
+  if(t.dataset.star){ const id=t.dataset.star; stars[id] ? delete stars[id] : stars[id]=true; store.set("stars",stars); render(); }
+  else if(t.dataset.done){ const id=t.dataset.done; done[id] ? delete done[id] : done[id]=true; store.set("done",done); render(); }
+  else if(t.dataset.book){ const f=document.querySelector(`[data-bookform="${t.dataset.book}"]`); f.hidden=!f.hidden; }
+  else if(t.dataset.unbook){ delete bookings[t.dataset.unbook]; store.set("bookings",bookings); render(); renderNights(); toast("Booking removed"); }
+  else if(t.dataset.rate){ const id=t.dataset.rate, v=+t.dataset.v; notes[id]=notes[id]||{}; notes[id].rating = notes[id].rating===v?0:v; notes[id].updated=new Date().toISOString(); store.set("notes",notes); render(); renderNotes(); }
+});
+$("#list").addEventListener("submit", e=>{
+  const f = e.target.closest("[data-bookform]"); if(!f) return; e.preventDefault();
+  bookings[f.dataset.bookform] = {date:f.date.value, time:f.time.value};
+  store.set("bookings",bookings); render(); renderNights(); toast("Booking saved");
+});
+$("#list").addEventListener("input", e=>{
+  const t = e.target.closest("[data-note]"); if(!t) return;
+  const id=t.dataset.note; notes[id]=notes[id]||{}; notes[id].text=t.value; notes[id].updated=new Date().toISOString();
+  store.set("notes",notes); clearTimeout(t._h); t._h=setTimeout(renderNotes, 600);
 });
 
-document.getElementById("creditList").innerHTML = [...new Set(Object.values(PHOTO_FOR))]
-  .filter(t=>PHOTOS[t]).sort().map(t=>`<li>${credit(PHOTOS[t])}</li>`).join("");
+// ---------- nights & bookings ----------
+function renderNights(){
+  const evening = b => b.time >= "16:00";
+  const fmt = ([id,b]) => { const p=byId[id]; return `<b>${esc(b.time)}</b> <a href="#p-${id}">${esc(p.n)}</a>${p.phone?` · <a href="${telHref(p.phone)}" aria-label="Call">📞</a>`:""} · <a href="${dirUrl(p)}" target="_blank" rel="noopener" aria-label="Directions">🧭</a>`; };
+  const rows = NIGHTS.concat([T.end]).map(d=>{
+    const all = Object.entries(bookings).filter(([id,b])=>b.date===d && byId[id]).sort((a,b)=>a[1].time.localeCompare(b[1].time));
+    const dinner = all.filter(([,b])=>evening(b)), daytime = all.filter(([,b])=>!evening(b));
+    const isNight = d !== T.end;
+    if(!isNight && !all.length) return "";
+    let what = "";
+    if(isNight) what = dinner.length ? "🍽️ Out: " + dinner.map(fmt).join("<br>") : (nightsIn[d] ? "🏡 Eating in" : `<span style="color:var(--muted)">Dinner not decided</span>`);
+    if(daytime.length) what += (what?"<br>":"") + "☕ " + daytime.map(fmt).join("<br>");
+    return `<li><span class="when">${d===todayIso?"Today":dayName(d)}</span><span class="what">${what}</span>
+      ${isNight && !dinner.length ? `<button class="btn small" type="button" data-night="${d}">${nightsIn[d]?"Undo":"Eating in"}</button>`:""}</li>`;
+  });
+  $("#nights").innerHTML = rows.join("");
+}
+$("#nights").addEventListener("click", e=>{
+  const b = e.target.closest("[data-night]"); if(!b) return;
+  const d=b.dataset.night; nightsIn[d] ? delete nightsIn[d] : nightsIn[d]=true; store.set("nightsIn",nightsIn); renderNights();
+});
 
-render();
+// ---------- share picks by link ----------
+function shareUrl(){
+  const u = new URL(location.origin + location.pathname);
+  const s = Object.keys(stars); if(s.length) u.searchParams.set("s", s.join(","));
+  const b = Object.entries(bookings).map(([id,x])=>`${id}@${x.date}@${x.time}`); if(b.length) u.searchParams.set("b", b.join(","));
+  const n = Object.keys(nightsIn); if(n.length) u.searchParams.set("in", n.join(","));
+  return u.toString();
+}
+$("#shareBtn").addEventListener("click", async ()=>{
+  const url = shareUrl();
+  if(!url.includes("?")) return toast("Star or book something first");
+  try{ if(navigator.share){ await navigator.share({title:`Our picks: ${T.title}`, url}); return; } }catch(e){ if(e.name==="AbortError") return; }
+  try{ await navigator.clipboard.writeText(url); toast("Link copied: paste it in the group chat"); }
+  catch(e){ prompt("Copy this link:", url); }
+});
+(function readShared(){
+  const sp = new URLSearchParams(location.search);
+  const s = (sp.get("s")||"").split(",").filter(id=>byId[id]);
+  const b = (sp.get("b")||"").split(",").map(x=>x.split("@")).filter(x=>x.length===3 && byId[x[0]] && /^\d{4}-\d{2}-\d{2}$/.test(x[1]) && /^\d{2}:\d{2}$/.test(x[2]));
+  const n = (sp.get("in")||"").split(",").filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x));
+  if(!s.length && !b.length && !n.length) return;
+  const el = $("#shareBanner"); el.style.display="block";
+  const plural = (k,w) => `<b>${k}</b> ${w}${k===1?"":"s"}`;
+  el.innerHTML = `Someone shared ${plural(s.length,"starred place")}, ${plural(b.length,"booking")} and ${plural(n.length,"night")} in.
+    <div class="actions"><button class="btn small primary" type="button" id="mergeShare">Add to mine</button><button class="btn small" type="button" id="dismissShare">Dismiss</button></div>`;
+  const clear = ()=>{ el.style.display="none"; history.replaceState(null,"",location.pathname); };
+  $("#mergeShare").onclick = ()=>{
+    s.forEach(id=>stars[id]=true); b.forEach(([id,date,time])=>bookings[id]={date,time}); n.forEach(d=>nightsIn[d]=true);
+    store.set("stars",stars); store.set("bookings",bookings); store.set("nightsIn",nightsIn);
+    clear(); render(); renderNights(); toast("Added to your planner");
+  };
+  $("#dismissShare").onclick = clear;
+})();
+
+// ---------- near me ----------
+function setSort(s){ sort=s; document.querySelectorAll("[data-sort]").forEach(x=>x.setAttribute("aria-pressed", x.dataset.sort===s)); render(); }
+document.querySelectorAll("[data-sort]").forEach(b=>b.addEventListener("click", ()=>{
+  if(b.dataset.sort==="base") return setSort("base");
+  if(!navigator.geolocation) return toast("Location isn't available on this device");
+  toast("Finding you…");
+  navigator.geolocation.getCurrentPosition(pos=>{ me={lat:pos.coords.latitude, lon:pos.coords.longitude}; setSort("me"); if(view==="map") drawMarkers(true); },
+    ()=>toast("Couldn't get your location. Check location permission."), {enableHighAccuracy:false, timeout:15000, maximumAge:120000});
+}));
+
+// ---------- map (Leaflet + OpenStreetMap, loaded on first use) ----------
+let map, layer, leafletLoading;
+function loadLeaflet(){
+  if(window.L) return Promise.resolve();
+  if(leafletLoading) return leafletLoading;
+  const css = document.createElement("link"); css.rel="stylesheet"; css.href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"; document.head.appendChild(css);
+  leafletLoading = new Promise((res,rej)=>{ const s=document.createElement("script"); s.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"; s.onload=res; s.onerror=()=>{ leafletLoading=null; rej(); }; document.head.appendChild(s); });
+  return leafletLoading;
+}
+const dot = (color, size=14) => L.divIcon({className:"", iconSize:[size,size], html:`<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)"></div>`});
+function drawMarkers(fit){
+  if(!map) return;
+  layer.clearLayers();
+  const pts = [];
+  if(O.lat!=null){ L.marker([O.lat,O.lon],{icon:dot("#c0392b",20),zIndexOffset:1000}).bindPopup(`<b>🏡 ${esc(O.name||"Base")}</b>`).addTo(layer); pts.push([O.lat,O.lon]); }
+  if(me){ L.marker([me.lat,me.lon],{icon:dot("#2b7bd6",18),zIndexOffset:900}).bindPopup("📍 You").addTo(layer); }
+  visible().filter(p=>p.lat!=null).forEach(p=>{
+    const c = bookings[p.id] ? "#1d6b3a" : stars[p.id] ? "#e0a400" : done[p.id] ? "#8a948c" : "#2f5d3a";
+    L.marker([p.lat,p.lon],{icon:dot(c)}).bindPopup(`<b>${esc(p.n)}</b><br>${distText(p)}${p.geoApprox?" (approx. location)":""}<br>
+      <a href="${me?fromHereUrl(p):dirUrl(p)}" target="_blank" rel="noopener">Directions</a> · <a href="#p-${p.id}" data-goto="${p.id}">Details</a>`).addTo(layer);
+    pts.push([p.lat,p.lon]);
+  });
+  if(fit && pts.length) map.fitBounds(pts,{padding:[30,30],maxZoom:14});
+}
+document.addEventListener("click", e=>{ const g=e.target.closest("[data-goto]"); if(g){ e.preventDefault(); setView("list"); setTimeout(()=>document.getElementById("p-"+g.dataset.goto)?.scrollIntoView({behavior:"smooth",block:"start"}),50); } });
+async function setView(v){
+  view=v; document.body.classList.toggle("map-mode", v==="map");
+  document.querySelectorAll("[data-view]").forEach(x=>x.setAttribute("aria-pressed", x.dataset.view===v));
+  if(v!=="map") return;
+  try{ await loadLeaflet(); }catch(e){ toast("The map needs signal to load"); return setView("list"); }
+  if(!map){
+    map = L.map("map");
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+    layer = L.layerGroup().addTo(map);
+    drawMarkers(true);
+  } else { map.invalidateSize(); drawMarkers(false); }
+}
+document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click", ()=>setView(b.dataset.view)));
+
+// ---------- weather (Open-Meteo, no key) ----------
+const WX = c => c===0?"☀️":c<=2?"🌤️":c===3?"☁️":c<=48?"🌫️":c<=57?"🌦️":c<=67?"🌧️":c<=77?"🌨️":c<=82?"🌦️":c<=86?"🌨️":"⛈️";
+async function weather(){
+  if(O.lat==null) return;
+  const today = new Date(todayIso+"T12:00:00"), start = new Date(T.start+"T12:00:00"), end = new Date(T.end+"T12:00:00");
+  const maxAhead = new Date(today); maxAhead.setDate(maxAhead.getDate()+15);
+  if(end < today) return;
+  if(start > maxAhead){ $("#weather").innerHTML = `<p class="wx-note">🌦️ The forecast shows here about two weeks before the trip.</p>`; return; }
+  const from = start < today ? todayIso : T.start, to = end > maxAhead ? iso(maxAhead) : T.end;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${O.lat}&longitude=${O.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunset&timezone=${enc(T.timezone||"auto")}&start_date=${from}&end_date=${to}`;
+  let w, stale=false;
+  try{ w = await (await fetch(url)).json(); if(!w.daily) throw 0; store.set("wx",{at:Date.now(), w}); }
+  catch(e){ const c=store.get("wx",null); if(!c) return; w=c.w; stale=true; }
+  const d = w.daily;
+  const days = d.time.map((t,i)=>`<div class="day${t===todayIso?" today":""}"><div>${t===todayIso?"Today":esc(dayName(t).split(" ").slice(0,2).join(" "))}</div><div class="ico">${WX(d.weather_code[i])}</div>
+    <div class="t">${Math.round(d.temperature_2m_max[i])}° <span class="s">${Math.round(d.temperature_2m_min[i])}°</span></div><div class="s">💧${d.precipitation_probability_max[i]??"–"}%</div><div class="s">🌇 ${String(d.sunset[i]).slice(11,16)}</div></div>`).join("");
+  const i0 = Math.max(0, d.time.indexOf(todayIso));
+  const wet = (d.precipitation_probability_max[i0]||0) >= 60;
+  $("#weather").innerHTML = `<div class="weather">${days}</div>
+    <p class="wx-note">${wet?`<button class="btn small" type="button" id="wetBtn">☔ Looks wet: show rainy-day ideas</button> `:""}Forecast for ${esc(O.name||"the base")} from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>${stale?" (saved copy, offline)":""}.</p>`;
+  $("#wetBtn")?.addEventListener("click", ()=>{ setFilter("rainy"); $(".bar").scrollIntoView({behavior:"smooth"}); });
+}
+
+// ---------- packing ----------
+function renderPacking(){
+  const groups = D.packing || {};
+  if(!Object.keys(groups).length){ $("#packing").style.display="none"; return; }
+  const open = new Set([...document.querySelectorAll("#packLists details[open]")].map(d=>d.dataset.g));
+  $("#packLists").innerHTML = Object.entries(groups).map(([g,items])=>{
+    const got = items.filter(i=>packed[g+"|"+i]).length;
+    return `<details class="sub" data-g="${esc(g)}"${open.has(g)?" open":""}><summary>${esc(g)} (${got}/${items.length})</summary><ul class="pack">${items.map(i=>{
+      const k=g+"|"+i; return `<li><label><input type="checkbox" data-pack="${esc(k)}" ${packed[k]?"checked":""}> ${esc(i)}</label></li>`;}).join("")}</ul></details>`;
+  }).join("");
+}
+$("#packLists").addEventListener("change", e=>{
+  const c=e.target.closest("[data-pack]"); if(!c) return;
+  c.checked ? packed[c.dataset.pack]=true : delete packed[c.dataset.pack]; store.set("packed",packed); renderPacking();
+});
+
+// ---------- notes export ----------
+function notesExport(){
+  return Object.entries(notes).filter(([,n])=>n.rating||n.text).map(([id,n])=>({id, name:byId[id]?.n||id, town:byId[id]?.town, rating:n.rating||null, note:n.text||"", updated:n.updated}));
+}
+function renderNotes(){
+  const n = notesExport();
+  $("#notesList").innerHTML = n.length ? n.map(x=>`<li><a href="#p-${esc(x.id)}">${esc(x.name)}</a>${x.rating?" "+"★".repeat(x.rating):""}${x.note?": "+esc(x.note):""}</li>`).join("") : "<li>No notes yet.</li>";
+}
+$("#exportNotes").addEventListener("click", ()=>{
+  const blob = new Blob([JSON.stringify({trip:T.title, exported:new Date().toISOString(), notes:notesExport()},null,2)],{type:"application/json"});
+  const a = document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`${T.storagePrefix||"trip"}-notes.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+});
+$("#copyNotes").addEventListener("click", async ()=>{
+  try{ await navigator.clipboard.writeText(JSON.stringify(notesExport(),null,2)); toast("Notes copied"); }catch(e){ toast("Couldn't copy on this device; use Export"); }
+});
+
+// ---------- static sections ----------
+$("#pairings").innerHTML = (D.pairings||[]).map(x=>`<li>${x}</li>`).join("");
+$("#tips").innerHTML = (D.tips||[]).map(x=>`<li>${x}</li>`).join("");
+const used = [...new Set(D.places.map(p=>p.photo).filter(t=>PH[t]))].sort();
+$("#creditList").innerHTML = used.map(t=>`<li>${credit(PH[t])}</li>`).join("");
+$("#footer").innerHTML = `Sources: ${(D.sources||[]).map(([n,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a>`).join(" · ")}.<br><br>
+  Distances and times: <a href="https://project-osrm.org/" target="_blank" rel="noopener">OSRM</a> routing on <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> data (© OpenStreetMap contributors), without traffic; "~" means approximate.
+  Phone numbers are from each venue's own website. Things change, so check opening hours before you set off.
+  Stars, ticks, bookings and notes are saved on this phone only; use Share picks to send them to the others.`;
+
+// ---------- offline ----------
+const net = () => document.body.classList.toggle("is-offline", !navigator.onLine);
+addEventListener("online", net); addEventListener("offline", net); net();
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+
+render(); renderNights(); renderPacking(); renderNotes(); weather();
+if(location.hash) setTimeout(()=>document.querySelector(location.hash)?.scrollIntoView(), 100);
+})();
 </script>
 </body>
 </html>

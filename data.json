@@ -1,0 +1,2230 @@
+{
+ "trip": {
+  "title": "Forest of Dean · 26–30 Oct",
+  "description": "Dog-friendly walks, food and towns near Forest Holidays Forest of Dean, 26–30 October 2026.",
+  "start": "2026-10-26",
+  "end": "2026-10-30",
+  "origin": {
+   "name": "the cabin",
+   "address": "Forest Holidays Forest of Dean, Bracelands Drive, Coleford GL16 7NN",
+   "geo": "Forest Holidays Forest of Dean",
+   "lat": 51.8119542,
+   "lon": -2.62974
+  },
+  "countryCodes": "gb",
+  "storagePrefix": "fod",
+  "checkLabel": "Ring ahead: dog policy not confirmed"
+ },
+ "types": [
+  {
+   "id": "walk",
+   "label": "🥾 Walks"
+  },
+  {
+   "id": "breakfast",
+   "label": "🥐 Breakfast & brunch"
+  },
+  {
+   "id": "lunch",
+   "label": "🥪 Lunch"
+  },
+  {
+   "id": "dinner",
+   "label": "🍽️ Dinner"
+  },
+  {
+   "id": "food",
+   "label": "🛒 Food shops & bakeries"
+  },
+  {
+   "id": "town",
+   "label": "🏘️ Towns"
+  },
+  {
+   "id": "todo",
+   "label": "🎟️ Things to do"
+  },
+  {
+   "id": "rainy",
+   "label": "☔ Rainy day"
+  },
+  {
+   "id": "essential",
+   "label": "🧰 Essentials"
+  }
+ ],
+ "areas": [
+  {
+   "id": "doorstep",
+   "title": "On your doorstep (0–5 mi)",
+   "note": "Coleford, Staunton, Symonds Yat and Clearwell, all within about 10 minutes."
+  },
+  {
+   "id": "central",
+   "title": "Central forest (4–9 mi)",
+   "note": "Beechenhurst, Cannop, Speech House, Parkend and Mallards Pike, a few minutes from each other."
+  },
+  {
+   "id": "monmouth",
+   "title": "Monmouth (5 mi west)",
+   "note": "10 minutes from Staunton and Symonds Yat."
+  },
+  {
+   "id": "ross",
+   "title": "Ross-on-Wye and Goodrich (7–15 mi north)",
+   "note": "Goodrich and Kerne Bridge are on the way to Ross; Symonds Yat is 15 minutes from Ross."
+  },
+  {
+   "id": "lowerwye",
+   "title": "Lower Wye Valley (11–16 mi south)",
+   "note": "Tintern, Wyndcliff and Chepstow, each 5–10 minutes apart."
+  },
+  {
+   "id": "lydney",
+   "title": "Lydney and the Severn side (9–14 mi south-east)",
+   "note": "The railway, Taurus Crafts and the harbour are all around Lydney."
+  },
+  {
+   "id": "further",
+   "title": "Further afield (25 min+)",
+   "note": "Only if you fancy a longer drive."
+  },
+  {
+   "id": "essentials",
+   "title": "Essentials",
+   "note": "Vets, food shopping and medical help."
+  }
+ ],
+ "places": [
+  {
+   "id": "highmeadow",
+   "a": "doorstep",
+   "n": "Highmeadow Woods",
+   "t": [
+    "walk"
+   ],
+   "mi": 0.0,
+   "min": 1,
+   "q": "Highmeadow Woods, Coleford",
+   "note": "Woodland tracks straight from the cabins. An easy first walk to let the dog settle in.",
+   "near": "On site",
+   "photo": "Forest of Dean",
+   "town": "Staunton, Gloucestershire",
+   "geo": "Highmeadow Woods",
+   "walk": {
+    "length": "Any length",
+    "difficulty": "Easy to moderate",
+    "parking": "From the cabins"
+   },
+   "lat": 51.8119542,
+   "lon": -2.62974,
+   "routed": true
+  },
+  {
+   "id": "newinn",
+   "a": "doorstep",
+   "n": "The New Inn, Shortstanding",
+   "t": [
+    "dinner",
+    "lunch"
+   ],
+   "mi": 0.6,
+   "min": 12,
+   "mode": "walking",
+   "q": "The New Inn, Shortstanding, Coleford",
+   "note": "A dog- and child-friendly pub with a beer garden. You can walk there, so nobody has to drive.",
+   "near": "12 min walk from the cabins",
+   "check": true,
+   "town": "Shortstanding",
+   "lat": 51.81777,
+   "lon": -2.62252,
+   "routed": true
+  },
+  {
+   "id": "dogmuffler",
+   "a": "doorstep",
+   "n": "The Dog & Muffler, Joyford",
+   "t": [
+    "lunch",
+    "dinner",
+    "walk"
+   ],
+   "mi": 1.2,
+   "min": 6,
+   "q": "Dog and Muffler, Joyford, Coleford",
+   "note": "Country pub. Visit Dean Wye pairs it with a ~5 mi Joyford walk.",
+   "near": "Very close to the cabins",
+   "check": true,
+   "web": "https://www.visitdeanwye.co.uk/blog/our-five-favourite-dog-friendly-pubs-with-proper-walks",
+   "town": "Joyford",
+   "walk": {
+    "length": "About 5 mi (Joyford walk)",
+    "difficulty": "Moderate"
+   },
+   "lat": 51.81345,
+   "lon": -2.6145,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "coleford",
+   "a": "doorstep",
+   "n": "Coleford",
+   "t": [
+    "town",
+    "lunch"
+   ],
+   "mi": 2.2,
+   "min": 8,
+   "q": "Coleford, Gloucestershire",
+   "note": "Small market town for supplies, the Forest Deli and the Dog House micropub (very dog-friendly but small).",
+   "near": "Closest town",
+   "web": "https://colefordtown.net/where-to-eat/",
+   "photo": "Coleford, Gloucestershire",
+   "town": "Coleford, Gloucestershire",
+   "geo": "Coleford, Gloucestershire",
+   "lat": 51.79388,
+   "lon": -2.61832,
+   "routed": true
+  },
+  {
+   "id": "buckstone",
+   "a": "doorstep",
+   "n": "The Buckstone, Staunton",
+   "t": [
+    "walk"
+   ],
+   "mi": 3.0,
+   "min": 8,
+   "q": "Buckstone, Staunton, Coleford",
+   "note": "A short, steep climb to a huge rock with views into Wales. You can carry on through Highmeadow Woods for longer.",
+   "near": "Next to the White Horse; 10 min to Monmouth",
+   "photo": "Buckstone",
+   "town": "Staunton, Gloucestershire",
+   "geo": "Buckstone, Staunton",
+   "walk": {
+    "length": "Short; longer loops through Highmeadow Woods",
+    "difficulty": "Short steep climb",
+    "parking": "Roadside in Staunton"
+   },
+   "lat": 51.8106,
+   "lon": -2.65541,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "whitehorse",
+   "a": "doorstep",
+   "n": "The White Horse, Staunton",
+   "t": [
+    "lunch",
+    "dinner",
+    "walk"
+   ],
+   "mi": 3.0,
+   "min": 8,
+   "q": "The White Horse, Staunton, Coleford",
+   "note": "A country pub that welcomes walkers, families and dogs, and has its own host dog. Visit Dean Wye pairs it with an ~8 mi Staunton walk.",
+   "near": "Next to the Buckstone",
+   "check": true,
+   "web": "https://www.visitdeanwye.co.uk/blog/our-five-favourite-dog-friendly-pubs-with-proper-walks",
+   "town": "Staunton, Gloucestershire",
+   "walk": {
+    "length": "About 8 mi (Staunton walk)",
+    "difficulty": "Moderate"
+   },
+   "lat": 51.8106,
+   "lon": -2.65541,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "yatrock",
+   "a": "doorstep",
+   "n": "Symonds Yat Rock",
+   "t": [
+    "walk"
+   ],
+   "mi": 2.8,
+   "min": 9,
+   "q": "Symonds Yat Rock car park",
+   "note": "A famous viewpoint over a loop of the River Wye. The path from the car park to the viewpoint is short and easy. There's parking, toilets and bins.",
+   "near": "Start of the Biblins loop; 1 mi above the Saracens Head",
+   "web": "https://www.forestryengland.uk/symonds-yat-rock",
+   "photo": "Symonds Yat",
+   "town": "Symonds Yat",
+   "geo": "Symonds Yat Rock",
+   "walk": {
+    "length": "Under 1 mi to the viewpoint",
+    "difficulty": "Easy",
+    "parking": "Forestry England car park (paid)",
+    "toilets": true
+   },
+   "lat": 51.84104,
+   "lon": -2.6347,
+   "routed": true
+  },
+  {
+   "id": "biblins",
+   "a": "doorstep",
+   "n": "Biblins river loop",
+   "t": [
+    "walk"
+   ],
+   "mi": 2.8,
+   "min": 9,
+   "q": "Biblins Bridge, Symonds Yat",
+   "note": "About 4.5 mi from Symonds Yat Rock, down to the river and over the Biblins suspension footbridge. Steep at both ends, so use the carriers. Take the bridge rather than the hand-pulled ferry.",
+   "near": "Starts at Symonds Yat Rock",
+   "web": "https://www.forestryengland.uk/symonds-yat-rock",
+   "town": "Symonds Yat",
+   "geo": "Biblins Bridge",
+   "walk": {
+    "length": "About 4.5 mi loop",
+    "difficulty": "Steep at both ends; carriers",
+    "parking": "Symonds Yat Rock car park (paid)",
+    "toilets": true
+   },
+   "lat": 51.84104,
+   "lon": -2.6347,
+   "routed": true
+  },
+  {
+   "id": "saracens",
+   "a": "doorstep",
+   "n": "The Saracens Head, Symonds Yat East",
+   "t": [
+    "lunch",
+    "dinner"
+   ],
+   "mi": 4.1,
+   "min": 14,
+   "q": "Saracens Head Inn, Symonds Yat East",
+   "note": "A riverside gastro-pub. Dogs are allowed in the bar and outside. Visit Dean Wye pairs it with a 5 or 7 mi River Wye walk. The road down is narrow and steep.",
+   "near": "1 mi below Symonds Yat Rock",
+   "check": true,
+   "web": "https://www.saracensheadinn.co.uk/",
+   "town": "Symonds Yat East",
+   "lat": 51.84042,
+   "lon": -2.63828,
+   "routed": true
+  },
+  {
+   "id": "perrygrove",
+   "a": "doorstep",
+   "n": "Perrygrove Railway",
+   "t": [
+    "todo",
+    "rainy"
+   ],
+   "mi": 3.1,
+   "min": 10,
+   "q": "Perrygrove Railway, Coleford",
+   "note": "A small steam railway with woodland play trails. Listed as dog-friendly. Check the half-term timetable.",
+   "near": "Just south of Coleford; 5 min from Clearwell Caves",
+   "check": true,
+   "web": "https://www.perrygrove.co.uk/",
+   "photo": "Perrygrove Railway",
+   "town": "Coleford, Gloucestershire",
+   "geo": "Perrygrove Railway",
+   "lat": 51.78337,
+   "lon": -2.61105,
+   "routed": true,
+   "phone": "01594 834991",
+   "phoneSource": "https://www.perrygrove.co.uk/"
+  },
+  {
+   "id": "clearwell",
+   "a": "doorstep",
+   "n": "Clearwell Caves",
+   "t": [
+    "todo",
+    "rainy"
+   ],
+   "mi": 3.9,
+   "min": 11,
+   "q": "Clearwell Caves",
+   "note": "Old iron mines with a café and shop. Dogs are welcome on the surface but not in the caves, so take turns. Booking online is recommended.",
+   "near": "Next to Tudor Farmhouse; 5 min from Perrygrove",
+   "check": true,
+   "web": "https://clearwellcaves.com/",
+   "photo": "Clearwell Caves",
+   "town": "Clearwell",
+   "geo": "Clearwell Caves",
+   "lat": 51.77122,
+   "lon": -2.61435,
+   "routed": true
+  },
+  {
+   "id": "tudor",
+   "a": "doorstep",
+   "n": "Tudor Farmhouse, Clearwell",
+   "t": [
+    "dinner",
+    "lunch"
+   ],
+   "mi": 4.3,
+   "min": 12,
+   "q": "Tudor Farmhouse Hotel, Clearwell",
+   "note": "A smarter restaurant with rooms. Listed as dog-friendly. Good for a treat night.",
+   "near": "In Clearwell village, by the caves",
+   "check": true,
+   "web": "https://tudorfarmhousehotel.co.uk/",
+   "photo": "Clearwell",
+   "town": "Clearwell",
+   "lat": 51.76991,
+   "lon": -2.62058,
+   "routed": true,
+   "phone": "01594 833046",
+   "phoneSource": "https://tudorfarmhousehotel.co.uk/"
+  },
+  {
+   "id": "ostrich",
+   "a": "doorstep",
+   "n": "The Ostrich Inn, Newland",
+   "t": [
+    "lunch",
+    "dinner"
+   ],
+   "mi": 3.6,
+   "min": 9,
+   "q": "The Ostrich Inn, Newland",
+   "note": "A traditional old pub, listed as \"dogs welcome\". It may be snug, so ask for a quiet spot. Opening hours vary by day.",
+   "near": "5 min from Clearwell",
+   "check": true,
+   "photo": "Newland, Gloucestershire",
+   "town": "Newland, Gloucestershire",
+   "lat": 51.78318,
+   "lon": -2.64853,
+   "routed": true
+  },
+  {
+   "id": "sculpture",
+   "a": "central",
+   "n": "Beechenhurst Sculpture Trail",
+   "t": [
+    "walk"
+   ],
+   "mi": 4.4,
+   "min": 13,
+   "q": "Beechenhurst, Forest of Dean",
+   "note": "About 3.5 mi on wide gravel paths past big sculptures. Easy to shorten. There's parking, toilets and bins.",
+   "near": "Café on site; 1 mi to Cannop Ponds and Speech House",
+   "web": "https://www.forestryengland.uk/beechenhurst",
+   "photo": "Forest of Dean Sculpture Trail",
+   "town": "Cannop, Forest of Dean",
+   "geo": "Beechenhurst Lodge",
+   "walk": {
+    "length": "About 3.5 mi loop",
+    "difficulty": "Easy, wide gravel",
+    "parking": "Beechenhurst car park (paid)",
+    "toilets": true
+   },
+   "lat": 51.80606,
+   "lon": -2.56094,
+   "routed": true,
+   "phone": "0300 0674800",
+   "phoneSource": "https://www.forestryengland.uk/beechenhurst"
+  },
+  {
+   "id": "beechcafe",
+   "a": "central",
+   "n": "Beechenhurst Café",
+   "t": [
+    "lunch"
+   ],
+   "mi": 4.4,
+   "min": 13,
+   "q": "Beechenhurst Cafe, Forest of Dean",
+   "note": "Refurbished, open every day. Dogs sit in \"the snug\", a quieter separate area. Serves soups, burgers and sharing plates.",
+   "near": "At the Sculpture Trail",
+   "web": "https://www.forestryengland.uk/beechenhurst/beechenhurst-cafe",
+   "town": "Cannop, Forest of Dean",
+   "geo": "Beechenhurst Lodge",
+   "lat": 51.80606,
+   "lon": -2.56094,
+   "routed": true
+  },
+  {
+   "id": "cannop",
+   "a": "central",
+   "n": "Cannop Ponds",
+   "t": [
+    "walk"
+   ],
+   "mi": 4.7,
+   "min": 12,
+   "q": "Cannop Ponds car park",
+   "note": "Flat paths around two ponds with ducks. Parking, toilets and bins.",
+   "near": "Next to the Cycle Centre café; 1 mi from Beechenhurst",
+   "web": "https://www.forestryengland.uk/cannop-ponds",
+   "photo": "Cannop Ponds",
+   "town": "Cannop, Forest of Dean",
+   "geo": "Cannop Ponds",
+   "walk": {
+    "length": "About 1 mi round the ponds",
+    "difficulty": "Flat",
+    "parking": "Cannop Ponds car park",
+    "toilets": true
+   },
+   "lat": 51.78973,
+   "lon": -2.57013,
+   "routed": true,
+   "phone": "0300 0674800",
+   "phoneSource": "https://www.forestryengland.uk/cannop-ponds"
+  },
+  {
+   "id": "cyclecafe",
+   "a": "central",
+   "n": "Forest of Dean Cycle Centre Café",
+   "t": [
+    "lunch"
+   ],
+   "mi": 3.8,
+   "min": 11,
+   "q": "Pedalabikeaway Forest of Dean Cycle Centre",
+   "note": "Dog-friendly. Sandwiches, soups, and vegetarian, vegan and gluten-free options.",
+   "near": "Next to Cannop Ponds",
+   "web": "https://www.forestryengland.uk/forest-dean-cycle-centre/forest-dean-cycle-centre-cafe",
+   "town": "Cannop, Forest of Dean",
+   "geo": "Pedalabikeaway Cycle Centre, Cannop",
+   "lat": 51.80126,
+   "lon": -2.56923,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "speech",
+   "a": "central",
+   "n": "The Speech House",
+   "t": [
+    "dinner",
+    "lunch"
+   ],
+   "mi": 4.7,
+   "min": 12,
+   "q": "Speech House Hotel, Coleford",
+   "note": "A big country hotel with two restaurants and heated outdoor dining dens. The best roomy, calm pick for a nervous dog. Also serves morning coffee and afternoon tea.",
+   "near": "1 mi from Beechenhurst",
+   "web": "https://thespeechhouse.co.uk/",
+   "photo": "Speech House",
+   "town": "Cannop, Forest of Dean",
+   "geo": "Speech House",
+   "lat": 51.80685,
+   "lon": -2.55218,
+   "routed": true,
+   "phone": "01594 822607",
+   "phoneSource": "https://thespeechhouse.co.uk/"
+  },
+  {
+   "id": "whitemead",
+   "a": "central",
+   "n": "Wild Boar Coffee, Whitemead (Parkend)",
+   "t": [
+    "lunch"
+   ],
+   "mi": 5.7,
+   "min": 16,
+   "q": "Whitemead Forest Park, Parkend",
+   "note": "Newer café with indoor and outdoor seating, water bowls and dog biscuits. Toasties, paninis and cake.",
+   "near": "10 min from Mallards Pike",
+   "web": "https://www.whitemead.co.uk/",
+   "photo": "Parkend",
+   "town": "Parkend",
+   "geo": "Whitemead Forest Park",
+   "lat": 51.7661,
+   "lon": -2.56187,
+   "routed": true
+  },
+  {
+   "id": "fancy",
+   "a": "central",
+   "n": "New Fancy View",
+   "t": [
+    "walk"
+   ],
+   "mi": 6.3,
+   "min": 16,
+   "q": "New Fancy View, Forest of Dean",
+   "note": "A viewpoint on an old colliery tip with a short walk up. A good quick stop.",
+   "near": "On the way to Mallards Pike",
+   "town": "New Fancy View",
+   "geo": "New Fancy View",
+   "walk": {
+    "length": "Short walk up to the viewpoint",
+    "difficulty": "Easy",
+    "parking": "New Fancy View car park"
+   },
+   "lat": 51.78399,
+   "lon": -2.54387,
+   "routed": true
+  },
+  {
+   "id": "mallards",
+   "a": "central",
+   "n": "Mallards Pike lake and café",
+   "t": [
+    "walk",
+    "lunch"
+   ],
+   "mi": 8.1,
+   "min": 20,
+   "q": "Mallards Pike Lake, Forest of Dean",
+   "note": "An easy 1.5 mi lake loop with a lakeside café that has water bowls and dog treats (roughly 10am–4pm). Parking, toilets and bins.",
+   "near": "2 mi from New Fancy View",
+   "web": "https://visitdeanwye.co.uk/food-and-drink/mallards-pike-cafe-p1440101",
+   "town": "Mallards Pike",
+   "geo": "Mallards Pike Lake",
+   "walk": {
+    "length": "About 1.5 mi lake loop",
+    "difficulty": "Flat, pram-friendly",
+    "parking": "Mallards Pike car park (paid)",
+    "toilets": true
+   },
+   "lat": 51.7814,
+   "lon": -2.52706,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "soudley",
+   "a": "central",
+   "n": "Soudley Ponds and Dean Heritage Centre",
+   "t": [
+    "walk",
+    "todo",
+    "rainy"
+   ],
+   "mi": 8.9,
+   "min": 20,
+   "q": "Dean Heritage Centre, Soudley",
+   "note": "A pretty walk round a chain of woodland ponds, next to the local museum and café. Check whether dogs are allowed inside the centre.",
+   "near": "East side of the forest",
+   "check": true,
+   "photo": "Soudley Ponds",
+   "town": "Soudley",
+   "geo": "Soudley, Gloucestershire",
+   "walk": {
+    "length": "About 2 mi round the ponds",
+    "difficulty": "Easy, can be muddy",
+    "parking": "Dean Heritage Centre / Soudley Ponds"
+   },
+   "lat": 51.79141,
+   "lon": -2.49891,
+   "routed": true
+  },
+  {
+   "id": "monmouth",
+   "a": "monmouth",
+   "n": "Monmouth",
+   "t": [
+    "town"
+   ],
+   "mi": 7.0,
+   "min": 15,
+   "q": "Monnow Bridge, Monmouth",
+   "note": "An easy town to wander: the 13th-century Monnow Bridge with its gatehouse, Agincourt Square, Church Street's shops and the riverside.",
+   "near": "10 min from the Buckstone and Symonds Yat",
+   "web": "https://www.visitmonmouthshire.com/",
+   "photo": "Monnow Bridge",
+   "town": "Monmouth",
+   "geo": "Monnow Bridge",
+   "lat": 51.80894,
+   "lon": -2.72011,
+   "routed": true
+  },
+  {
+   "id": "punch",
+   "a": "monmouth",
+   "n": "The Punch House, Monmouth",
+   "t": [
+    "lunch",
+    "dinner"
+   ],
+   "mi": 6.9,
+   "min": 15,
+   "q": "The Punch House, Agincourt Square, Monmouth",
+   "note": "Recently voted Wales' most dog-friendly pub. Pub food made with Welsh ingredients.",
+   "near": "Agincourt Square",
+   "web": "https://www.visitmonmouthshire.com/food-and-drink/pubs-and-bars/dog-friendly-pubs",
+   "town": "Monmouth",
+   "lat": 51.81223,
+   "lon": -2.7152,
+   "routed": true
+  },
+  {
+   "id": "coffilab",
+   "a": "monmouth",
+   "n": "Coffi Lab, Monmouth",
+   "t": [
+    "lunch"
+   ],
+   "mi": 6.9,
+   "min": 15,
+   "q": "Coffi Lab, Monmouth",
+   "note": "A coffee shop with a big outdoor area at the back and a menu for dogs. It can get busy at the counter.",
+   "near": "Town centre",
+   "web": "https://coffilab.co.uk/",
+   "town": "Monmouth",
+   "lat": 51.81024,
+   "lon": -2.71821,
+   "routed": true
+  },
+  {
+   "id": "estero",
+   "a": "monmouth",
+   "n": "Estero Lounge, Monmouth",
+   "t": [
+    "breakfast",
+    "lunch"
+   ],
+   "mi": 7.0,
+   "min": 16,
+   "q": "Estero Lounge, Monmouth",
+   "note": "Brunch and tapas. Dogs allowed inside and out, with water bowls and treats.",
+   "near": "Town centre",
+   "town": "Monmouth",
+   "lat": 51.80999,
+   "lon": -2.71905,
+   "routed": true
+  },
+  {
+   "id": "kymin",
+   "a": "monmouth",
+   "n": "The Kymin",
+   "t": [
+    "walk"
+   ],
+   "mi": 7.0,
+   "min": 17,
+   "q": "The Kymin, Monmouth",
+   "note": "A National Trust hilltop with the Round House and big views over Monmouth. There's a short walk from the car park, or a steep climb up from town.",
+   "near": "Just above Monmouth",
+   "check": true,
+   "web": "https://www.nationaltrust.org.uk/visit/wales/the-kymin",
+   "photo": "The Kymin",
+   "town": "Monmouth",
+   "geo": "The Kymin, Monmouth",
+   "walk": {
+    "length": "Short from the top car park, or a steep climb from town",
+    "difficulty": "Easy or steep",
+    "parking": "Small National Trust car park"
+   },
+   "lat": 51.8087,
+   "lon": -2.6865,
+   "routed": true,
+   "phone": "01874 625515",
+   "phoneSource": "https://www.nationaltrust.org.uk/visit/wales/the-kymin"
+  },
+  {
+   "id": "goodrich",
+   "a": "ross",
+   "n": "Goodrich Castle",
+   "t": [
+    "todo"
+   ],
+   "mi": 8.4,
+   "min": 24,
+   "q": "Goodrich Castle",
+   "note": "A red sandstone castle run by English Heritage. Its listing says dogs are accepted; check which areas.",
+   "near": "Just up the hill from Kerne Bridge and the Inn on the Wye",
+   "check": true,
+   "web": "https://www.english-heritage.org.uk/visit/places/goodrich-castle/",
+   "photo": "Goodrich Castle",
+   "town": "Goodrich",
+   "geo": "Goodrich Castle",
+   "lat": 51.87676,
+   "lon": -2.61554,
+   "routed": true
+  },
+  {
+   "id": "innwye",
+   "a": "ross",
+   "n": "Inn on the Wye, Kerne Bridge",
+   "t": [
+    "lunch",
+    "dinner"
+   ],
+   "mi": 7.3,
+   "min": 17,
+   "q": "Inn on the Wye, Kerne Bridge",
+   "note": "A traditional pub-restaurant, dog- and family-friendly. Dogs are welcome in the restaurant and bar, and it's a larger venue.",
+   "near": "Below Goodrich Castle; 10 min to Ross",
+   "check": true,
+   "web": "https://www.innonthewye.co.uk/",
+   "town": "Kerne Bridge",
+   "lat": 51.86858,
+   "lon": -2.60977,
+   "routed": true,
+   "phone": "01600 890872",
+   "phoneSource": "https://www.innonthewye.co.uk/"
+  },
+  {
+   "id": "ross",
+   "a": "ross",
+   "n": "Ross-on-Wye",
+   "t": [
+    "town"
+   ],
+   "mi": 10.9,
+   "min": 24,
+   "q": "Market House, Ross-on-Wye",
+   "note": "The most dog-friendly town around. Over 30 shops, 14 pubs and a dozen cafés have joined the \"We Welcome Dogs\" scheme, so look for the purple stickers. See the Market House and the Prospect gardens over the river.",
+   "near": "15 min from Symonds Yat",
+   "web": "https://visitrossonwye.com/?p=5578",
+   "photo": "Ross-on-Wye",
+   "town": "Ross-on-Wye",
+   "geo": "Market House, Ross-on-Wye",
+   "lat": 51.91425,
+   "lon": -2.58411,
+   "routed": true
+  },
+  {
+   "id": "hopeanchor",
+   "a": "ross",
+   "n": "Hope & Anchor, Ross",
+   "t": [
+    "breakfast",
+    "lunch",
+    "dinner"
+   ],
+   "mi": 11.1,
+   "min": 25,
+   "q": "Hope and Anchor, Ross-on-Wye",
+   "note": "By the river, fully dog-friendly, with a wood burner.",
+   "near": "Bottom of Wye Street",
+   "town": "Ross-on-Wye",
+   "lat": 51.9148,
+   "lon": -2.58771,
+   "routed": true
+  },
+  {
+   "id": "royal",
+   "a": "ross",
+   "n": "The Royal Hotel, Ross",
+   "t": [
+    "lunch",
+    "dinner"
+   ],
+   "mi": 11.0,
+   "min": 24,
+   "q": "The Royal Hotel, Ross-on-Wye",
+   "note": "A big terrace and gardens overlooking the Wye. Likely roomy inside too.",
+   "near": "Next to the Prospect",
+   "check": true,
+   "town": "Ross-on-Wye",
+   "geo": "Royal Hotel, Ross-on-Wye",
+   "lat": 51.91411,
+   "lon": -2.58676,
+   "routed": true
+  },
+  {
+   "id": "truffles",
+   "a": "ross",
+   "n": "Truffles Deli, Ross",
+   "t": [
+    "lunch"
+   ],
+   "mi": 10.9,
+   "min": 24,
+   "q": "Truffles Delicatessen, Ross-on-Wye",
+   "note": "A deli with a secret courtyard garden at the back. Quiet, so good for a nervous dog.",
+   "near": "Town centre",
+   "town": "Ross-on-Wye",
+   "lat": 51.91422,
+   "lon": -2.58511,
+   "routed": true
+  },
+  {
+   "id": "thorns",
+   "a": "ross",
+   "n": "Thorn's Coffee Lounge, Ross",
+   "t": [
+    "lunch"
+   ],
+   "mi": 10.8,
+   "min": 24,
+   "q": "Thorns Coffee Lounge, Croft Court, Ross-on-Wye",
+   "note": "Plenty of space on the outdoor terrace.",
+   "near": "Croft Court",
+   "town": "Ross-on-Wye",
+   "lat": 51.91408,
+   "lon": -2.58384,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "victorias",
+   "a": "ross",
+   "n": "Victorias Coffee Shop, Ross",
+   "t": [
+    "lunch"
+   ],
+   "mi": 10.8,
+   "min": 24,
+   "q": "Victorias Coffee Shop, Broad Street, Ross-on-Wye",
+   "note": "Dog-friendly, known for its cakes and savoury bakes.",
+   "near": "Bottom of Broad Street",
+   "town": "Ross-on-Wye",
+   "lat": 51.91408,
+   "lon": -2.58384,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "mandy",
+   "a": "ross",
+   "n": "Mandy Moo's, Ross",
+   "t": [
+    "lunch"
+   ],
+   "mi": 10.8,
+   "min": 24,
+   "q": "Mandy Moo's, Cantilupe Road, Ross-on-Wye",
+   "note": "A friendly café where dogs are more than welcome.",
+   "near": "Cantilupe Road",
+   "town": "Ross-on-Wye",
+   "lat": 51.91408,
+   "lon": -2.58384,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "whitelion",
+   "a": "ross",
+   "n": "The White Lion, Wilton",
+   "t": [
+    "lunch",
+    "dinner"
+   ],
+   "mi": 11.2,
+   "min": 25,
+   "q": "The White Lion, Wilton, Ross-on-Wye",
+   "note": "Listed as dog-friendly for lunch or dinner. A riverside spot just over the bridge from Ross.",
+   "near": "Across the bridge from Ross",
+   "check": true,
+   "photo": "Wilton, Herefordshire",
+   "town": "Wilton, Herefordshire",
+   "geo": "Wilton, Herefordshire",
+   "lat": 51.91566,
+   "lon": -2.59992,
+   "fixedDistance": true
+  },
+  {
+   "id": "moodycow",
+   "a": "ross",
+   "n": "The Moody Cow, Upton Bishop",
+   "t": [
+    "dinner",
+    "lunch"
+   ],
+   "mi": 14.5,
+   "min": 29,
+   "q": "The Moody Cow, Upton Bishop",
+   "note": "A country pub listed as dog- and child-friendly, with good food.",
+   "near": "10 min beyond Ross",
+   "check": true,
+   "photo": "Upton Bishop",
+   "town": "Upton Bishop",
+   "lat": 51.93937,
+   "lon": -2.52553,
+   "routed": true
+  },
+  {
+   "id": "pulpit",
+   "a": "lowerwye",
+   "n": "Devil's Pulpit from Tintern",
+   "t": [
+    "walk"
+   ],
+   "mi": 13.1,
+   "min": 27,
+   "q": "Tintern Abbey car park",
+   "note": "Cross the old railway bridge and climb Offa's Dyke Path to a rock viewpoint over the abbey. About 5 mi there and back, and steep. Use the carriers.",
+   "near": "Starts at Tintern; 10 min to Chepstow",
+   "web": "https://cadw.gov.wales/visit/places-to-visit/tintern-abbey",
+   "town": "Tintern",
+   "geo": "Devil's Pulpit, Tidenham",
+   "walk": {
+    "length": "About 5 mi there and back",
+    "difficulty": "Steep; carriers",
+    "parking": "Tintern village car parks"
+   },
+   "lat": 51.69707,
+   "lon": -2.67669,
+   "routed": true
+  },
+  {
+   "id": "tintern",
+   "a": "lowerwye",
+   "n": "Tintern Abbey and village",
+   "t": [
+    "todo",
+    "town",
+    "lunch"
+   ],
+   "mi": 13.1,
+   "min": 27,
+   "q": "Tintern Abbey",
+   "note": "Dramatic abbey ruins run by Cadw, plus a small village with pubs and cafés. Check whether dogs are allowed in the abbey grounds.",
+   "near": "Base of the Devil's Pulpit",
+   "check": true,
+   "web": "https://cadw.gov.wales/visit/places-to-visit/tintern-abbey",
+   "photo": "Tintern Abbey",
+   "town": "Tintern",
+   "geo": "Tintern Abbey",
+   "lat": 51.69707,
+   "lon": -2.67669,
+   "routed": true
+  },
+  {
+   "id": "wyndcliff",
+   "a": "lowerwye",
+   "n": "Wyndcliff and the Eagle's Nest",
+   "t": [
+    "walk"
+   ],
+   "mi": 16.3,
+   "min": 33,
+   "q": "Wyndcliff car park, St Arvans",
+   "note": "A woodland climb up the \"365 steps\" to a viewpoint over the Wye's loops and the Severn. Steep; carriers only.",
+   "near": "Between Tintern and Chepstow",
+   "check": true,
+   "photo": "Wyndcliff",
+   "town": "St Arvans",
+   "geo": "Eagle's Nest, Wyndcliff",
+   "walk": {
+    "length": "About 1 mi with the 365 steps",
+    "difficulty": "Steep steps; carriers",
+    "parking": "Wyndcliff / Upper Wyndcliff car park"
+   },
+   "lat": 51.67461,
+   "lon": -2.69333,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "chepstow",
+   "a": "lowerwye",
+   "n": "Chepstow and the castle",
+   "t": [
+    "town",
+    "todo"
+   ],
+   "mi": 15.5,
+   "min": 31,
+   "q": "Chepstow Castle",
+   "note": "A cliff-top castle above the Wye, run by Cadw, with an old town gate and a riverside to wander. Visitors report dogs are allowed on the ground floor.",
+   "near": "10 min from Tintern",
+   "check": true,
+   "web": "https://cadw.gov.wales/visit/places-to-visit/chepstow-castle",
+   "photo": "Chepstow Castle",
+   "town": "Chepstow",
+   "geo": "Chepstow Castle",
+   "lat": 51.64401,
+   "lon": -2.67505,
+   "routed": true,
+   "phone": "0300 0252239",
+   "phoneSource": "https://cadw.gov.wales/visit/places-to-visit/chepstow-castle"
+  },
+  {
+   "id": "marmalade",
+   "a": "lowerwye",
+   "n": "Marmalade House, Chepstow",
+   "t": [
+    "breakfast",
+    "lunch"
+   ],
+   "mi": 15.3,
+   "min": 30,
+   "q": "Marmalade House, 28 High Street, Chepstow",
+   "note": "A dog-friendly tea room: brunch, lunch and cakes.",
+   "near": "High Street",
+   "check": true,
+   "town": "Chepstow",
+   "lat": 51.64134,
+   "lon": -2.67605,
+   "routed": true
+  },
+  {
+   "id": "uglymug",
+   "a": "lowerwye",
+   "n": "The Ugly Mug, Chepstow",
+   "t": [
+    "breakfast",
+    "lunch"
+   ],
+   "mi": 15.4,
+   "min": 30,
+   "q": "The Ugly Mug Cafe, Beaufort Square, Chepstow",
+   "note": "An independent, family-run café with all-day breakfast and lunch. Dog-friendly.",
+   "near": "Beaufort Square",
+   "check": true,
+   "town": "Chepstow",
+   "lat": 51.64237,
+   "lon": -2.67494,
+   "routed": true
+  },
+  {
+   "id": "pontio",
+   "a": "lowerwye",
+   "n": "Pontio Lounge, Chepstow",
+   "t": [
+    "lunch",
+    "dinner"
+   ],
+   "mi": 15.3,
+   "min": 30,
+   "q": "Pontio Lounge, High Street, Chepstow",
+   "note": "An all-day café-bar, listed as dog-friendly, and open in the evenings.",
+   "near": "High Street",
+   "check": true,
+   "town": "Chepstow",
+   "lat": 51.64131,
+   "lon": -2.67571,
+   "routed": true
+  },
+  {
+   "id": "dfr",
+   "a": "lydney",
+   "n": "Dean Forest Railway (Norchard)",
+   "t": [
+    "todo",
+    "rainy"
+   ],
+   "mi": 8.5,
+   "min": 19,
+   "q": "Dean Forest Railway, Norchard, Lydney",
+   "note": "A heritage steam railway. Dogs are allowed on the trains but not in the café or dining car. Check the half-term timetable.",
+   "near": "5 min from Taurus Crafts and Lydney Harbour",
+   "check": true,
+   "web": "https://deanforestrailway.co.uk/",
+   "photo": "Dean Forest Railway",
+   "town": "Lydney",
+   "geo": "Norchard, Lydney",
+   "lat": 51.73577,
+   "lon": -2.53957,
+   "routed": true,
+   "phone": "01594 845840",
+   "phoneSource": "https://deanforestrailway.co.uk/"
+  },
+  {
+   "id": "taurus",
+   "a": "lydney",
+   "n": "Taurus Crafts",
+   "t": [
+    "todo",
+    "rainy",
+    "lunch"
+   ],
+   "mi": 10.1,
+   "min": 22,
+   "q": "Taurus Crafts, Lydney",
+   "note": "Craft studios, shops and a café in old farm buildings. Check the dog policy indoors.",
+   "near": "Near the Dean Forest Railway",
+   "check": true,
+   "web": "https://www.camphillvillagetrust.org.uk/our-locations/taurus-crafts/",
+   "town": "Lydney",
+   "lat": 51.71694,
+   "lon": -2.54886,
+   "routed": true
+  },
+  {
+   "id": "harbour",
+   "a": "lydney",
+   "n": "Lydney Harbour",
+   "t": [
+    "walk"
+   ],
+   "mi": 11.4,
+   "min": 25,
+   "q": "Lydney Harbour",
+   "note": "A flat, open walk along the Severn estuary with big skies. Good when the forest is muddy. Windy, so wrap the babies up.",
+   "near": "5 min from the railway",
+   "photo": "Lydney",
+   "town": "Lydney",
+   "geo": "Lydney Harbour",
+   "walk": {
+    "length": "1–3 mi along the estuary",
+    "difficulty": "Flat, exposed",
+    "parking": "Lydney Harbour car park"
+   },
+   "lat": 51.70989,
+   "lon": -2.50934,
+   "routed": true
+  },
+  {
+   "id": "silverfox",
+   "a": "lydney",
+   "n": "Silver Fox Café, Newnham-on-Severn",
+   "t": [
+    "lunch"
+   ],
+   "mi": 11.6,
+   "min": 24,
+   "q": "Silver Fox Cafe, Newnham on Severn",
+   "note": "A riverside café that's dog-friendly, open for breakfast and lunch seven days a week. Newnham is a pretty village on the Severn.",
+   "near": "North of Lydney on the A48",
+   "check": true,
+   "photo": "Newnham on Severn",
+   "town": "Newnham on Severn",
+   "lat": 51.81208,
+   "lon": -2.44166,
+   "routed": true
+  },
+  {
+   "id": "aber",
+   "a": "further",
+   "n": "Abergavenny",
+   "t": [
+    "town"
+   ],
+   "mi": 22.7,
+   "min": 33,
+   "q": "Abergavenny town centre",
+   "note": "A market town under the Sugar Loaf with good food shops and a covered market.",
+   "near": "Via Monmouth",
+   "photo": "Abergavenny",
+   "town": "Abergavenny",
+   "geo": "Abergavenny",
+   "lat": 51.82132,
+   "lon": -3.01479,
+   "routed": true
+  },
+  {
+   "id": "ledbury",
+   "a": "further",
+   "n": "Ledbury",
+   "t": [
+    "town"
+   ],
+   "mi": 23.4,
+   "min": 42,
+   "q": "Church Lane, Ledbury",
+   "note": "Black-and-white timbered buildings and the cobbled Church Lane.",
+   "near": "Via Ross",
+   "photo": "Ledbury",
+   "town": "Ledbury",
+   "geo": "Ledbury",
+   "lat": 52.03575,
+   "lon": -2.42878,
+   "routed": true
+  },
+  {
+   "id": "hay",
+   "a": "further",
+   "n": "Hay-on-Wye",
+   "t": [
+    "town"
+   ],
+   "mi": 41.9,
+   "min": 65,
+   "q": "Hay-on-Wye",
+   "note": "The book town. Lovely, but a long day with babies.",
+   "near": "North-west, past Abergavenny or Hereford",
+   "photo": "Hay-on-Wye",
+   "town": "Hay-on-Wye",
+   "geo": "Hay-on-Wye",
+   "lat": 52.07446,
+   "lon": -3.12431,
+   "routed": true
+  },
+  {
+   "id": "drybridge",
+   "a": "essentials",
+   "n": "Drybridge Veterinary Clinic",
+   "t": [
+    "essential"
+   ],
+   "mi": 2.2,
+   "min": 8,
+   "q": "Drybridge Veterinary Clinic, Railway Drive, Coleford GL16 8RH",
+   "note": "A vet in Coleford. Ring for hours and out-of-hours cover.",
+   "near": "Coleford",
+   "web": "https://findavet.rcvs.org.uk/find-a-vet-practice/drybridge-veterinary-clinic-colefordgl16-8rh/",
+   "town": "Coleford, Gloucestershire",
+   "lat": 51.79388,
+   "lon": -2.61832,
+   "geoApprox": true,
+   "routed": true,
+   "phone": "01594 833526",
+   "phoneSource": "https://findavet.rcvs.org.uk/find-a-vet-practice/drybridge-veterinary-clinic-colefordgl16-8rh/"
+  },
+  {
+   "id": "severnside",
+   "a": "essentials",
+   "n": "Severnside Vets, Coleford",
+   "t": [
+    "essential"
+   ],
+   "mi": 2.2,
+   "min": 8,
+   "q": "Severnside Veterinary Group, Cupola Close, Coleford GL16 8RD",
+   "note": "A small-animal vet on the Mushet Industrial Park.",
+   "near": "Coleford",
+   "town": "Coleford, Gloucestershire",
+   "lat": 51.79388,
+   "lon": -2.61832,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "shop",
+   "a": "essentials",
+   "n": "Supermarkets near the cabins",
+   "t": [
+    "essential",
+    "food"
+   ],
+   "mi": 2.2,
+   "min": 8,
+   "q": "supermarket near Coleford, Gloucestershire",
+   "note": "Opens a map search. Coleford has a Co-op and a Tesco (Lidl got planning permission in 2019, so check whether it's open). Monmouth and Ross have bigger shops.",
+   "near": "Coleford",
+   "town": "Coleford, Gloucestershire",
+   "geo": "Coleford, Gloucestershire",
+   "lat": 51.79388,
+   "lon": -2.61832,
+   "routed": true
+  },
+  {
+   "id": "pharmacy",
+   "a": "essentials",
+   "n": "Pharmacies nearby",
+   "t": [
+    "essential"
+   ],
+   "mi": 2.2,
+   "min": 8,
+   "q": "pharmacy near Coleford, Gloucestershire",
+   "note": "Opens a map search for nearby chemists.",
+   "near": "Coleford",
+   "town": "Coleford, Gloucestershire",
+   "geo": "Coleford, Gloucestershire",
+   "lat": 51.79388,
+   "lon": -2.61832,
+   "routed": true
+  },
+  {
+   "id": "miu",
+   "a": "essentials",
+   "n": "Minor injuries / urgent care",
+   "t": [
+    "essential"
+   ],
+   "mi": 7.5,
+   "min": 16,
+   "q": "Forest of Dean Community Hospital, Cinderford",
+   "note": "The local community hospital. Ring NHS 111 first to check where to go; 999 for emergencies.",
+   "near": "Cinderford",
+   "check": true,
+   "town": "Cinderford",
+   "geo": "Forest of Dean Community Hospital, Cinderford",
+   "lat": 51.83137,
+   "lon": -2.50566,
+   "routed": true
+  },
+  {
+   "id": "petshop",
+   "a": "essentials",
+   "n": "Pet shops nearby",
+   "t": [
+    "essential"
+   ],
+   "mi": 2.2,
+   "min": 8,
+   "q": "pet shop near Coleford, Gloucestershire",
+   "note": "Opens a map search, for forgotten food, leads or poo bags.",
+   "near": "Coleford",
+   "town": "Coleford, Gloucestershire",
+   "geo": "Coleford, Gloucestershire",
+   "lat": 51.79388,
+   "lon": -2.61832,
+   "routed": true
+  },
+  {
+   "id": "scoffs",
+   "a": "doorstep",
+   "n": "Scoff's Coffee House, Coleford",
+   "t": [
+    "breakfast",
+    "lunch"
+   ],
+   "mi": 2.2,
+   "min": 8,
+   "q": "Scoffs Coffee House, Coleford",
+   "note": "The most recommended breakfast spot in Coleford: an independent café with home-cooked breakfasts, good veggie options, and indoor and outdoor seating. Listed as dog-friendly.",
+   "near": "Coleford town centre",
+   "check": true,
+   "town": "Coleford, Gloucestershire",
+   "lat": 51.79388,
+   "lon": -2.61832,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "artofcoffee",
+   "a": "doorstep",
+   "n": "The Art of Coffee, Coleford",
+   "t": [
+    "breakfast",
+    "lunch"
+   ],
+   "mi": 2.2,
+   "min": 8,
+   "q": "The Art of Coffee, Market Place, Coleford",
+   "note": "Locally roasted coffee, plus breakfast, brunch and light lunches. Opens at 8am on weekdays.",
+   "near": "5–6 Market Place, Coleford",
+   "check": true,
+   "web": "https://colefordtown.net/where-to-eat/",
+   "town": "Coleford, Gloucestershire",
+   "lat": 51.79388,
+   "lon": -2.61832,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "sixteen",
+   "a": "doorstep",
+   "n": "Sixteen Community Café, Coleford",
+   "t": [
+    "breakfast",
+    "lunch"
+   ],
+   "mi": 2.1,
+   "min": 8,
+   "q": "Sixteen Community Cafe, Bank Street, Coleford",
+   "note": "A not-for-profit café cooking with local ingredients. Open Monday to Saturday from 9am. Its dog policy isn't listed, so ask.",
+   "near": "16 Bank Street, Coleford",
+   "check": true,
+   "web": "https://colefordtown.net/where-to-eat/",
+   "town": "Coleford, Gloucestershire",
+   "lat": 51.79482,
+   "lon": -2.61782,
+   "routed": true
+  },
+  {
+   "id": "victoriasb",
+   "a": "ross",
+   "n": "Victorias Coffee Shop, Ross (brunch)",
+   "t": [
+    "breakfast"
+   ],
+   "mi": 10.8,
+   "min": 24,
+   "q": "Victorias Coffee Shop, Broad Street, Ross-on-Wye",
+   "note": "Brunch from 10am to 4pm. Known for its homemade sausage rolls, cakes and bakes. Dog-friendly.",
+   "near": "25 Broad Street",
+   "town": "Ross-on-Wye",
+   "lat": 51.91408,
+   "lon": -2.58384,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "scrummy",
+   "a": "ross",
+   "n": "Scrummy Yummy Tearooms, Ross",
+   "t": [
+    "breakfast",
+    "lunch"
+   ],
+   "mi": 10.8,
+   "min": 24,
+   "q": "Scrummy Yummy Tearooms, Ross-on-Wye",
+   "note": "A bright, independent coffee shop with an all-day menu, homemade cakes and outdoor seating. Listed as dog-friendly.",
+   "near": "Town centre",
+   "check": true,
+   "town": "Ross-on-Wye",
+   "lat": 51.91408,
+   "lon": -2.58384,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "gingernut",
+   "a": "ross",
+   "n": "The Ginger Nut Café, Ross",
+   "t": [
+    "breakfast",
+    "lunch"
+   ],
+   "mi": 10.9,
+   "min": 24,
+   "q": "Ginger Nut Cafe, High Street, Ross-on-Wye",
+   "note": "Breakfast and brunch, with good gluten-free options.",
+   "near": "40 High Street",
+   "check": true,
+   "town": "Ross-on-Wye",
+   "lat": 51.9142,
+   "lon": -2.58452,
+   "routed": true
+  },
+  {
+   "id": "forestdeli",
+   "a": "doorstep",
+   "n": "Forest Deli, Coleford",
+   "t": [
+    "food"
+   ],
+   "mi": 2.3,
+   "min": 8,
+   "q": "Forest Deli, 4 Market Place, Coleford GL16 8AQ",
+   "note": "Local cheese (one of the best cheese counters in the area), honey, preserves, beer, cider and gin. Good for a night-in board.",
+   "near": "Market Place, Coleford",
+   "town": "Coleford, Gloucestershire",
+   "lat": 51.79311,
+   "lon": -2.61812,
+   "routed": true
+  },
+  {
+   "id": "crustyloaf",
+   "a": "doorstep",
+   "n": "The Crusty Loaf, Coleford",
+   "t": [
+    "food",
+    "breakfast"
+   ],
+   "mi": 2.3,
+   "min": 8,
+   "q": "The Crusty Loaf, Coleford",
+   "note": "A bakery that bakes on site. Reviewers praise its rye bread, sausage rolls and sourdough.",
+   "near": "Coleford",
+   "check": true,
+   "town": "Coleford, Gloucestershire",
+   "lat": 51.79319,
+   "lon": -2.61776,
+   "routed": true
+  },
+  {
+   "id": "wigmores",
+   "a": "monmouth",
+   "n": "Wigmores Bakery, Monmouth",
+   "t": [
+    "food",
+    "breakfast"
+   ],
+   "mi": 7.1,
+   "min": 16,
+   "q": "Wigmores Bakery, St Mary Street, Monmouth",
+   "note": "An independent bakery for bread and cakes, from about 8am on weekdays.",
+   "near": "9 St Mary Street",
+   "town": "Monmouth",
+   "lat": 51.80989,
+   "lon": -2.71604,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "thurabread",
+   "a": "monmouth",
+   "n": "Thurabread Bakery, Monmouth",
+   "t": [
+    "food",
+    "breakfast"
+   ],
+   "mi": 6.9,
+   "min": 15,
+   "q": "Thurabread Bakery, Monmouth",
+   "note": "Popular for baguettes and pastries.",
+   "near": "Town centre",
+   "check": true,
+   "town": "Monmouth",
+   "lat": 51.81249,
+   "lon": -2.71505,
+   "routed": true
+  },
+  {
+   "id": "bakehouse",
+   "a": "lydney",
+   "n": "The Forest Bakehouse, Longhope",
+   "t": [
+    "food"
+   ],
+   "mi": 11.0,
+   "min": 22,
+   "q": "The Forest Bakehouse, Longhope",
+   "note": "A co-operative artisan bakery: long-fermentation bread and pastries made with locally milled organic flour. Check opening days before you go.",
+   "near": "North-east side of the forest, on the way to Gloucester",
+   "check": true,
+   "web": "https://www.theforestbakehouse.co.uk/",
+   "photo": "Longhope",
+   "town": "Longhope",
+   "lat": 51.87231,
+   "lon": -2.45614,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "smokery",
+   "a": "lydney",
+   "n": "Severn & Wye Smokery, Westbury-on-Severn",
+   "t": [
+    "food",
+    "lunch"
+   ],
+   "mi": 13.1,
+   "min": 27,
+   "q": "Severn and Wye Smokery, Chaxhill, Westbury-on-Severn",
+   "note": "A smokehouse with a food hall, fish counter, café and restaurant. Great for treat food for a night in. Check whether dogs are allowed inside.",
+   "near": "15 min beyond Newnham",
+   "check": true,
+   "photo": "Westbury-on-Severn",
+   "town": "Westbury-on-Severn",
+   "lat": 51.82667,
+   "lon": -2.38352,
+   "routed": true
+  },
+  {
+   "id": "stbriavels",
+   "a": "lowerwye",
+   "n": "St Briavels village and castle",
+   "t": [
+    "walk",
+    "town"
+   ],
+   "mi": 7.0,
+   "min": 16,
+   "q": "St Briavels Castle",
+   "note": "A hilltop village with a small Norman castle (now a youth hostel, so you can only see it from outside) and views over the Wye. Walk down to the river from here.",
+   "near": "Above Brockweir; 15 min to Tintern",
+   "photo": "St Briavels Castle",
+   "town": "St Briavels",
+   "geo": "St Briavels Castle",
+   "walk": {
+    "length": "Village wander, or longer down to the Wye",
+    "difficulty": "Steep down to the river",
+    "parking": "In the village"
+   },
+   "lat": 51.73818,
+   "lon": -2.64082,
+   "routed": true
+  },
+  {
+   "id": "brockweir",
+   "a": "lowerwye",
+   "n": "Brockweir and the riverside",
+   "t": [
+    "walk"
+   ],
+   "mi": 11.6,
+   "min": 23,
+   "q": "Brockweir, Gloucestershire",
+   "note": "A quiet riverside village. A flat stretch of the Wye Valley Walk runs from here towards Tintern, about 1.5 mi each way.",
+   "near": "5 min north of Tintern",
+   "photo": "Brockweir",
+   "town": "Brockweir",
+   "geo": "Brockweir",
+   "walk": {
+    "length": "About 3 mi there and back towards Tintern",
+    "difficulty": "Flat riverside, can be muddy",
+    "parking": "Limited, in the village"
+   },
+   "lat": 51.70719,
+   "lon": -2.66793,
+   "routed": true
+  },
+  {
+   "id": "redbrook",
+   "a": "monmouth",
+   "n": "Redbrook",
+   "t": [
+    "walk"
+   ],
+   "mi": 4.9,
+   "min": 12,
+   "q": "Redbrook, Gloucestershire",
+   "note": "A riverside village with an old railway bridge over the Wye and walks along the river towards Monmouth.",
+   "near": "Between Monmouth and Tintern",
+   "photo": "Redbrook",
+   "town": "Redbrook",
+   "geo": "Redbrook",
+   "walk": {
+    "length": "Riverside, any length",
+    "difficulty": "Flat",
+    "parking": "Redbrook car park"
+   },
+   "lat": 51.78399,
+   "lon": -2.67171,
+   "routed": true
+  },
+  {
+   "id": "cleddon",
+   "a": "lowerwye",
+   "n": "Cleddon Falls (Cleddon Shoots)",
+   "t": [
+    "walk"
+   ],
+   "mi": 9.4,
+   "min": 19,
+   "q": "Cleddon Falls, Trellech",
+   "note": "The biggest waterfalls in the area, at their best after rain. A short, steep woodland walk; carriers only.",
+   "near": "Above Llandogo, 10 min from Tintern",
+   "check": true,
+   "photo": "Cleddon Shoots",
+   "town": "Llandogo",
+   "geo": "Cleddon Falls",
+   "walk": {
+    "length": "Short",
+    "difficulty": "Steep woodland; carriers",
+    "parking": "Small car park near Cleddon"
+   },
+   "lat": 51.73369,
+   "lon": -2.68752,
+   "geoApprox": true,
+   "routed": true
+  },
+  {
+   "id": "skenfrith",
+   "a": "further",
+   "n": "Skenfrith Castle",
+   "t": [
+    "todo",
+    "walk"
+   ],
+   "mi": 14.5,
+   "min": 29,
+   "q": "Skenfrith Castle",
+   "note": "A small, free, open castle ruin by the River Monnow in a pretty village. Quiet, with open grass.",
+   "near": "North-west of Monmouth",
+   "check": true,
+   "photo": "Skenfrith Castle",
+   "town": "Skenfrith",
+   "geo": "Skenfrith Castle",
+   "walk": {
+    "length": "Riverside and castle wander",
+    "difficulty": "Easy",
+    "parking": "In the village"
+   },
+   "lat": 51.87827,
+   "lon": -2.79019,
+   "routed": true
+  },
+  {
+   "id": "raglan",
+   "a": "further",
+   "n": "Raglan Castle",
+   "t": [
+    "todo"
+   ],
+   "mi": 14.7,
+   "min": 24,
+   "q": "Raglan Castle",
+   "note": "Big, grand ruins run by Cadw. Check whether dogs are allowed.",
+   "near": "15 min west of Monmouth",
+   "check": true,
+   "photo": "Raglan Castle",
+   "town": "Raglan",
+   "geo": "Raglan Castle",
+   "lat": 51.77048,
+   "lon": -2.85014,
+   "routed": true
+  },
+  {
+   "id": "westbury",
+   "a": "lydney",
+   "n": "Westbury Court Garden",
+   "t": [
+    "todo"
+   ],
+   "mi": 11.9,
+   "min": 25,
+   "q": "Westbury Court Garden",
+   "note": "A National Trust Dutch water garden. Quiet in October. Check the dog policy and opening days.",
+   "near": "Next to the Severn & Wye Smokery",
+   "check": true,
+   "photo": "Westbury Court Garden",
+   "town": "Westbury-on-Severn",
+   "geo": "Westbury Court Garden",
+   "lat": 51.82284,
+   "lon": -2.4098,
+   "routed": true
+  }
+ ],
+ "photos": {
+  "Symonds Yat": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/River_Wye_at_Symonds_Yat_%289762%29.jpg/960px-River_Wye_at_Symonds_Yat_%289762%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:River_Wye_at_Symonds_Yat_(9762).jpg",
+   "artist": "Nilfanion",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "title": "Symonds Yat",
+   "wiki": "https://en.wikipedia.org/wiki/Symonds_Yat"
+  },
+  "Tintern Abbey": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/TinternAbbey_WestEnd.jpg/960px-TinternAbbey_WestEnd.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:TinternAbbey_WestEnd.jpg",
+   "artist": "Martinvl",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "title": "Tintern Abbey",
+   "wiki": "https://en.wikipedia.org/wiki/Tintern_Abbey"
+  },
+  "Chepstow Castle": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Chepstow_Castle_%284197%29.jpg/960px-Chepstow_Castle_%284197%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Chepstow_Castle_(4197).jpg",
+   "artist": "Nilfanion",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "title": "Chepstow Castle",
+   "wiki": "https://en.wikipedia.org/wiki/Chepstow_Castle"
+  },
+  "Goodrich Castle": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Goodrich_above.jpg/960px-Goodrich_above.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Goodrich_above.jpg",
+   "artist": "Scribwik",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "title": "Goodrich Castle",
+   "wiki": "https://en.wikipedia.org/wiki/Goodrich_Castle"
+  },
+  "Monnow Bridge": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Monmouth_-_Monnow_Bridge.jpg/960px-Monmouth_-_Monnow_Bridge.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Monmouth_-_Monnow_Bridge.jpg",
+   "artist": "Bob Crowther",
+   "license": "CC BY 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+   "title": "Monnow Bridge",
+   "wiki": "https://en.wikipedia.org/wiki/Monnow_Bridge"
+  },
+  "Monmouth": {
+   "title": "Monmouth",
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Monmouth_-_Monnow_Bridge.jpg/960px-Monmouth_-_Monnow_Bridge.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Monmouth_-_Monnow_Bridge.jpg",
+   "artist": "Bob Crowther",
+   "license": "CC BY 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "Ross-on-Wye": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/The_River_Wye_and_Ross-on-Wye_-_geograph.org.uk_-_7415567.jpg/960px-The_River_Wye_and_Ross-on-Wye_-_geograph.org.uk_-_7415567.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_River_Wye_and_Ross-on-Wye_-_geograph.org.uk_-_7415567.jpg",
+   "artist": "Philip Halling",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Ross-on-Wye",
+   "wiki": "https://en.wikipedia.org/wiki/Ross-on-Wye"
+  },
+  "Coleford, Gloucestershire": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Coleford_Market_Place_-_geograph.org.uk_-_743937_-_edit.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Coleford_Market_Place_-_geograph.org.uk_-_743937_-_edit.jpg",
+   "artist": "Graham Horn",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+   "title": "Coleford, Gloucestershire",
+   "wiki": "https://en.wikipedia.org/wiki/Coleford,_Gloucestershire"
+  },
+  "Clearwell Caves": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Clearwell_Mine.jpg/960px-Clearwell_Mine.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Clearwell_Mine.jpg",
+   "artist": "Sir Stig",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+   "title": "Clearwell Caves",
+   "wiki": "https://en.wikipedia.org/wiki/Clearwell_Caves"
+  },
+  "The Kymin": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Round_House_on_the_Kymin%2C_Monmouth_%280146%29.jpg/960px-Round_House_on_the_Kymin%2C_Monmouth_%280146%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Round_House_on_the_Kymin,_Monmouth_(0146).jpg",
+   "artist": "Nilfanion",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "title": "The Kymin",
+   "wiki": "https://en.wikipedia.org/wiki/The_Kymin"
+  },
+  "Buckstone": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/J.B.Buckstone.jpg/960px-J.B.Buckstone.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:J.B.Buckstone.jpg",
+   "artist": "Unknown author",
+   "license": "Public domain",
+   "licenseUrl": "",
+   "title": "Buckstone",
+   "wiki": "https://en.wikipedia.org/wiki/John_Baldwin_Buckstone"
+  },
+  "Speech House": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/SpeechHouse2008.jpg/960px-SpeechHouse2008.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:SpeechHouse2008.jpg",
+   "artist": "Hotlorp",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+   "title": "Speech House",
+   "wiki": "https://en.wikipedia.org/wiki/Speech_House"
+  },
+  "Cannop Ponds": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/2/27/Cannop_Ponds.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Cannop_Ponds.jpg",
+   "artist": "Stuart Wilding",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Cannop Ponds",
+   "wiki": "https://en.wikipedia.org/wiki/Cannop_Ponds"
+  },
+  "Dean Forest Railway": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/Dean_Forest_Railway_near_Whitecroft_-_geograph.org.uk_-_7916304.jpg/960px-Dean_Forest_Railway_near_Whitecroft_-_geograph.org.uk_-_7916304.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Dean_Forest_Railway_near_Whitecroft_-_geograph.org.uk_-_7916304.jpg",
+   "artist": "Gareth James",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Dean Forest Railway",
+   "wiki": "https://en.wikipedia.org/wiki/Dean_Forest_Railway"
+  },
+  "Perrygrove Railway": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Perrygrove_station%2C_from_the_entrance_gate.jpg/960px-Perrygrove_station%2C_from_the_entrance_gate.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Perrygrove_station,_from_the_entrance_gate.jpg",
+   "artist": "Piston93",
+   "license": "CC0",
+   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "title": "Perrygrove Railway",
+   "wiki": "https://en.wikipedia.org/wiki/Perrygrove_Railway"
+  },
+  "Dean Heritage Centre": {
+   "title": "Dean Heritage Centre",
+   "img": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Dean_Heritage_-_geograph.org.uk_-_1168991.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Dean_Heritage_-_geograph.org.uk_-_1168991.jpg",
+   "artist": "andy dolman",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  "Soudley Ponds": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/1/10/Largest_Pond_at_Soudley_-_geograph.org.uk_-_759359.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Largest_Pond_at_Soudley_-_geograph.org.uk_-_759359.jpg",
+   "artist": "Ian Hunter",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Soudley Ponds",
+   "wiki": "https://en.wikipedia.org/wiki/Soudley_Ponds"
+  },
+  "Wyndcliff": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/View_from_the_Wyndcliff_%289371%29.jpg/960px-View_from_the_Wyndcliff_%289371%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:View_from_the_Wyndcliff_(9371).jpg",
+   "artist": "Nilfanion",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "title": "Wyndcliff",
+   "wiki": "https://en.wikipedia.org/wiki/Wyndcliff"
+  },
+  "Newnham on Severn": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/3/32/St_Peters_Church%2C_Newnham_-_geograph.org.uk_-_210626.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:St_Peters_Church,_Newnham_-_geograph.org.uk_-_210626.jpg",
+   "artist": "OLU",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Newnham on Severn",
+   "wiki": "https://en.wikipedia.org/wiki/Newnham_on_Severn"
+  },
+  "Abergavenny": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Abergavenny.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Abergavenny.jpg",
+   "artist": "Nigel Davies",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Abergavenny",
+   "wiki": "https://en.wikipedia.org/wiki/Abergavenny"
+  },
+  "Ledbury": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/d/d1/LedburyMarketHouse.JPG",
+   "page": "https://commons.wikimedia.org/wiki/File:LedburyMarketHouse.JPG",
+   "artist": "Superstevegs",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+   "title": "Ledbury",
+   "wiki": "https://en.wikipedia.org/wiki/Ledbury"
+  },
+  "Hay-on-Wye": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Hay-on-Wye_Clock_Tower_%282%29.jpg/960px-Hay-on-Wye_Clock_Tower_%282%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Hay-on-Wye_Clock_Tower_(2).jpg",
+   "artist": "Immanuel Giel",
+   "license": "CC0",
+   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "title": "Hay-on-Wye",
+   "wiki": "https://en.wikipedia.org/wiki/Hay-on-Wye"
+  },
+  "Forest of Dean Sculpture Trail": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/4/48/Stained_Glass_Panel%2C_Sculpture_Trail%2C_Forest_of_Dean_-_geograph.org.uk_-_46816.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Stained_Glass_Panel,_Sculpture_Trail,_Forest_of_Dean_-_geograph.org.uk_-_46816.jpg",
+   "artist": "Pip Rolls",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Forest of Dean Sculpture Trail",
+   "wiki": "https://en.wikipedia.org/wiki/Forest_of_Dean_Sculpture_Trail"
+  },
+  "Clearwell": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/f/f0/The_village_of_Clearwell_-_geograph.org.uk_-_1046158.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_village_of_Clearwell_-_geograph.org.uk_-_1046158.jpg",
+   "artist": "Pauline Eccles",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Clearwell",
+   "wiki": "https://en.wikipedia.org/wiki/Clearwell"
+  },
+  "Newland, Gloucestershire": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/d/de/All_Saints_Church_Newland_Gloucestershire_-_geograph.org.uk_-_107131.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:All_Saints_Church_Newland_Gloucestershire_-_geograph.org.uk_-_107131.jpg",
+   "artist": "Clive Perrin",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Newland, Gloucestershire",
+   "wiki": "https://en.wikipedia.org/wiki/Newland,_Gloucestershire"
+  },
+  "Wilton, Herefordshire": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/f/f0/River_Wye_at_Wilton_Bridge_-_geograph.org.uk_-_453758.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:River_Wye_at_Wilton_Bridge_-_geograph.org.uk_-_453758.jpg",
+   "artist": "Pauline Eccles",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Wilton, Herefordshire",
+   "wiki": "https://en.wikipedia.org/wiki/Wilton,_Herefordshire"
+  },
+  "Parkend": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Parkend_village.jpg/960px-Parkend_village.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Parkend_village.jpg",
+   "artist": "Obscurasky",
+   "license": "Public domain",
+   "licenseUrl": "",
+   "title": "Parkend",
+   "wiki": "https://en.wikipedia.org/wiki/Parkend"
+  },
+  "St Briavels Castle": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/5/57/St_Briavels_Castle_-_geograph.org.uk_-_520136.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:St_Briavels_Castle_-_geograph.org.uk_-_520136.jpg",
+   "artist": "Roy Parkhouse",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "St Briavels Castle",
+   "wiki": "https://en.wikipedia.org/wiki/St_Briavels_Castle"
+  },
+  "Redbrook": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Redbrook.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Redbrook.jpg",
+   "artist": "John Thorn",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Redbrook",
+   "wiki": "https://en.wikipedia.org/wiki/Redbrook"
+  },
+  "Brockweir": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/d/de/Brockweir.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Brockweir.jpg",
+   "artist": "Roy Parkhouse",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Brockweir",
+   "wiki": "https://en.wikipedia.org/wiki/Brockweir"
+  },
+  "Cleddon Shoots": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Llandogo.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Llandogo.jpg",
+   "artist": "Philip Halling",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Cleddon Shoots",
+   "wiki": "https://en.wikipedia.org/wiki/Llandogo"
+  },
+  "Westbury Court Garden": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/4/49/Canal%2C_Westbury_Court_Garden_-_geograph.org.uk_-_1416966.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Canal,_Westbury_Court_Garden_-_geograph.org.uk_-_1416966.jpg",
+   "artist": "Pauline Eccles",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Westbury Court Garden",
+   "wiki": "https://en.wikipedia.org/wiki/Westbury_Court_Garden"
+  },
+  "Raglan Castle": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Raglan_Castle%27s_main_entrance.jpg/960px-Raglan_Castle%27s_main_entrance.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Raglan_Castle%27s_main_entrance.jpg",
+   "artist": "Bob McCaffrey from Rickmansworth, UK",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Raglan Castle",
+   "wiki": "https://en.wikipedia.org/wiki/Raglan_Castle"
+  },
+  "Skenfrith Castle": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/SKENFRITH_CASTLE.jpg/960px-SKENFRITH_CASTLE.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:SKENFRITH_CASTLE.jpg",
+   "artist": "Davidmholmes51",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "title": "Skenfrith Castle",
+   "wiki": "https://en.wikipedia.org/wiki/Skenfrith_Castle"
+  },
+  "Longhope": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Central_Stores_Longhope_-_geograph.org.uk_-_3213259.jpg/960px-Central_Stores_Longhope_-_geograph.org.uk_-_3213259.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Central_Stores_Longhope_-_geograph.org.uk_-_3213259.jpg",
+   "artist": "Philip Halling",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Longhope",
+   "wiki": "https://en.wikipedia.org/wiki/Longhope"
+  },
+  "Wye Valley Walk": {
+   "title": "Wye Valley Walk",
+   "img": "https://upload.wikimedia.org/wikipedia/commons/6/65/Wye_Valley_Walk_-_geograph.org.uk_-_418324.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Wye_Valley_Walk_-_geograph.org.uk_-_418324.jpg",
+   "artist": "Stuart Wilding",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  "Offa's Dyke Path": {
+   "title": "Offa's Dyke Path",
+   "img": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Offa%27s_Dyke_Path_signpost._-_geograph.org.uk_-_501938.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Offa%27s_Dyke_Path_signpost._-_geograph.org.uk_-_501938.jpg",
+   "artist": "David Quinn",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  "Tintern": {
+   "title": "Tintern",
+   "img": "https://upload.wikimedia.org/wikipedia/commons/9/93/Into_the_valley_-_geograph.org.uk_-_1372412.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Into_the_valley_-_geograph.org.uk_-_1372412.jpg",
+   "artist": "Richard Croft",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  "Upton Bishop": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Parish_Church_of_St._John_The_Baptist_in_Upton_Bishop.jpg/960px-Parish_Church_of_St._John_The_Baptist_in_Upton_Bishop.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Parish_Church_of_St._John_The_Baptist_in_Upton_Bishop.jpg",
+   "artist": "HenryWellingUXO",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "title": "Upton Bishop",
+   "wiki": "https://en.wikipedia.org/wiki/Upton_Bishop"
+  },
+  "Westbury-on-Severn": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/4/4c/High_Street%2C_Westbury-on-Severn_-_geograph.org.uk_-_541530.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:High_Street,_Westbury-on-Severn_-_geograph.org.uk_-_541530.jpg",
+   "artist": "Pauline Eccles",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Westbury-on-Severn",
+   "wiki": "https://en.wikipedia.org/wiki/Westbury-on-Severn"
+  },
+  "Lydney": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Newerne_Street%2C_Lydney_-_geograph.org.uk_-_582223.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Newerne_Street,_Lydney_-_geograph.org.uk_-_582223.jpg",
+   "artist": "Pauline Eccles",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Lydney",
+   "wiki": "https://en.wikipedia.org/wiki/Lydney"
+  },
+  "Forest of Dean": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Symonds_Yat_Rock_View.JPG/960px-Symonds_Yat_Rock_View.JPG",
+   "page": "https://commons.wikimedia.org/wiki/File:Symonds_Yat_Rock_View.JPG",
+   "artist": "Lemoncurd (English Wikipedia)",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+   "title": "Forest of Dean",
+   "wiki": "https://en.wikipedia.org/wiki/Forest_of_Dean"
+  }
+ },
+ "pairings": [
+  "<b>Symonds Yat:</b> the Rock and the Biblins loop, then the Saracens Head, or 15 min on to Ross-on-Wye.",
+  "<b>Staunton:</b> the Buckstone, then the White Horse, or 10 min on to Monmouth.",
+  "<b>Central forest:</b> the Sculpture Trail, Beechenhurst Café, Cannop Ponds, and dinner at the Speech House.",
+  "<b>Lakes:</b> Mallards Pike, stopping at New Fancy View on the way, then the Wild Boar Coffee café at Parkend.",
+  "<b>Lower Wye:</b> the Devil's Pulpit at Tintern, then lunch and the castle in Chepstow (10 min).",
+  "<b>Goodrich:</b> Goodrich Castle, then lunch at the Inn on the Wye, then Ross.",
+  "<b>Lydney side:</b> Dean Forest Railway and Taurus Crafts, then a flat walk at Lydney Harbour.",
+  "<b>Rainy day:</b> Clearwell Caves (take turns, dogs stay on the surface) and Perrygrove Railway, 5–10 min apart.",
+  "<b>Food run:</b> Forest Deli and the Crusty Loaf in Coleford, or the Severn & Wye Smokery food hall for a night in."
+ ],
+ "tips": [
+  "<b>It's half-term.</b> Book dinners early, and ask for a quiet corner table for the dog.",
+  "<b>Clocks went back on 25 Oct.</b> It's dark by about 4:45pm. Pack head torches if you walk to the New Inn.",
+  "<b>Wear boots:</b> leaves and mud make the paths slippery, especially carrying babies.",
+  "<b>Keep the dog on a short lead in Wye Valley fields</b>; sheep and cattle graze there, and the Forest has free-roaming sheep and wild boar.",
+  "<b>Skip Puzzlewood:</b> it allows no dogs and no pushchairs.",
+  "<b>Places marked \"Ring ahead\"</b> are from listings that weren't confirmed; check dogs are still welcome.",
+  "<b>Phone signal is patchy in the forest.</b> Open this page once on wifi and add it to your home screen; it then works offline (photos and maps need signal).",
+  "<b>Emergencies:</b> 999. Non-urgent medical: NHS 111. Vets and supplies are in the Essentials filter."
+ ],
+ "packing": {
+  "Dog": [
+   "Lead and spare lead",
+   "Harness",
+   "Poo bags",
+   "Food and bowls",
+   "Treats",
+   "Water bottle and travel bowl",
+   "Bed or blanket",
+   "Towel for muddy paws",
+   "Calming aids",
+   "Vaccination record and vet's number",
+   "Light-up collar for dark evenings"
+  ],
+  "Baby": [
+   "Carriers",
+   "Nappies and wipes",
+   "Changing mat",
+   "Milk and bottles",
+   "Steriliser",
+   "Food, pouches and snacks",
+   "Spare clothes x2 per day",
+   "Rain cover / waterproof suit",
+   "Hat and mittens",
+   "Sleeping bag and travel cot sheet",
+   "White noise / monitor",
+   "Calpol and thermometer",
+   "Toys and books"
+  ],
+  "Everyone": [
+   "Walking boots",
+   "Waterproofs",
+   "Head torches",
+   "Warm layers",
+   "Phone chargers and power bank",
+   "First aid kit",
+   "Board games for nights in",
+   "Food for the first night"
+  ]
+ },
+ "sources": [
+  [
+   "Visit Dean Wye: dog-friendly places to eat",
+   "https://visitdeanwye.co.uk/food-and-drink/dog-friendly-places-to-eat"
+  ],
+  [
+   "Visit Dean Wye: dog-friendly walks",
+   "https://www.visitdeanwye.co.uk/trails/dog-friendly-walks"
+  ],
+  [
+   "Visit Dean Wye: dog-friendly pubs with walks",
+   "https://www.visitdeanwye.co.uk/blog/our-five-favourite-dog-friendly-pubs-with-proper-walks"
+  ],
+  [
+   "Visit Dean Wye: farm shops and delis",
+   "https://www.visitdeanwye.co.uk/food-and-drink/farm-shops-and-delis"
+  ],
+  [
+   "Forest Holidays: Forest of Dean pubs",
+   "https://www.forestholidays.co.uk/forestipedia/forest-of-dean-pubs/"
+  ],
+  [
+   "Forestry England: Beechenhurst",
+   "https://www.forestryengland.uk/beechenhurst"
+  ],
+  [
+   "Visit Ross-on-Wye dog-friendly guide",
+   "https://visitrossonwye.com/?p=5578"
+  ],
+  [
+   "Visit Monmouthshire: dog-friendly pubs",
+   "https://visitmonmouthshire.com/food-and-drink/dog-friendly-pubs"
+  ],
+  [
+   "Coleford: where to eat",
+   "https://colefordtown.net/where-to-eat/"
+  ],
+  [
+   "Tudor Farmhouse: rainy-day ideas",
+   "https://tudorfarmhousehotel.co.uk/8-things-to-do-in-the-forest-of-dean-when-its-raining/"
+  ],
+  [
+   "Welsh Gatehouse: Chepstow dog-friendly cafés",
+   "https://welshgatehouse.com/dog-friendly-restaurants-pubs-and-cafes/"
+  ],
+  [
+   "Puzzlewood opening hours",
+   "https://puzzlewood.net/index.php/puzzlewood-prices-and-opening/puzzlewood-opening-hours"
+  ]
+ ]
+}

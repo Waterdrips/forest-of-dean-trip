@@ -1,0 +1,15 @@
+name: Validate planner data
+on:
+  push:
+    paths: ["data.json", "tools/validate.py", ".github/workflows/validate.yml"]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 -I tools/validate.py data.json

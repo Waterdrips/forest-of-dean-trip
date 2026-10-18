@@ -1,7 +1,7 @@
 // Offline support: the page and its data are served from cache when there's no signal and refreshed in
 // the background when there is. Photos and Leaflet are cached as they're viewed. Map tiles and the
 // weather aren't cached here (the page keeps its own copy of the last forecast).
-const VERSION = "planner-v1";
+const VERSION = "planner-v2";
 const SHELL = ["./", "index.html", "data.json", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", e => {

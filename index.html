@@ -481,13 +481,17 @@ async function weather(){
   if(end < today) return;
   if(start > maxAhead){ $("#weather").innerHTML = `<p class="wx-note">🌦️ The forecast shows here about two weeks before the trip.</p>`; return; }
   const from = start < today ? todayIso : T.start, to = end > maxAhead ? iso(maxAhead) : T.end;
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${O.lat}&longitude=${O.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunset&timezone=${enc(T.timezone||"auto")}&start_date=${from}&end_date=${to}`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${O.lat}&longitude=${O.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunset&timezone=${enc(T.timezone||"auto")}&timeformat=unixtime&start_date=${from}&end_date=${to}`;
   let w, stale=false;
-  try{ w = await (await fetch(url)).json(); if(!w.daily) throw 0; store.set("wx",{at:Date.now(), w}); }
-  catch(e){ const c=store.get("wx",null); if(!c) return; w=c.w; stale=true; }
-  const d = w.daily;
+  try{ w = await (await fetch(url)).json(); if(!w.daily) throw 0; store.set("wx2",{at:Date.now(), w}); }
+  catch(e){ const c=store.get("wx2",null); if(!c) return; w=c.w; stale=true; }
+  // Unix times, because Open-Meteo applies one UTC offset to the whole response and so misses clock changes.
+  const off = w.utc_offset_seconds||0, tz = T.timezone && T.timezone!=="auto" ? T.timezone : undefined;
+  const dateOf = u => new Date((u+off)*1000).toISOString().slice(0,10);
+  const hhmm = u => new Date(u*1000).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:tz});
+  const d = {...w.daily, time:w.daily.time.map(dateOf), sunset:w.daily.sunset.map(hhmm)};
   const days = d.time.map((t,i)=>`<div class="day${t===todayIso?" today":""}"><div>${t===todayIso?"Today":esc(dayName(t).split(" ").slice(0,2).join(" "))}</div><div class="ico">${WX(d.weather_code[i])}</div>
-    <div class="t">${Math.round(d.temperature_2m_max[i])}° <span class="s">${Math.round(d.temperature_2m_min[i])}°</span></div><div class="s">💧${d.precipitation_probability_max[i]??"–"}%</div><div class="s">🌇 ${String(d.sunset[i]).slice(11,16)}</div></div>`).join("");
+    <div class="t">${Math.round(d.temperature_2m_max[i])}° <span class="s">${Math.round(d.temperature_2m_min[i])}°</span></div><div class="s">💧${d.precipitation_probability_max[i]??"–"}%</div><div class="s">🌇 ${d.sunset[i]}</div></div>`).join("");
   const i0 = Math.max(0, d.time.indexOf(todayIso));
   const wet = (d.precipitation_probability_max[i0]||0) >= 60;
   $("#weather").innerHTML = `<div class="weather">${days}</div>

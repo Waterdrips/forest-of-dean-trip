@@ -13,7 +13,8 @@
   },
   "countryCodes": "gb",
   "storagePrefix": "fod",
-  "checkLabel": "Ring ahead: dog policy not confirmed"
+  "checkLabel": "Ring ahead: dog policy not confirmed",
+  "timezone": "Europe/London"
  },
  "types": [
   {

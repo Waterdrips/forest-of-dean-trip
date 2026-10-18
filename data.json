@@ -46,6 +46,10 @@
    "label": "🎟️ Things to do"
   },
   {
+   "id": "ancient",
+   "label": "🪨 Prehistoric sites"
+  },
+  {
    "id": "rainy",
    "label": "☔ Rainy day"
   },
@@ -244,12 +248,13 @@
    "a": "doorstep",
    "n": "Symonds Yat Rock",
    "t": [
-    "walk"
+    "walk",
+    "ancient"
    ],
    "mi": 2.8,
    "min": 9,
    "q": "Symonds Yat Rock car park",
-   "note": "A famous viewpoint over a loop of the River Wye. The path from the car park to the viewpoint is short and easy. There's parking, toilets and bins.",
+   "note": "A famous viewpoint over a loop of the River Wye, inside an Iron Age promontory fort: the path from the car park crosses its banks and ditches. The path to the viewpoint is short and easy. There's parking, toilets and bins.",
    "near": "Start of the Biblins loop; 1 mi above the Saracens Head",
    "web": "https://www.forestryengland.uk/symonds-yat-rock",
    "photo": "Symonds Yat",
@@ -1740,6 +1745,282 @@
    "lat": 51.82284,
    "lon": -2.4098,
    "routed": true
+  },
+  {
+   "id": "longstone",
+   "a": "doorstep",
+   "n": "The Long Stone, Staunton",
+   "t": [
+    "ancient"
+   ],
+   "q": "Long Stone, Staunton",
+   "note": "A Bronze Age standing stone about 7 ft tall, beside the main road between Coleford and Staunton. Local legend says it bleeds if you prick it at midnight. A quick roadside stop, not a walk.",
+   "near": "On the way to the Buckstone and the White Horse",
+   "town": "Staunton, Gloucestershire",
+   "geo": "Long Stone, Staunton",
+   "mi": 2.3,
+   "min": 7,
+   "lat": 51.80545,
+   "lon": -2.64068,
+   "routed": true
+  },
+  {
+   "id": "arthurscave",
+   "a": "monmouth",
+   "n": "King Arthur's Cave, Great Doward",
+   "t": [
+    "ancient",
+    "walk"
+   ],
+   "q": "King Arthur's Cave, Great Doward",
+   "note": "A cave in a Herefordshire Wildlife Trust reserve where Ice Age hunters sheltered, with bones of mammoth and hyena found inside. Dogs welcome on a lead; open dawn to dusk. No surfaced paths.",
+   "near": "Above Symonds Yat West; pair it with Little Doward hillfort",
+   "town": "Great Doward",
+   "geo": "King Arthur's Cave",
+   "web": "https://www.herefordshirewt.org/node/419",
+   "photo": "King Arthur's Cave",
+   "walk": {
+    "length": "Short walk from the pull-in",
+    "difficulty": "Uneven woodland tracks",
+    "parking": "Small pull-in for 3–4 cars at the top of the reserve"
+   },
+   "mi": 11.1,
+   "min": 23,
+   "lat": 51.83713,
+   "lon": -2.66082,
+   "routed": true
+  },
+  {
+   "id": "littledoward",
+   "a": "monmouth",
+   "n": "Little Doward hillfort",
+   "t": [
+    "ancient",
+    "walk"
+   ],
+   "q": "Little Doward Woods, Ganarew",
+   "note": "An Iron Age hillfort on a wooded hill facing Symonds Yat Rock across the Wye, in a Woodland Trust wood with views over the river.",
+   "near": "Just off the A40 north of Monmouth; near King Arthur's Cave",
+   "town": "Ganarew",
+   "geo": "Little Doward",
+   "web": "https://woodlandtrust.org.uk/visiting-woods/woods/little-doward-woods",
+   "photo": "Little Doward",
+   "walk": {
+    "length": "About 2 mi up to the fort and back",
+    "difficulty": "Steady climb, muddy in places",
+    "parking": "Woodland Trust car park on the Ganarew road"
+   },
+   "mi": 10.6,
+   "min": 22,
+   "lat": 51.8407,
+   "lon": -2.67054,
+   "routed": true,
+   "fixedDistance": true
+  },
+  {
+   "id": "welshbury",
+   "a": "lydney",
+   "n": "Welshbury hillfort",
+   "t": [
+    "ancient",
+    "walk"
+   ],
+   "q": "Welshbury Wood, Flaxley",
+   "note": "A Middle Iron Age hillfort (from about 300 BC) hidden in Forestry England woodland, with banks and ditches under the trees and older field systems around it. Quiet and unsigned.",
+   "near": "Near Flaxley, 5 min from Westbury Court Garden",
+   "town": "Flaxley",
+   "geo": "Welshbury Wood",
+   "walk": {
+    "length": "About 1–2 mi on forest tracks",
+    "difficulty": "Moderate, muddy",
+    "parking": "Roadside forest pull-ins near Flaxley"
+   },
+   "mi": 11.0,
+   "min": 26,
+   "lat": 51.8372,
+   "lon": -2.46695,
+   "routed": true
+  },
+  {
+   "id": "haroldsstones",
+   "a": "lowerwye",
+   "n": "Harold's Stones, Trellech",
+   "t": [
+    "ancient"
+   ],
+   "q": "Harold's Stones, Trellech",
+   "note": "Three tall standing stones (up to 15 ft), probably late Neolithic or Bronze Age, in a field at the south end of Trellech. You can see them from the gate by the road.",
+   "near": "5 min from Cleddon Falls",
+   "town": "Trellech",
+   "geo": "Harold's Stones",
+   "photo": "Harold's Stones",
+   "mi": 12.1,
+   "min": 23,
+   "lat": 51.74277,
+   "lon": -2.72658,
+   "routed": true
+  },
+  {
+   "id": "lancaut",
+   "a": "lowerwye",
+   "n": "Lancaut fort and Offa's Dyke",
+   "t": [
+    "ancient",
+    "walk"
+   ],
+   "q": "Tidenham Chase car park",
+   "note": "An Iron Age promontory fort on a loop of the Wye, near a well-preserved stretch of Offa's Dyke. From the free Tidenham Chase car park it's signposted across fields; keep dogs on a lead near livestock.",
+   "near": "Same car park as the Devil's Pulpit walk",
+   "town": "Tidenham",
+   "geo": "Tidenham Chase",
+   "web": "https://www.english-heritage.org.uk/visit/places/offas-dyke",
+   "walk": {
+    "length": "About 2 mi there and back",
+    "difficulty": "Moderate, muddy fields",
+    "parking": "Tidenham Chase (free)"
+   },
+   "mi": 10.9,
+   "min": 21,
+   "lat": 51.68352,
+   "lon": -2.64708,
+   "routed": true
+  },
+  {
+   "id": "bulwarks",
+   "a": "lowerwye",
+   "n": "Bulwarks Camp, Chepstow",
+   "t": [
+    "ancient"
+   ],
+   "q": "Bulwarks Camp, Chepstow",
+   "note": "A late Iron Age promontory fort on a cliff edge above the Wye, now a grassy recreation ground. Cadw site, free, open daily.",
+   "near": "South side of Chepstow, end of Alpha Road",
+   "town": "Chepstow",
+   "geo": "Bulwarks Camp, Chepstow",
+   "web": "https://cadw.gov.wales/visit/places-to-visit/chepstow-bulwarks-camp",
+   "mi": 16.3,
+   "min": 33,
+   "lat": 51.63161,
+   "lon": -2.66901,
+   "routed": true
+  },
+  {
+   "id": "chasehill",
+   "a": "ross",
+   "n": "Chase Hill hillfort, Ross",
+   "t": [
+    "ancient",
+    "walk"
+   ],
+   "q": "Chase Wood, Ross-on-Wye",
+   "note": "A large Late Bronze Age / Early Iron Age hillfort on the wooded hill south of Ross. Paths through Chase Wood pass its rampart; the summit itself isn't always open.",
+   "near": "Edge of Ross; the Wye Valley Walk passes it",
+   "town": "Ross-on-Wye",
+   "geo": "Chase Wood, Ross-on-Wye",
+   "walk": {
+    "length": "About 3 mi loop from Ross",
+    "difficulty": "Steep climbs",
+    "parking": "In Ross"
+   },
+   "mi": 10.9,
+   "min": 28,
+   "lat": 51.89845,
+   "lon": -2.57549,
+   "routed": true
+  },
+  {
+   "id": "hettypegler",
+   "a": "further",
+   "n": "Hetty Pegler's Tump and Uley Bury",
+   "t": [
+    "ancient",
+    "walk"
+   ],
+   "q": "Hetty Pegler's Tump, Uley",
+   "note": "A 5,000-year-old Neolithic long barrow you can crawl inside (bring a torch), a short walk from Uley Bury, one of the biggest Iron Age hillforts in the Cotswolds. Free, English Heritage.",
+   "near": "Cotswold edge above Dursley, across the Severn",
+   "check": true,
+   "town": "Uley",
+   "geo": "Hetty Pegler's Tump",
+   "photo": "Hetty Pegler's Tump",
+   "web": "https://www.english-heritage.org.uk/visit/places/uley-long-barrow-hetty-peglers-tump/",
+   "walk": {
+    "length": "About 3 mi linking both",
+    "difficulty": "Moderate",
+    "parking": "Lay-by on the B4066"
+   },
+   "mi": 35.2,
+   "min": 65,
+   "lat": 51.69865,
+   "lon": -2.3059,
+   "routed": true
+  },
+  {
+   "id": "arthursstone",
+   "a": "further",
+   "n": "Arthur's Stone, Dorstone",
+   "t": [
+    "ancient"
+   ],
+   "q": "Arthur's Stone, Dorstone",
+   "note": "A Neolithic chambered tomb over 5,000 years old on a ridge above the Golden Valley, with big views to the Black Mountains. Free, English Heritage; dogs on leads.",
+   "near": "Golden Valley, on the way to Hay-on-Wye",
+   "town": "Dorstone",
+   "geo": "Arthur's Stone, Dorstone",
+   "photo": "Arthur's Stone, Herefordshire",
+   "web": "https://www.english-heritage.org.uk/visit/places/arthurs-stone/",
+   "mi": 37.0,
+   "min": 60,
+   "lat": 52.08424,
+   "lon": -3.00003,
+   "routed": true
+  },
+  {
+   "id": "llanmelin",
+   "a": "further",
+   "n": "Llanmelin Wood hillfort",
+   "t": [
+    "ancient",
+    "walk"
+   ],
+   "mi": 21.0,
+   "min": 45,
+   "q": "Llanmelin Wood Hillfort, Caerwent",
+   "note": "A large Iron Age hillfort of the Silures, thought to be the tribe's base before the Romans built Caerwent below it. Cadw site, free, in woodland; pair it with the Roman town walls at Caerwent.",
+   "near": "Above Caerwent, 15 min west of Chepstow",
+   "town": "Caerwent",
+   "lat": 51.62915,
+   "lon": -2.77951,
+   "web": "https://cadw.gov.wales/visit/places-to-visit/llanmelin-wood-hillfort",
+   "walk": {
+    "length": "Short woodland walk",
+    "difficulty": "Some climbing, muddy",
+    "parking": "Small lay-by on the lane"
+   },
+   "routed": true
+  },
+  {
+   "id": "grayhill",
+   "a": "further",
+   "n": "Gray Hill stone circle, Wentwood",
+   "t": [
+    "ancient",
+    "walk"
+   ],
+   "mi": 23.3,
+   "min": 47,
+   "q": "Gray Hill, Wentwood",
+   "note": "A small Bronze Age stone circle with two outlying standing stones on open hilltop above Wentwood Forest, with views over the Severn estuary. Keep dogs on a lead near grazing animals.",
+   "near": "Near Llanmelin Wood hillfort",
+   "town": "Llanvair Discoed",
+   "lat": 51.63764,
+   "lon": -2.81335,
+   "walk": {
+    "length": "About 2 mi there and back",
+    "difficulty": "Moderate climb",
+    "parking": "Wentwood Forest car parks"
+   },
+   "routed": true
   }
  ],
  "photos": {
@@ -2115,6 +2396,51 @@
    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
    "title": "Forest of Dean",
    "wiki": "https://en.wikipedia.org/wiki/Forest_of_Dean"
+  },
+  "Arthur's Stone, Herefordshire": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Arthur%27s_Stone.JPG/960px-Arthur%27s_Stone.JPG",
+   "page": "https://commons.wikimedia.org/wiki/File:Arthur%27s_Stone.JPG",
+   "artist": "UKgeofan",
+   "license": "CC BY-SA 3.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+   "title": "Arthur's Stone, Herefordshire",
+   "wiki": "https://en.wikipedia.org/wiki/Arthur%27s_Stone,_Herefordshire"
+  },
+  "Harold's Stones": {
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Trellech_from_the_air.jpg/960px-Trellech_from_the_air.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Trellech_from_the_air.jpg",
+   "artist": "Aellis235",
+   "license": "CC BY-SA 4.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "title": "Harold's Stones",
+   "wiki": "https://en.wikipedia.org/wiki/Trellech"
+  },
+  "Hetty Pegler's Tump": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/9/96/Uley_Long_Barrow.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Uley_Long_Barrow.jpg",
+   "artist": "Martinevans123",
+   "license": "Public domain",
+   "licenseUrl": "",
+   "title": "Hetty Pegler's Tump",
+   "wiki": "https://en.wikipedia.org/wiki/Uley_Long_Barrow"
+  },
+  "King Arthur's Cave": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/d/d9/King_Arthur%27s_Cave_-_geograph.org.uk_-_88587.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:King_Arthur%27s_Cave_-_geograph.org.uk_-_88587.jpg",
+   "artist": "John Thorn",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "King Arthur's Cave",
+   "wiki": "https://en.wikipedia.org/wiki/King_Arthur%27s_Cave"
+  },
+  "Little Doward": {
+   "img": "https://upload.wikimedia.org/wikipedia/commons/f/f4/View_from_The_Great_Doward_3_-_geograph.org.uk_-_1397857.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:View_from_The_Great_Doward_3_-_geograph.org.uk_-_1397857.jpg",
+   "artist": "Jonathan Billinger",
+   "license": "CC BY-SA 2.0",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "title": "Little Doward",
+   "wiki": "https://en.wikipedia.org/wiki/The_Doward"
   }
  },
  "pairings": [
@@ -2226,6 +2552,10 @@
   [
    "Puzzlewood opening hours",
    "https://puzzlewood.net/index.php/puzzlewood-prices-and-opening/puzzlewood-opening-hours"
+  ],
+  [
+   "Wye Valley AONB: hillforts above the Wye",
+   "https://www.wyevalley-nl.org.uk/hillforts-above-the-wye/"
   ]
  ]
 }

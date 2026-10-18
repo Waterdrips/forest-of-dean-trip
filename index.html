@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forest of Dean Planner</title>
+<meta name="description" content="Dog-friendly walks, lunches, dinners and towns near Forest Holidays Forest of Dean, 26–30 October.">
+<meta name="theme-color" content="#2f5d3a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+<style>
+:root{
+  --bg:#f6f4ee;--card:#ffffff;--ink:#1f2a22;--muted:#5d6a60;--line:#e2ddd0;
+  --brand:#2f5d3a;--brand-ink:#ffffff;--chip:#ebe7dc;--warn:#9a5b00;--warn-bg:#fff4dc;--done:#8a948c;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141815;--card:#1d231f;--ink:#e7ece8;--muted:#9faba2;--line:#2e3631;
+    --brand:#6fae7d;--brand-ink:#0f1a12;--chip:#273029;--warn:#f0b75a;--warn-bg:#2f2614;--done:#6a736c;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141815;--card:#1d231f;--ink:#e7ece8;--muted:#9faba2;--line:#2e3631;
+  --brand:#6fae7d;--brand-ink:#0f1a12;--chip:#273029;--warn:#f0b75a;--warn-bg:#2f2614;--done:#6a736c;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+a{color:var(--brand)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+header{background:var(--brand);color:var(--brand-ink);padding:20px 16px 18px}
+header .wrap{padding-bottom:0}
+h1{margin:0 0 4px;font-size:1.5rem}
+header p{margin:0;opacity:.9;font-size:.95rem}
+.home{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.home a{background:var(--brand-ink);color:var(--brand);text-decoration:none;padding:8px 12px;border-radius:999px;font-weight:600;font-size:.9rem}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 8px;border-bottom:1px solid var(--line)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:7px 12px;border-radius:999px;font-size:.9rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.row{display:flex;gap:8px;align-items:center;margin-top:6px}
+input[type=search]{flex:1;min-width:0;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px}
+label.tog{font-size:.85rem;color:var(--muted);white-space:nowrap;display:flex;gap:4px;align-items:center}
+h2{font-size:1.05rem;margin:22px 0 4px}
+.area-note{color:var(--muted);font-size:.88rem;margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0}
+.card.done{opacity:.55}
+.card.done h3{text-decoration:line-through;color:var(--done)}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+h3{margin:0;font-size:1rem}
+.dist{font-size:.85rem;color:var(--muted);white-space:nowrap;text-align:right}
+.tags{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}
+.tag{font-size:.75rem;background:var(--chip);padding:2px 8px;border-radius:999px;color:var(--muted)}
+.note{margin:4px 0 0;font-size:.92rem}
+.near{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
+.check{display:inline-block;margin-top:6px;font-size:.8rem;color:var(--warn);background:var(--warn-bg);padding:2px 8px;border-radius:6px}
+.actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:7px 12px;border-radius:10px;font-size:.88rem;text-decoration:none;cursor:pointer}
+.btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.btn[aria-pressed="true"]{background:var(--warn-bg);color:var(--warn);border-color:var(--warn)}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:14px 0}
+.box h2{margin-top:0}
+.box ul{margin:6px 0 0;padding-left:18px}
+.box li{margin:4px 0}
+.empty{color:var(--muted);text-align:center;padding:30px 0}
+footer{color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>🌲 Forest of Dean · 26–30 Oct</h1>
+    <p>Dog-friendly walks, lunches, dinners and towns. Distances are rough road estimates from the cabins; tap Directions for the real time.</p>
+    <div class="home">
+      <a id="homeDir" href="#">🏡 Directions back to cabin</a>
+      <a href="#tips">Tips</a>
+      <a href="#pairs">Good pairings</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="bar">
+    <div class="chips" id="chips"></div>
+    <div class="row">
+      <input type="search" id="q" placeholder="Search places…" aria-label="Search places">
+      <label class="tog"><input type="checkbox" id="hideDone"> Hide done</label>
+    </div>
+  </div>
+
+  <div id="list"></div>
+
+  <div class="box" id="pairs">
+    <h2>Good pairings</h2>
+    <ul>
+      <li><b>Symonds Yat:</b> the Rock and the Biblins loop, then the Saracens Head, or 15 min on to Ross-on-Wye.</li>
+      <li><b>Staunton:</b> the Buckstone, then the White Horse, or 10 min on to Monmouth.</li>
+      <li><b>Central forest:</b> the Sculpture Trail, Beechenhurst Café, Cannop Ponds, and dinner at the Speech House.</li>
+      <li><b>Lakes:</b> Mallards Pike, stopping at New Fancy View on the way, then the Wild Boar Coffee café at Parkend.</li>
+      <li><b>Lower Wye:</b> the Devil's Pulpit at Tintern, then lunch and the castle in Chepstow (10 min).</li>
+      <li><b>Goodrich:</b> Goodrich Castle, then lunch at the Inn on the Wye (Kerne Bridge, just down the hill), then Ross.</li>
+      <li><b>Lydney side:</b> Dean Forest Railway and Taurus Crafts, then a flat walk at Lydney Harbour.</li>
+      <li><b>Rainy day:</b> Clearwell Caves (take turns, dogs stay on the surface) and Perrygrove Railway, both 5–10 min away.</li>
+    </ul>
+  </div>
+
+  <div class="box" id="tips">
+    <h2>Tips</h2>
+    <ul>
+      <li><b>It's half-term.</b> Book dinners early, and ask for a quiet corner table for the dog.</li>
+      <li><b>Clocks went back on 25 Oct.</b> It's dark by about 4:45pm. Pack head torches if you walk to the New Inn.</li>
+      <li><b>Wear boots:</b> leaves and mud make the paths slippery, especially carrying babies.</li>
+      <li><b>Keep the dog on a short lead in Wye Valley fields</b>; sheep and cattle graze there, and the Forest has free-roaming sheep and wild boar.</li>
+      <li><b>Skip Puzzlewood:</b> it allows no dogs and no pushchairs.</li>
+      <li><b>Places marked "Ring ahead"</b> are from listings that weren't confirmed; check dogs are still welcome.</li>
+      <li><b>Emergencies:</b> 999. Non-urgent medical: NHS 111. Vets and supplies are in the Essentials filter.</li>
+    </ul>
+  </div>
+
+  <footer>Compiled October 2026 from Visit Dean Wye, Forestry England, Visit Ross-on-Wye, Visit Monmouthshire and venue listings. Things change, so check opening hours before you set off. The ticks and stars are saved in this browser only.</footer>
+</div>
+
+<script>
+const ORIGIN = "Forest Holidays Forest of Dean, Bracelands Drive, Coleford GL16 7NN";
+
+const TYPES = {
+  walk:{label:"🥾 Walks"}, lunch:{label:"🥪 Lunch"}, dinner:{label:"🍽️ Dinner"},
+  town:{label:"🏘️ Towns"}, todo:{label:"🎟️ Things to do"}, rainy:{label:"☔ Rainy day"},
+  essential:{label:"🧰 Essentials"}
+};
+
+const AREAS = [
+  ["doorstep","On your doorstep (0–5 mi)","Coleford, Staunton, Symonds Yat and Clearwell, all within about 10 minutes."],
+  ["central","Central forest (4–9 mi)","Beechenhurst, Cannop, Speech House, Parkend and Mallards Pike, a few minutes from each other."],
+  ["monmouth","Monmouth (5 mi west)","10 minutes from Staunton and Symonds Yat."],
+  ["ross","Ross-on-Wye and Goodrich (7–15 mi north)","Goodrich and Kerne Bridge are on the way to Ross; Symonds Yat is 15 minutes from Ross."],
+  ["lowerwye","Lower Wye Valley (11–16 mi south)","Tintern, Wyndcliff and Chepstow, each 5–10 minutes apart."],
+  ["lydney","Lydney and the Severn side (9–14 mi south-east)","The railway, Taurus Crafts and the harbour are all around Lydney."],
+  ["further","Further afield (25 min+)","Only if you fancy a longer drive."],
+  ["essentials","Essentials","Vets, food shopping and medical help."]
+];
+
+// mi = approx miles by road from the cabins, min = approx drive (walk if mode 'walking')
+const P = [
+  // Doorstep
+  {id:"highmeadow",a:"doorstep",n:"Highmeadow Woods",t:["walk"],mi:0,min:0,q:"Highmeadow Woods, Coleford",note:"Woodland tracks straight from the cabins. An easy first walk to let the dog settle in.",near:"On site"},
+  {id:"newinn",a:"doorstep",n:"The New Inn, Shortstanding",t:["dinner","lunch"],mi:0.6,min:12,mode:"walking",q:"The New Inn, Shortstanding, Coleford",note:"A dog- and child-friendly pub with a beer garden. You can walk there, so nobody has to drive.",near:"12 min walk from the cabins",check:true},
+  {id:"dogmuffler",a:"doorstep",n:"The Dog & Muffler, Joyford",t:["lunch","dinner","walk"],mi:1.5,min:4,q:"Dog and Muffler, Joyford, Coleford",note:"Country pub. Visit Dean Wye pairs it with a ~5 mi Joyford walk.",near:"Very close to the cabins",check:true},
+  {id:"coleford",a:"doorstep",n:"Coleford",t:["town","lunch"],mi:2,min:5,q:"Coleford, Gloucestershire",note:"Small market town for supplies, the Forest Deli and the Dog House micropub (very dog-friendly but small).",near:"Closest town"},
+  {id:"buckstone",a:"doorstep",n:"The Buckstone, Staunton",t:["walk"],mi:2.5,min:6,q:"Buckstone, Staunton, Coleford",note:"A short, steep climb to a huge rock with views into Wales. You can carry on through Highmeadow Woods for longer.",near:"Next to the White Horse; 10 min to Monmouth"},
+  {id:"whitehorse",a:"doorstep",n:"The White Horse, Staunton",t:["lunch","dinner"],mi:2.5,min:6,q:"The White Horse, Staunton, Coleford",note:"A country pub that welcomes walkers, families and dogs, and has its own host dog. Visit Dean Wye pairs it with an ~8 mi Staunton walk.",near:"Next to the Buckstone",check:true},
+  {id:"yatrock",a:"doorstep",n:"Symonds Yat Rock",t:["walk"],mi:3,min:8,q:"Symonds Yat Rock car park",note:"A famous viewpoint over a loop of the River Wye. The path from the car park to the viewpoint is short and easy. There's parking, toilets and bins.",near:"Start of the Biblins loop; 1 mi above the Saracens Head"},
+  {id:"biblins",a:"doorstep",n:"Biblins river loop",t:["walk"],mi:3,min:8,q:"Biblins Bridge, Symonds Yat",note:"About 4.5 mi from Symonds Yat Rock, down to the river and over the Biblins suspension footbridge. Steep at both ends, so use the carriers. Take the bridge rather than the hand-pulled ferry.",near:"Starts at Symonds Yat Rock"},
+  {id:"saracens",a:"doorstep",n:"The Saracens Head, Symonds Yat East",t:["lunch","dinner"],mi:4,min:12,q:"Saracens Head Inn, Symonds Yat East",note:"A riverside gastro-pub. Dogs are allowed in the bar and outside. Visit Dean Wye pairs it with a 5 or 7 mi River Wye walk. The road down is narrow and steep.",near:"1 mi below Symonds Yat Rock",check:true},
+  {id:"perrygrove",a:"doorstep",n:"Perrygrove Railway",t:["todo","rainy"],mi:3,min:8,q:"Perrygrove Railway, Coleford",note:"A small steam railway with woodland play trails. Listed as dog-friendly. Check the half-term timetable.",near:"Just south of Coleford; 5 min from Clearwell Caves",check:true},
+  {id:"clearwell",a:"doorstep",n:"Clearwell Caves",t:["todo","rainy"],mi:3.5,min:8,q:"Clearwell Caves",note:"Old iron mines with a café and shop. Dogs are welcome on the surface but not in the caves, so take turns. Booking online is recommended.",near:"Next to Tudor Farmhouse; 5 min from Perrygrove",check:true},
+  {id:"tudor",a:"doorstep",n:"Tudor Farmhouse, Clearwell",t:["dinner","lunch"],mi:3.5,min:8,q:"Tudor Farmhouse Hotel, Clearwell",note:"A smarter restaurant with rooms. Listed as dog-friendly. Good for a treat night.",near:"In Clearwell village, by the caves",check:true},
+  {id:"ostrich",a:"doorstep",n:"The Ostrich Inn, Newland",t:["lunch","dinner"],mi:4,min:10,q:"The Ostrich Inn, Newland",note:"A traditional old pub, listed as \"dogs welcome\". It may be snug, so ask for a quiet spot. Opening hours vary by day.",near:"5 min from Clearwell",check:true},
+  // Central
+  {id:"sculpture",a:"central",n:"Beechenhurst Sculpture Trail",t:["walk"],mi:4,min:10,q:"Beechenhurst, Forest of Dean",note:"About 3.5 mi on wide gravel paths past big sculptures. Easy to shorten. There's parking, toilets and bins.",near:"Café on site; 1 mi to Cannop Ponds and Speech House"},
+  {id:"beechcafe",a:"central",n:"Beechenhurst Café",t:["lunch"],mi:4,min:10,q:"Beechenhurst Cafe, Forest of Dean",note:"Refurbished, open every day. Dogs sit in \"the snug\", a quieter separate area. Serves soups, burgers and sharing plates.",near:"At the Sculpture Trail"},
+  {id:"cannop",a:"central",n:"Cannop Ponds",t:["walk"],mi:4,min:10,q:"Cannop Ponds car park",note:"Flat paths around two ponds with ducks. Parking, toilets and bins.",near:"Next to the Cycle Centre café; 1 mi from Beechenhurst"},
+  {id:"cyclecafe",a:"central",n:"Forest of Dean Cycle Centre Café",t:["lunch"],mi:4,min:10,q:"Pedalabikeaway Forest of Dean Cycle Centre",note:"Dog-friendly. Sandwiches, soups, and vegetarian, vegan and gluten-free options.",near:"Next to Cannop Ponds"},
+  {id:"speech",a:"central",n:"The Speech House",t:["dinner","lunch"],mi:4.5,min:10,q:"Speech House Hotel, Coleford",note:"A big country hotel with two restaurants and heated outdoor dining dens. The best roomy, calm pick for a nervous dog. Also serves morning coffee and afternoon tea.",near:"1 mi from Beechenhurst"},
+  {id:"whitemead",a:"central",n:"Wild Boar Coffee, Whitemead (Parkend)",t:["lunch"],mi:6,min:14,q:"Whitemead Forest Park, Parkend",note:"Newer café with indoor and outdoor seating, water bowls and dog biscuits. Toasties, paninis and cake.",near:"10 min from Mallards Pike"},
+  {id:"fancy",a:"central",n:"New Fancy View",t:["walk"],mi:6,min:15,q:"New Fancy View, Forest of Dean",note:"A viewpoint on an old colliery tip with a short walk up. A good quick stop.",near:"On the way to Mallards Pike"},
+  {id:"mallards",a:"central",n:"Mallards Pike lake and café",t:["walk","lunch"],mi:7.5,min:18,q:"Mallards Pike Lake, Forest of Dean",note:"An easy 1.5 mi lake loop with a lakeside café that has water bowls and dog treats (roughly 10am–4pm). Parking, toilets and bins.",near:"2 mi from New Fancy View"},
+  {id:"soudley",a:"central",n:"Soudley Ponds and Dean Heritage Centre",t:["walk","todo","rainy"],mi:9,min:20,q:"Dean Heritage Centre, Soudley",note:"A pretty walk round a chain of woodland ponds, next to the local museum and café. Check whether dogs are allowed inside the centre.",near:"East side of the forest",check:true},
+  // Monmouth
+  {id:"monmouth",a:"monmouth",n:"Monmouth",t:["town"],mi:5,min:12,q:"Monnow Bridge, Monmouth",note:"An easy town to wander: the 13th-century Monnow Bridge with its gatehouse, Agincourt Square, Church Street's shops and the riverside.",near:"10 min from the Buckstone and Symonds Yat"},
+  {id:"punch",a:"monmouth",n:"The Punch House, Monmouth",t:["lunch","dinner"],mi:5,min:12,q:"The Punch House, Agincourt Square, Monmouth",note:"Recently voted Wales' most dog-friendly pub. Pub food made with Welsh ingredients.",near:"Agincourt Square"},
+  {id:"coffilab",a:"monmouth",n:"Coffi Lab, Monmouth",t:["lunch"],mi:5,min:12,q:"Coffi Lab, Monmouth",note:"A coffee shop with a big outdoor area at the back and a menu for dogs. It can get busy at the counter.",near:"Town centre"},
+  {id:"estero",a:"monmouth",n:"Estero Lounge, Monmouth",t:["lunch"],mi:5,min:12,q:"Estero Lounge, Monmouth",note:"Brunch and tapas. Dogs allowed inside and out, with water bowls and treats.",near:"Town centre"},
+  {id:"kymin",a:"monmouth",n:"The Kymin",t:["walk"],mi:5,min:12,q:"The Kymin, Monmouth",note:"A National Trust hilltop with the Round House and big views over Monmouth. There's a short walk from the car park, or a steep climb up from town.",near:"Just above Monmouth",check:true},
+  // Ross
+  {id:"goodrich",a:"ross",n:"Goodrich Castle",t:["todo"],mi:7,min:15,q:"Goodrich Castle",note:"A red sandstone castle run by English Heritage. Its listing says dogs are accepted; check which areas.",near:"Just up the hill from Kerne Bridge and the Inn on the Wye",check:true},
+  {id:"innwye",a:"ross",n:"Inn on the Wye, Kerne Bridge",t:["lunch","dinner"],mi:7,min:15,q:"Inn on the Wye, Kerne Bridge",note:"A traditional pub-restaurant, dog- and family-friendly. Dogs are welcome in the restaurant and bar, and it's a larger venue.",near:"Below Goodrich Castle; 10 min to Ross",check:true},
+  {id:"ross",a:"ross",n:"Ross-on-Wye",t:["town"],mi:11,min:22,q:"Market House, Ross-on-Wye",note:"The most dog-friendly town around. Over 30 shops, 14 pubs and a dozen cafés have joined the \"We Welcome Dogs\" scheme, so look for the purple stickers. See the Market House and the Prospect gardens over the river.",near:"15 min from Symonds Yat"},
+  {id:"hopeanchor",a:"ross",n:"Hope & Anchor, Ross",t:["lunch","dinner"],mi:11,min:22,q:"Hope and Anchor, Ross-on-Wye",note:"By the river, fully dog-friendly, with a wood burner.",near:"Bottom of Wye Street"},
+  {id:"royal",a:"ross",n:"The Royal Hotel, Ross",t:["lunch","dinner"],mi:11,min:22,q:"The Royal Hotel, Ross-on-Wye",note:"A big terrace and gardens overlooking the Wye. Likely roomy inside too.",near:"Next to the Prospect",check:true},
+  {id:"truffles",a:"ross",n:"Truffles Deli, Ross",t:["lunch"],mi:11,min:22,q:"Truffles Delicatessen, Ross-on-Wye",note:"A deli with a secret courtyard garden at the back. Quiet, so good for a nervous dog.",near:"Town centre"},
+  {id:"thorns",a:"ross",n:"Thorn's Coffee Lounge, Ross",t:["lunch"],mi:11,min:22,q:"Thorns Coffee Lounge, Croft Court, Ross-on-Wye",note:"Plenty of space on the outdoor terrace.",near:"Croft Court"},
+  {id:"victorias",a:"ross",n:"Victorias Coffee Shop, Ross",t:["lunch"],mi:11,min:22,q:"Victorias Coffee Shop, Broad Street, Ross-on-Wye",note:"Dog-friendly, known for its cakes and savoury bakes.",near:"Bottom of Broad Street"},
+  {id:"mandy",a:"ross",n:"Mandy Moo's, Ross",t:["lunch"],mi:11,min:22,q:"Mandy Moo's, Cantilupe Road, Ross-on-Wye",note:"A friendly café where dogs are more than welcome.",near:"Cantilupe Road"},
+  {id:"whitelion",a:"ross",n:"The White Lion, Wilton",t:["lunch","dinner"],mi:11,min:22,q:"The White Lion, Wilton, Ross-on-Wye",note:"Listed as dog-friendly for lunch or dinner. A riverside spot just over the bridge from Ross.",near:"Across the bridge from Ross",check:true},
+  {id:"moodycow",a:"ross",n:"The Moody Cow, Upton Bishop",t:["dinner","lunch"],mi:15,min:25,q:"The Moody Cow, Upton Bishop",note:"A country pub listed as dog- and child-friendly, with good food.",near:"10 min beyond Ross",check:true},
+  // Lower Wye
+  {id:"pulpit",a:"lowerwye",n:"Devil's Pulpit from Tintern",t:["walk"],mi:11,min:25,q:"Tintern Abbey car park",note:"Cross the old railway bridge and climb Offa's Dyke Path to a rock viewpoint over the abbey. About 5 mi there and back, and steep. Use the carriers.",near:"Starts at Tintern; 10 min to Chepstow"},
+  {id:"tintern",a:"lowerwye",n:"Tintern Abbey and village",t:["todo","town","lunch"],mi:11,min:25,q:"Tintern Abbey",note:"Dramatic abbey ruins run by Cadw, plus a small village with pubs and cafés. Check whether dogs are allowed in the abbey grounds.",near:"Base of the Devil's Pulpit",check:true},
+  {id:"wyndcliff",a:"lowerwye",n:"Wyndcliff and the Eagle's Nest",t:["walk"],mi:14,min:28,q:"Wyndcliff car park, St Arvans",note:"A woodland climb up the \"365 steps\" to a viewpoint over the Wye's loops and the Severn. Steep; carriers only.",near:"Between Tintern and Chepstow",check:true},
+  {id:"chepstow",a:"lowerwye",n:"Chepstow and the castle",t:["town","todo"],mi:15,min:30,q:"Chepstow Castle",note:"A cliff-top castle above the Wye, run by Cadw, with an old town gate and a riverside to wander. Visitors report dogs are allowed on the ground floor.",near:"10 min from Tintern",check:true},
+  {id:"marmalade",a:"lowerwye",n:"Marmalade House, Chepstow",t:["lunch"],mi:15,min:30,q:"Marmalade House, 28 High Street, Chepstow",note:"A dog-friendly tea room: brunch, lunch and cakes.",near:"High Street",check:true},
+  {id:"uglymug",a:"lowerwye",n:"The Ugly Mug, Chepstow",t:["lunch"],mi:15,min:30,q:"The Ugly Mug Cafe, Beaufort Square, Chepstow",note:"An independent, family-run café with all-day breakfast and lunch. Dog-friendly.",near:"Beaufort Square",check:true},
+  {id:"pontio",a:"lowerwye",n:"Pontio Lounge, Chepstow",t:["lunch","dinner"],mi:15,min:30,q:"Pontio Lounge, High Street, Chepstow",note:"An all-day café-bar, listed as dog-friendly, and open in the evenings.",near:"High Street",check:true},
+  // Lydney
+  {id:"dfr",a:"lydney",n:"Dean Forest Railway (Norchard)",t:["todo","rainy"],mi:9,min:20,q:"Dean Forest Railway, Norchard, Lydney",note:"A heritage steam railway. Dogs are allowed on the trains but not in the café or dining car. Check the half-term timetable.",near:"5 min from Taurus Crafts and Lydney Harbour",check:true},
+  {id:"taurus",a:"lydney",n:"Taurus Crafts",t:["todo","rainy","lunch"],mi:9,min:18,q:"Taurus Crafts, Lydney",note:"Craft studios, shops and a café in old farm buildings. Check the dog policy indoors.",near:"Near the Dean Forest Railway",check:true},
+  {id:"harbour",a:"lydney",n:"Lydney Harbour",t:["walk"],mi:10,min:20,q:"Lydney Harbour",note:"A flat, open walk along the Severn estuary with big skies. Good when the forest is muddy. Windy, so wrap the babies up.",near:"5 min from the railway"},
+  {id:"silverfox",a:"lydney",n:"Silver Fox Café, Newnham-on-Severn",t:["lunch"],mi:14,min:25,q:"Silver Fox Cafe, Newnham on Severn",note:"A riverside café that's dog-friendly, open for breakfast and lunch seven days a week. Newnham is a pretty village on the Severn.",near:"North of Lydney on the A48",check:true},
+  // Further
+  {id:"aber",a:"further",n:"Abergavenny",t:["town"],mi:22,min:40,q:"Abergavenny town centre",note:"A market town under the Sugar Loaf with good food shops and a covered market.",near:"Via Monmouth"},
+  {id:"ledbury",a:"further",n:"Ledbury",t:["town"],mi:25,min:45,q:"Church Lane, Ledbury",note:"Black-and-white timbered buildings and the cobbled Church Lane.",near:"Via Ross"},
+  {id:"hay",a:"further",n:"Hay-on-Wye",t:["town"],mi:45,min:70,q:"Hay-on-Wye",note:"The book town. Lovely, but a long day with babies.",near:"North-west, past Abergavenny or Hereford"},
+  // Essentials
+  {id:"drybridge",a:"essentials",n:"Drybridge Veterinary Clinic",t:["essential"],mi:2.5,min:6,q:"Drybridge Veterinary Clinic, Railway Drive, Coleford GL16 8RH",note:"A vet in Coleford. Ring for hours and out-of-hours cover.",near:"Coleford"},
+  {id:"severnside",a:"essentials",n:"Severnside Vets, Coleford",t:["essential"],mi:2.5,min:6,q:"Severnside Veterinary Group, Cupola Close, Coleford GL16 8RD",note:"A small-animal vet on the Mushet Industrial Park.",near:"Coleford"},
+  {id:"shop",a:"essentials",n:"Supermarkets near the cabins",t:["essential"],mi:2,min:5,q:"supermarket near Coleford, Gloucestershire",note:"Opens a map search. Coleford has the closest shops, and Monmouth and Ross have bigger ones.",near:"Coleford"},
+  {id:"pharmacy",a:"essentials",n:"Pharmacies nearby",t:["essential"],mi:2,min:5,q:"pharmacy near Coleford, Gloucestershire",note:"Opens a map search for nearby chemists.",near:"Coleford"},
+  {id:"miu",a:"essentials",n:"Minor injuries / urgent care",t:["essential"],mi:10,min:20,q:"Forest of Dean Community Hospital, Cinderford",note:"The local community hospital. Ring NHS 111 first to check where to go; 999 for emergencies.",near:"Cinderford",check:true},
+  {id:"petshop",a:"essentials",n:"Pet shops nearby",t:["essential"],mi:2,min:5,q:"pet shop near Coleford, Gloucestershire",note:"Opens a map search, for forgotten food, leads or poo bags.",near:"Coleford"}
+];
+
+const enc = encodeURIComponent;
+const mapUrl = p => `https://www.google.com/maps/search/?api=1&query=${enc(p.q)}`;
+const dirUrl = p => `https://www.google.com/maps/dir/?api=1&origin=${enc(ORIGIN)}&destination=${enc(p.q)}&travelmode=${p.mode||"driving"}`;
+document.getElementById("homeDir").href = `https://www.google.com/maps/dir/?api=1&destination=${enc(ORIGIN)}&travelmode=driving`;
+
+const store = {
+  get(k){ try{ return JSON.parse(localStorage.getItem(k)) || {}; }catch(e){ return {}; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+let done = store.get("fod-done"), stars = store.get("fod-stars");
+let filter = "all";
+try{ filter = localStorage.getItem("fod-filter") || "all"; }catch(e){}
+
+const chips = [["all","All"],["star","⭐ Shortlist"],...Object.entries(TYPES).map(([k,v])=>[k,v.label])];
+const chipsEl = document.getElementById("chips");
+chipsEl.innerHTML = chips.map(([k,l])=>`<button class="chip" data-f="${k}" aria-pressed="${k===filter}">${l}</button>`).join("");
+chipsEl.addEventListener("click", e=>{
+  const b = e.target.closest(".chip"); if(!b) return;
+  filter = b.dataset.f;
+  try{ localStorage.setItem("fod-filter", filter); }catch(e){}
+  chipsEl.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.f===filter));
+  render();
+});
+
+const qEl = document.getElementById("q"), hideEl = document.getElementById("hideDone");
+qEl.addEventListener("input", render); hideEl.addEventListener("change", render);
+
+function distText(p){
+  if(p.mi===0) return "On site";
+  const t = p.mode==="walking" ? `${p.min} min walk` : `${p.min} min`;
+  return `~${p.mi} mi · ${t}`;
+}
+
+function card(p){
+  const tags = p.t.map(t=>`<span class="tag">${TYPES[t].label}</span>`).join("");
+  return `<div class="card${done[p.id]?" done":""}">
+    <div class="top"><h3>${p.n}</h3><div class="dist">${distText(p)}</div></div>
+    <div class="tags">${tags}</div>
+    <p class="note">${p.note}</p>
+    ${p.near?`<p class="near">📍 ${p.near}</p>`:""}
+    ${p.check?`<span class="check">Ring ahead: dog policy not confirmed</span>`:""}
+    <div class="actions">
+      <a class="btn primary" href="${dirUrl(p)}" target="_blank" rel="noopener">Directions</a>
+      <a class="btn" href="${mapUrl(p)}" target="_blank" rel="noopener">Map</a>
+      <button class="btn" data-star="${p.id}" aria-pressed="${!!stars[p.id]}">${stars[p.id]?"⭐ Starred":"☆ Star"}</button>
+      <button class="btn" data-done="${p.id}" aria-pressed="${!!done[p.id]}">${done[p.id]?"✓ Done":"Mark done"}</button>
+    </div>
+  </div>`;
+}
+
+function render(){
+  const q = qEl.value.trim().toLowerCase();
+  const items = P.filter(p=>{
+    if(filter==="star" && !stars[p.id]) return false;
+    if(filter!=="all" && filter!=="star" && !p.t.includes(filter)) return false;
+    if(hideEl.checked && done[p.id]) return false;
+    if(q && !(p.n+" "+p.note+" "+(p.near||"")).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const html = AREAS.map(([id,title,note])=>{
+    const list = items.filter(p=>p.a===id).sort((a,b)=>a.mi-b.mi);
+    if(!list.length) return "";
+    return `<h2>${title}</h2><p class="area-note">${note}</p>${list.map(card).join("")}`;
+  }).join("");
+  document.getElementById("list").innerHTML = html || `<p class="empty">Nothing matches. Try another filter.</p>`;
+}
+
+document.getElementById("list").addEventListener("click", e=>{
+  const s = e.target.closest("[data-star]"), d = e.target.closest("[data-done]");
+  if(s){ const id=s.dataset.star; stars[id]=!stars[id]; if(!stars[id]) delete stars[id]; store.set("fod-stars",stars); render(); }
+  if(d){ const id=d.dataset.done; done[id]=!done[id]; if(!done[id]) delete done[id]; store.set("fod-done",done); render(); }
+});
+
+render();
+</script>
+</body>
+</html>

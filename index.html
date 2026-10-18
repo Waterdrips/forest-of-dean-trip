@@ -388,7 +388,8 @@ function card(p){
 }
 
 // ---------- filters ----------
-const openLabel = focusDay===todayIso ? "🕒 Open today" : "🕒 Open "+dayName(focusDay).split(" ").slice(0,2).join(" ");
+// Only places with known hours can be shown as open, so the label says so.
+const openLabel = (focusDay===todayIso ? "🕒 Known open today" : "🕒 Known open "+dayName(focusDay).split(" ").slice(0,2).join(" "));
 const chips = [["all","All"],["star","⭐ Shortlist"],["booked","✅ Booked"],
   ...(D.places.some(p=>p.hours)?[["open",openLabel]]:[]),
   ...(T.babies && D.places.some(p=>p.baby)?[["baby","🚼 Baby-friendly"]]:[]),

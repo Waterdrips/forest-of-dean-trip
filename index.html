@@ -453,7 +453,7 @@ function drawMarkers(fit){
     const c = bookings[p.id] ? "#1d6b3a" : stars[p.id] ? "#e0a400" : done[p.id] ? "#8a948c" : "#2f5d3a";
     L.marker([p.lat,p.lon],{icon:dot(c)}).bindPopup(`<b>${esc(p.n)}</b><br>${distText(p)}${p.geoApprox?" (approx. location)":""}<br>
       <a href="${me?fromHereUrl(p):dirUrl(p)}" target="_blank" rel="noopener">Directions</a> · <a href="#p-${p.id}" data-goto="${p.id}">Details</a>`).addTo(layer);
-    pts.push([p.lat,p.lon]);
+    if(!(p.mi > (T.mapFitMiles||18))) pts.push([p.lat,p.lon]);  // far-off day trips don't zoom the map right out
   });
   if(fit && pts.length) map.fitBounds(pts,{padding:[30,30],maxZoom:14});
 }

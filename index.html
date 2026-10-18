@@ -118,6 +118,27 @@ body.map-mode #list{display:none}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:.9rem;opacity:0;transition:opacity .2s;pointer-events:none;z-index:1000;max-width:90vw}
 .toast.show{opacity:1}
 footer{color:var(--muted);font-size:.8rem;margin-top:30px}
+.info{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
+.info b{color:var(--ink);font-weight:600}
+.tag.closed{background:var(--warn-bg);color:var(--warn);font-weight:600}
+.tag.price{background:var(--ok-bg);color:var(--ok)}
+.check.ok{color:var(--ok);background:var(--ok-bg)}
+.bookwarn{font-size:.82rem;color:var(--warn);width:100%}
+.ev{list-style:none;padding:0!important;margin:0}
+.ev li{border-top:1px solid var(--line);padding:8px 0!important;margin:0!important;font-size:.92rem}
+.ev li:first-child{border-top:0}
+.ev .d{font-weight:600}
+.em{list-style:none;padding:0!important;margin:0}
+.em li{border-top:1px solid var(--line);padding:8px 0!important;margin:0!important}
+.em li:first-child{border-top:0}
+.em .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+#emergency{border-color:#c0392b}
+#emergency h2{color:#c0392b}
+.ring{list-style:none;padding:0!important;margin:0}
+.ring li{display:flex;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:8px 0!important;margin:0!important;flex-wrap:wrap}
+.ring li:first-child{border-top:0}
+.ring .nm{flex:1;min-width:150px;font-size:.92rem}
+.ring li.ok .nm{color:var(--muted);text-decoration:line-through}
 </style>
 </head>
 <body>
@@ -130,6 +151,7 @@ footer{color:var(--muted);font-size:.8rem;margin-top:30px}
       <a id="homeDir" href="#" target="_blank" rel="noopener">🏡 Directions back</a>
       <a href="#plan">🍽️ Nights &amp; bookings</a>
       <button id="shareBtn" type="button">📤 Share picks</button>
+      <a href="#emergency">🚑 Emergency</a>
       <a href="#more">More…</a>
     </div>
   </div>
@@ -145,11 +167,18 @@ footer{color:var(--muted);font-size:.8rem;margin-top:30px}
     <ul class="nights" id="nights"></ul>
   </div>
 
+  <div class="box" id="whatson" hidden>
+    <h2>What's on</h2>
+    <p class="area-note">Events during your stay. Check times and booking on each event's page.</p>
+    <ul class="ev" id="events"></ul>
+  </div>
+
   <div class="bar">
     <div class="chips" id="chips"></div>
     <div class="row">
       <input type="search" id="q" placeholder="Search places…" aria-label="Search places">
       <label class="tog"><input type="checkbox" id="hideDone"> Hide done</label>
+      <select id="price" aria-label="Price" hidden><option value="">Any price</option><option>£</option><option>££</option><option>£££</option><option>££££</option></select>
     </div>
     <div class="row">
       <div class="seg" role="group" aria-label="View">
@@ -167,6 +196,12 @@ footer{color:var(--muted);font-size:.8rem;margin-top:30px}
   <div id="list"></div>
 
   <div id="more">
+    <div class="box" id="emergency"><h2>🚑 Emergency</h2><ul class="em" id="emList"></ul></div>
+    <div class="box" id="ringahead" hidden>
+      <h2>Ring-ahead checklist</h2>
+      <p class="area-note" id="ringNote"></p>
+      <ul class="ring" id="ringList"></ul>
+    </div>
     <div class="box"><h2>Good pairings</h2><ul id="pairings"></ul></div>
     <div class="box"><h2>Tips</h2><ul id="tips"></ul></div>
     <div class="box" id="packing"><h2>Packing checklist</h2><div id="packLists"></div></div>
@@ -211,6 +246,7 @@ let done = store.get("done", {}), stars = store.get("stars", {}), notes = store.
 let bookings = store.get("bookings", {});   // id -> {date, time}
 let nightsIn = store.get("nightsIn", {});   // date -> true
 let packed = store.get("packed", {});
+let confirmed = store.get("confirmed", {});  // id -> true once someone has rung and confirmed
 let filter = store.get("filter", "all"), view = "list", sort = "base";
 let me = null;  // {lat, lon} once Near me is used
 
@@ -257,6 +293,42 @@ function photoHtml(p){
     <figure><img loading="lazy" src="${esc(ph.img)}" alt="${esc(ph.title)}"><figcaption>${credit(ph)}</figcaption></figure></details>`;
 }
 
+// ---------- opening hours ----------
+const DAYKEY = ["sun","mon","tue","wed","thu","fri","sat"];
+const dayKey = s => DAYKEY[new Date(s+"T12:00:00").getDay()];
+const TRIPDAYS = NIGHTS.concat([T.end]);
+// The day the "Open today" filter is about: today during the trip, otherwise the first day.
+const focusDay = TRIPDAYS.includes(todayIso) ? todayIso : T.start;
+function hoursOn(p, d){  // "closed" | "HH:MM-HH:MM" | null (unknown)
+  if((p.closedDates||[]).includes(d)) return "closed";
+  return p.hours ? (p.hours[dayKey(d)] || null) : null;
+}
+const fmtHours = h => h==="closed" ? "closed" : h.replace(/-/g,"–").replace(/,/g,", ");
+function hoursHtml(p){
+  if(!p.hours && !p.hoursRaw) return "";
+  const src = p.hoursSource==="OpenStreetMap" ? "OpenStreetMap, may be out of date" : `<a href="${esc(p.hoursSource)}" target="_blank" rel="noopener">their website</a>`;
+  let body;
+  if(p.hours){
+    body = TRIPDAYS.map(d=>{ const h=hoursOn(p,d); return `${d===todayIso?"<b>Today</b>":esc(dayName(d).split(" ")[0])} ${h?esc(fmtHours(h)):"?"}`; }).join(" · ");
+  } else body = esc(p.hoursRaw);
+  return `<p class="info">🕒 ${body}${p.hoursNote?`. ${esc(p.hoursNote)}`:""} <span style="opacity:.8">(${src})</span></p>`;
+}
+function closedTag(p){
+  const shut = TRIPDAYS.filter(d=>hoursOn(p,d)==="closed");
+  if(!shut.length) return "";
+  if(shut.length===TRIPDAYS.length) return `<span class="tag closed">⚠️ Closed all trip</span>`;
+  return `<span class="tag closed">⚠️ Closed ${shut.map(d=>dayName(d).split(" ").slice(0,2).join(" ")).join(", ")}</span>`;
+}
+function dogHtml(p){
+  if(!T.dog || !p.dog) return "";
+  return `<p class="info">🐕 <b>Dogs: ${esc(p.dog.where)}.</b> ${esc(p.dog.notes||"")}</p>`;
+}
+function babyHtml(p){
+  const b = p.baby; if(!T.babies || !b) return "";
+  const bits = [b.highChairs && "High chairs", b.changing && "Baby changing", b.buggySpace && ("Buggy space: "+b.buggySpace)].filter(Boolean);
+  return `<p class="info">🚼 ${bits.map(esc).join(" · ")}${bits.length&&b.notes?". ":""}${esc(b.notes||"")}</p>`;
+}
+
 // ---------- cards ----------
 const bookable = p => p.t.some(t=>["dinner","lunch","breakfast"].includes(t));
 function walkHtml(p){
@@ -280,6 +352,7 @@ function bookHtml(p){
       <select name="date" aria-label="Date">${opts}</select>
       <input type="time" name="time" value="${b?esc(b.time):(p.t.includes("dinner")?"18:00":"12:30")}" aria-label="Time">
       <button class="btn small primary" type="submit">Save</button>
+      <span class="bookwarn" data-bookwarn></span>
       ${b?`<button class="btn small" type="button" data-unbook="${p.id}">Remove booking</button>`:""}
     </form>`;
 }
@@ -289,11 +362,15 @@ function card(p){
   const meDist = me && p.lat!=null ? `<span class="me">📍 ${haversineMi(me,p).toFixed(1)} mi from you</span>` : "";
   return `<div class="card${done[p.id]?" done":""}" id="p-${p.id}">
     <div class="top"><h3>${esc(p.n)}</h3><div class="dist">${distText(p)}${meDist}</div></div>
-    <div class="tags">${b?`<span class="tag booked">✅ Booked ${esc(dayName(b.date))} ${esc(b.time)}</span>`:""}${tags}</div>
+    <div class="tags">${b?`<span class="tag booked">✅ Booked ${esc(dayName(b.date))} ${esc(b.time)}</span>`:""}${closedTag(p)}${p.price?`<span class="tag price">${esc(p.price)}</span>`:""}${tags}</div>
     <p class="note">${esc(p.note)}</p>
     ${walkHtml(p)}
+    ${hoursHtml(p)}
+    ${dogHtml(p)}
+    ${babyHtml(p)}
+    ${p.cost?`<p class="info">💷 ${esc(p.cost)}</p>`:""}
     ${p.near?`<p class="near">📍 ${esc(p.near)}</p>`:""}
-    ${p.check?`<span class="check">${esc(T.checkLabel||"Ring ahead: not confirmed")}</span>`:""}
+    ${p.check?(confirmed[p.id]?`<span class="check ok">✓ Confirmed by phone</span>`:`<span class="check">${esc(T.checkLabel||"Ring ahead: not confirmed")}</span>`):""}
     ${photoHtml(p)}
     <div class="actions">
       <a class="btn primary" href="${me?fromHereUrl(p):dirUrl(p)}" target="_blank" rel="noopener">Directions</a>
@@ -311,7 +388,15 @@ function card(p){
 }
 
 // ---------- filters ----------
-const chips = [["all","All"],["star","⭐ Shortlist"],["booked","✅ Booked"],...D.types.map(t=>[t.id,t.label])];
+const openLabel = focusDay===todayIso ? "🕒 Open today" : "🕒 Open "+dayName(focusDay).split(" ").slice(0,2).join(" ");
+const chips = [["all","All"],["star","⭐ Shortlist"],["booked","✅ Booked"],
+  ...(D.places.some(p=>p.hours)?[["open",openLabel]]:[]),
+  ...(T.babies && D.places.some(p=>p.baby)?[["baby","🚼 Baby-friendly"]]:[]),
+  ...D.types.map(t=>[t.id,t.label])];
+const SPECIAL = ["all","star","booked","open","baby"];
+if(!chips.some(([k])=>k===filter)) filter="all";
+if(D.places.some(p=>p.price)) $("#price").hidden=false;
+$("#price").addEventListener("change", render);
 $("#chips").innerHTML = chips.map(([k,l])=>`<button class="chip" type="button" data-f="${k}" aria-pressed="${k===filter}">${esc(l)}</button>`).join("");
 function setFilter(f){
   filter=f; store.set("filter",f);
@@ -327,7 +412,10 @@ function visible(){
   return D.places.filter(p=>{
     if(filter==="star" && !stars[p.id]) return false;
     if(filter==="booked" && !bookings[p.id]) return false;
-    if(!["all","star","booked"].includes(filter) && !p.t.includes(filter)) return false;
+    if(filter==="open"){ const h=hoursOn(p,focusDay); if(!h || h==="closed") return false; }
+    if(filter==="baby" && !p.baby) return false;
+    if(!SPECIAL.includes(filter) && !p.t.includes(filter)) return false;
+    const pr=$("#price").value; if(pr && p.price!==pr) return false;
     if($("#hideDone").checked && done[p.id]) return false;
     if(q && !(p.n+" "+p.note+" "+(p.near||"")+" "+(p.town||"")).toLowerCase().includes(q)) return false;
     return true;
@@ -356,7 +444,7 @@ $("#list").addEventListener("click", e=>{
   const t = e.target.closest("[data-star],[data-done],[data-book],[data-unbook],[data-rate]"); if(!t) return;
   if(t.dataset.star){ const id=t.dataset.star; stars[id] ? delete stars[id] : stars[id]=true; store.set("stars",stars); render(); }
   else if(t.dataset.done){ const id=t.dataset.done; done[id] ? delete done[id] : done[id]=true; store.set("done",done); render(); }
-  else if(t.dataset.book){ const f=document.querySelector(`[data-bookform="${t.dataset.book}"]`); f.hidden=!f.hidden; }
+  else if(t.dataset.book){ const f=document.querySelector(`[data-bookform="${t.dataset.book}"]`); f.hidden=!f.hidden; f.date.dispatchEvent(new Event("change",{bubbles:true})); }
   else if(t.dataset.unbook){ delete bookings[t.dataset.unbook]; store.set("bookings",bookings); render(); renderNights(); toast("Booking removed"); }
   else if(t.dataset.rate){ const id=t.dataset.rate, v=+t.dataset.v; notes[id]=notes[id]||{}; notes[id].rating = notes[id].rating===v?0:v; notes[id].updated=new Date().toISOString(); store.set("notes",notes); render(); renderNotes(); }
 });
@@ -365,10 +453,57 @@ $("#list").addEventListener("submit", e=>{
   bookings[f.dataset.bookform] = {date:f.date.value, time:f.time.value};
   store.set("bookings",bookings); render(); renderNights(); toast("Booking saved");
 });
+$("#list").addEventListener("change", e=>{
+  const f = e.target.closest("[data-bookform]"); if(!f || e.target.name!=="date") return;
+  const h = hoursOn(byId[f.dataset.bookform], f.date.value);
+  f.querySelector("[data-bookwarn]").textContent = h==="closed" ? "⚠️ Closed that day (per its listed hours)" : h ? `Open ${fmtHours(h)}` : "";
+});
 $("#list").addEventListener("input", e=>{
   const t = e.target.closest("[data-note]"); if(!t) return;
   const id=t.dataset.note; notes[id]=notes[id]||{}; notes[id].text=t.value; notes[id].updated=new Date().toISOString();
   store.set("notes",notes); clearTimeout(t._h); t._h=setTimeout(renderNotes, 600);
+});
+
+// ---------- events ----------
+const EVENTS = (D.events||[]).filter(e=>(e.endDate||e.date) >= T.start && e.date <= T.end);
+const eventsOn = d => EVENTS.filter(e=>e.date<=d && (e.endDate||e.date)>=d).sort((a,b)=>(a.time||"").localeCompare(b.time||""));
+function renderEvents(){
+  if(!EVENTS.length) return;
+  $("#whatson").hidden = false;
+  const where = e => { const p=byId[e.placeId]; return p ? `<a href="#p-${p.id}">${esc(p.n)}</a>` : esc(e.place||""); };
+  const dir = e => { const p=byId[e.placeId]; const q=p?p.q:e.q; return q?` · <a href="https://www.google.com/maps/dir/?api=1&origin=${enc(O.address)}&destination=${enc(q)}" target="_blank" rel="noopener">Directions</a>`:""; };
+  const multi = EVENTS.filter(e=>e.endDate);
+  const rows = TRIPDAYS.map(d=>{
+    const evs = eventsOn(d).filter(e=>!e.endDate);
+    if(!evs.length) return "";
+    return `<li><span class="d">${d===todayIso?"Today":esc(dayName(d))}</span>${evs.map(e=>`<br>${esc(e.time||"")}${e.end?"–"+esc(e.end):""} <b>${esc(e.name)}</b>, ${where(e)}. ${esc(e.note||"")} ${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">Details</a>`:""}${dir(e)}`).join("")}</li>`;
+  }).join("");
+  const all = multi.map(e=>`<li><span class="d">All week</span><br><b>${esc(e.name)}</b>, ${where(e)}. ${esc(e.note||"")} ${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">Details</a>`:""}${dir(e)}</li>`).join("");
+  $("#events").innerHTML = all + rows;
+}
+
+// ---------- emergency ----------
+function renderEmergency(){
+  const em = D.emergency||[];
+  if(!em.length){ $("#emergency").hidden=true; return; }
+  $("#emList").innerHTML = em.map(x=>`<li><div class="lbl">${esc(x.label||"")}</div><b>${esc(x.name)}</b>${x.address?`<br><span class="credits">${esc(x.address)}</span>`:""}${x.note?`<br><span style="font-size:.88rem">${esc(x.note)}</span>`:""}
+    <div class="actions">${x.phone?`<a class="btn primary" href="tel:${esc(x.phone.replace(/\s/g,""))}">📞 ${esc(x.phone)}</a>`:""}${x.q?`<a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=${enc(x.q)}" target="_blank" rel="noopener">🧭 Directions from here</a>`:""}${x.url?`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">Website</a>`:""}${x.source?`<a class="btn small" href="${esc(x.source)}" target="_blank" rel="noopener">Source</a>`:""}</div></li>`).join("");
+}
+
+// ---------- ring-ahead checklist ----------
+function renderRing(){
+  const list = D.places.filter(p=>p.check).sort((a,b)=>a.n.localeCompare(b.n));
+  if(!list.length) return;
+  $("#ringahead").hidden=false;
+  const n = list.filter(p=>confirmed[p.id]).length;
+  $("#ringNote").textContent = `${n} of ${list.length} confirmed. Ring these before you go (${T.checkLabel||"not confirmed"}); tick each once it's confirmed. Ticks are saved on this phone.`;
+  $("#ringList").innerHTML = list.map(p=>`<li class="${confirmed[p.id]?"ok":""}"><span class="nm"><a href="#p-${p.id}">${esc(p.n)}</a></span>
+    ${p.phone?`<a class="btn small" href="${telHref(p.phone)}">📞 ${esc(p.phone)}</a>`:`<a class="btn small" href="https://www.google.com/search?q=${enc(p.q+" phone")}" target="_blank" rel="noopener">Find number</a>`}
+    <label class="tog"><input type="checkbox" data-confirm="${p.id}" ${confirmed[p.id]?"checked":""}> Confirmed</label></li>`).join("");
+}
+$("#ringList").addEventListener("change", e=>{
+  const c=e.target.closest("[data-confirm]"); if(!c) return;
+  c.checked ? confirmed[c.dataset.confirm]=true : delete confirmed[c.dataset.confirm]; store.set("confirmed",confirmed); renderRing(); render();
 });
 
 // ---------- nights & bookings ----------
@@ -383,6 +518,8 @@ function renderNights(){
     let what = "";
     if(isNight) what = dinner.length ? "🍽️ Out: " + dinner.map(fmt).join("<br>") : (nightsIn[d] ? "🏡 Eating in" : `<span style="color:var(--muted)">Dinner not decided</span>`);
     if(daytime.length) what += (what?"<br>":"") + "☕ " + daytime.map(fmt).join("<br>");
+    const evs = eventsOn(d).filter(e=>!e.endDate);  // one-day events; multi-day ones live in What's on
+    if(evs.length) what += (what?"<br>":"") + evs.map(e=>`🎟️ ${esc(e.time||"")} <a href="#whatson">${esc(e.name)}</a>`).join("<br>");
     return `<li><span class="when">${d===todayIso?"Today":dayName(d)}</span><span class="what">${what}</span>
       ${isNight && !dinner.length ? `<button class="btn small" type="button" data-night="${d}">${nightsIn[d]?"Undo":"Eating in"}</button>`:""}</li>`;
   });
@@ -550,7 +687,7 @@ const net = () => document.body.classList.toggle("is-offline", !navigator.onLine
 addEventListener("online", net); addEventListener("offline", net); net();
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
 
-render(); renderNights(); renderPacking(); renderNotes(); weather();
+render(); renderNights(); renderEvents(); renderEmergency(); renderRing(); renderPacking(); renderNotes(); weather();
 if(location.hash) setTimeout(()=>document.querySelector(location.hash)?.scrollIntoView(), 100);
 })();
 </script>

@@ -41,6 +41,41 @@ for i, p in enumerate(data.get("places", [])):
     w = p.get("walk")
     if w is not None and "walk" not in p.get("t", []): warn(f"{where}: has walk details but isn't tagged walk")
 
+DAYKEYS = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
+DOG_WHERE = ("everywhere", "bar only", "separate dog area", "some areas", "outside only", "not allowed")
+for p in data.get("places", []):
+    where = f'place {p.get("id")}'
+    h = p.get("hours")
+    if h is not None:
+        if set(h) - set(DAYKEYS): err(f"{where}: hours keys must be {', '.join(DAYKEYS)}")
+        for k, v in h.items():
+            if v != "closed" and not re.fullmatch(r"\d{2}:\d{2}-\d{2}:\d{2}(,\d{2}:\d{2}-\d{2}:\d{2})*", str(v)):
+                err(f'{where}: hours.{k} "{v}" should be "HH:MM-HH:MM" (comma-separated) or "closed"')
+        if not p.get("hoursSource"): err(f"{where}: hours need a hoursSource (a URL or \"OpenStreetMap\")")
+    for dte in p.get("closedDates", []):
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", dte): err(f"{where}: closedDates must be YYYY-MM-DD")
+    if p.get("dog"):
+        if p["dog"].get("where") not in DOG_WHERE: err(f'{where}: dog.where must be one of {", ".join(DOG_WHERE)}')
+    if p.get("baby") and not isinstance(p["baby"], dict): err(f"{where}: baby must be an object")
+    if p.get("price") and p["price"] not in ("£", "££", "£££", "££££"): err(f'{where}: price must be £ to ££££')
+
+for i, ev in enumerate(data.get("events", [])):
+    where = f'event {ev.get("id", i)}'
+    for k in ("id", "name", "date"):
+        if not ev.get(k): err(f"{where}: {k} is missing")
+    for k in ("date", "endDate"):
+        if ev.get(k) and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", ev[k]): err(f"{where}: {k} must be YYYY-MM-DD")
+    if ev.get("placeId") and ev["placeId"] not in ids: err(f'{where}: placeId "{ev["placeId"]}" is not a place')
+    if not ev.get("url"): warn(f"{where}: no url (source)")
+
+em = data.get("emergency", [])
+for i, x in enumerate(em):
+    if not x.get("name") or not (x.get("phone") or x.get("q")): err(f"emergency {i}: needs a name and a phone or q")
+    if x.get("phone") and x["phone"] not in ("999", "111", "112") and not x.get("source"): err(f'emergency {x.get("name")}: phone needs a source')
+if not em: warn("no emergency contacts (999, NHS 111, nearest A&E)")
+if trip.get("dog") and not any(x.get("kind") == "vet-24h" for x in em):
+    warn('a dog is coming but there is no out-of-hours vet in emergency (kind: "vet-24h")')
+
 for title, ph in photos.items():
     for k in ("img", "page", "artist", "license"):
         if not ph.get(k): err(f'photo "{title}": {k} is missing (every photo needs a full credit)')

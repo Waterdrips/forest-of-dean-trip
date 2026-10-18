@@ -16,7 +16,7 @@ def fetch(url):
         try:
             pages[url] = urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=20).read().decode("utf8", "ignore")
         except Exception as e:
-            print("  fetch failed", url, e, file=sys.stderr); pages[url] = ""
+            pages[url] = ""
         time.sleep(0.5)
     return pages[url]
 
@@ -26,12 +26,19 @@ for p in data["places"]:
 
 for p in data["places"]:
     web = p.get("web")
-    if not web or (p.get("phone") and not force): continue
+    if not web or p.get("phoneSkip") or (p.get("phone") and not force): continue  # phoneSkip: a number was checked and rejected
     host = urlparse(web).hostname or ""
     if any(s in host for s in SKIP) or shared[web] > 1:
         continue
     nums = []
-    for m in re.findall(r'href=["\']tel:([^"\']+)["\']', fetch(web), re.I):
+    # Try the page itself, then the usual contact pages on the same site.
+    base = f"{urlparse(web).scheme}://{host}"
+    html_all = fetch(web)
+    if "tel:" not in html_all.lower():
+        for sub in ("/contact", "/contact-us", "/contact-us/", "/find-us", "/visit-us", "/getting-here"):
+            h = fetch(base + sub)
+            if "tel:" in h.lower(): html_all, web = h, base + sub; break
+    for m in re.findall(r'href=["\']tel:([^"\']+)["\']', html_all, re.I):
         n = re.sub(r"[^\d+]", "", m)
         if n.startswith("+44"): n = "0" + n[3:]
         if n.startswith("440"): n = n[2:]

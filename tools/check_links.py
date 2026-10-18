@@ -1,7 +1,7 @@
 # Usage: python3 -I tools/check_links.py data.json
 # Checks every website link and photo in the planner still loads. Prints a Markdown report and
 # exits non-zero if any are broken (the weekly GitHub Action turns that into an issue).
-import json, sys, time, urllib.request, urllib.error
+import json, subprocess, sys, time, urllib.request, urllib.error
 from concurrent.futures import ThreadPoolExecutor
 
 data = json.load(open(sys.argv[1]))
@@ -15,11 +15,17 @@ def check(item):
             with urllib.request.urlopen(req, timeout=25) as r:
                 return label, url, r.status, None
         except urllib.error.HTTPError as e:
+            # Wikimedia rate-limits scripts (429) but serves browsers fine: count it as working.
+            if e.code == 429 and "wikimedia.org" in url: return label, url, 200, None
             # Some sites block bots with 401/403/429 even though the page is fine in a browser.
             if e.code in (401, 403, 429): return label, url, e.code, "blocked (probably fine in a browser)"
             err = f"HTTP {e.code}"
         except Exception as e:
             err = str(e)[:80]
+            # Python's TLS can fail on sites a browser (and curl) open fine: double-check with curl.
+            code = subprocess.run(["curl", "-s", "-L", "-o", "/dev/null", "-m", "25", "-A", UA["User-Agent"], "-w", "%{http_code}", url],
+                                  capture_output=True, text=True).stdout.strip()
+            if code.isdigit() and 200 <= int(code) < 400: return label, url, int(code), None
         time.sleep(2)
     return label, url, None, err
 

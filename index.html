@@ -91,6 +91,15 @@ h3{margin:0;font-size:1rem}
 .btn.small{padding:4px 9px;font-size:.8rem}
 .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:14px 0}
 .box h2{margin-top:0}
+/* the reference sections below the list stay closed until tapped, so the page isn't a wall of extras */
+details.fold{padding:0}
+details.fold>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::after{content:"▾";color:var(--muted)}
+details.fold[open]>summary::after{content:"▴"}
+details.fold>summary h2{margin:0}
+details.fold>:not(summary){margin-left:14px;margin-right:14px}
+details.fold[open]{padding-bottom:12px}
 .box ul{margin:6px 0 0;padding-left:18px}
 .box li{margin:4px 0}
 .nights{list-style:none;padding:0!important;margin:0}
@@ -123,7 +132,7 @@ body.map-mode #list{display:none}
 .empty{color:var(--muted);text-align:center;padding:30px 0}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:.9rem;opacity:0;transition:opacity .2s;pointer-events:none;z-index:1000;max-width:90vw}
 .toast.show{opacity:1}
-footer{color:var(--muted);font-size:.8rem;margin-top:30px}
+footer{color:var(--muted);font-size:.8rem}
 .info{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
 .info b{color:var(--ink);font-weight:600}
 .tag.closed{background:var(--warn-bg);color:var(--warn);font-weight:600}
@@ -207,27 +216,27 @@ footer{color:var(--muted);font-size:.8rem;margin-top:30px}
   </section>
 
   <div id="more">
-    <div class="box" id="emergency"><h2>🚑 Emergency</h2><ul class="em" id="emList"></ul></div>
-    <div class="box" id="ringahead" hidden>
-      <h2>Ring-ahead checklist</h2>
+    <details class="box fold" id="emergency"><summary><h2>🚑 Emergency</h2></summary><ul class="em" id="emList"></ul></details>
+    <details class="box fold" id="ringahead" hidden>
+      <summary><h2>Ring-ahead checklist</h2></summary>
       <p class="area-note" id="ringNote"></p>
       <ul class="ring" id="ringList"></ul>
-    </div>
-    <div class="box"><h2>Good pairings</h2><ul id="pairings"></ul></div>
-    <div class="box"><h2>Tips</h2><ul id="tips"></ul></div>
-    <div class="box" id="packing"><h2>Packing checklist</h2><div id="packLists"></div></div>
-    <div class="box">
-      <h2>My notes</h2>
+    </details>
+    <details class="box fold"><summary><h2>Good pairings</h2></summary><ul id="pairings"></ul></details>
+    <details class="box fold"><summary><h2>Tips</h2></summary><ul id="tips"></ul></details>
+    <details class="box fold" id="packing"><summary><h2>Packing checklist</h2></summary><div id="packLists"></div></details>
+    <details class="box fold" id="notes">
+      <summary><h2>My notes</h2></summary>
       <p class="area-note">Ratings and notes you add on places are saved on this phone. Export them to keep for next time (they can go in the planner repo as <code>notes.json</code>).</p>
       <div class="actions"><button class="btn" id="exportNotes" type="button">⬇️ Export my notes</button><button class="btn" id="copyNotes" type="button">📋 Copy notes</button></div>
       <ul id="notesList" class="credits"></ul>
-    </div>
-    <div class="box" id="credits">
-      <h2>Photo credits</h2>
+    </details>
+    <details class="box fold" id="credits">
+      <summary><h2>Photo credits</h2></summary>
       <p class="area-note">All photos are from Wikimedia Commons under the licences shown, unchanged apart from resizing. Each one shows the place or village named, not necessarily the exact venue.</p>
       <ul id="creditList" class="credits"></ul>
-    </div>
-    <footer id="footer"></footer>
+    </details>
+    <details class="box fold" id="sources"><summary><h2>Sources &amp; small print</h2></summary><footer id="footer"></footer></details>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -712,7 +721,10 @@ addEventListener("online", net); addEventListener("offline", net); net();
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
 
 render(); renderNights(); renderEvents(); renderEmergency(); renderRing(); renderPacking(); renderNotes(); weather();
-if(location.hash) setTimeout(()=>document.querySelector(location.hash)?.scrollIntoView(), 100);
+// a link to a folded section (or something inside one) opens it first
+function openFold(hash){ const t=hash.length>1 && document.getElementById(decodeURIComponent(hash.slice(1))); const f=t?.closest("details.fold"); if(f) f.open=true; return t; }
+document.addEventListener("click", e=>{ const a=e.target.closest('a[href^="#"]'); if(a) openFold(a.getAttribute("href")); });
+if(location.hash) setTimeout(()=>openFold(location.hash)?.scrollIntoView(), 100);
 })();
 </script>
 </body>

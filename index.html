@@ -83,7 +83,6 @@ h3{margin:0;font-size:1rem}
 .tag.booked{background:var(--ok-bg);color:var(--ok);font-weight:600}
 .note{margin:4px 0 0;font-size:.92rem}
 .near,.walk{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
-.check{display:inline-block;margin-top:6px;font-size:.8rem;color:var(--warn);background:var(--warn-bg);padding:2px 8px;border-radius:6px}
 .actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 .btn{border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:7px 12px;border-radius:10px;font-size:.88rem;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
 .btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
@@ -137,7 +136,6 @@ footer{color:var(--muted);font-size:.8rem}
 .info b{color:var(--ink);font-weight:600}
 .tag.closed{background:var(--warn-bg);color:var(--warn);font-weight:600}
 .tag.price{background:var(--ok-bg);color:var(--ok)}
-.check.ok{color:var(--ok);background:var(--ok-bg)}
 .bookwarn{font-size:.82rem;color:var(--warn);width:100%}
 .ev{list-style:none;padding:0!important;margin:0}
 .ev li{border-top:1px solid var(--line);padding:8px 0!important;margin:0!important;font-size:.92rem}
@@ -149,11 +147,6 @@ footer{color:var(--muted);font-size:.8rem}
 .em .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
 #emergency{border-color:#c0392b}
 #emergency h2{color:#c0392b}
-.ring{list-style:none;padding:0!important;margin:0}
-.ring li{display:flex;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:8px 0!important;margin:0!important;flex-wrap:wrap}
-.ring li:first-child{border-top:0}
-.ring .nm{flex:1;min-width:150px;font-size:.92rem}
-.ring li.ok .nm{color:var(--muted);text-decoration:line-through}
 </style>
 </head>
 <body>
@@ -176,11 +169,11 @@ footer{color:var(--muted);font-size:.8rem}
   <div class="share-banner" id="shareBanner"></div>
   <div id="weather"></div>
 
-  <div class="box" id="plan">
-    <h2>Nights &amp; bookings</h2>
+  <details class="box fold" id="plan">
+    <summary><h2>Nights &amp; bookings</h2></summary>
     <p class="area-note">Tap "Book" on a place to add a booking. Tap "Eating in" on a night to mark it. Use Share picks to send these to the others.</p>
     <ul class="nights" id="nights"></ul>
-  </div>
+  </details>
 
   <div class="box" id="whatson" hidden>
     <h2>What's on</h2>
@@ -217,11 +210,6 @@ footer{color:var(--muted);font-size:.8rem}
 
   <div id="more">
     <details class="box fold" id="emergency"><summary><h2>🚑 Emergency</h2></summary><ul class="em" id="emList"></ul></details>
-    <details class="box fold" id="ringahead" hidden>
-      <summary><h2>Ring-ahead checklist</h2></summary>
-      <p class="area-note" id="ringNote"></p>
-      <ul class="ring" id="ringList"></ul>
-    </details>
     <details class="box fold"><summary><h2>Good pairings</h2></summary><ul id="pairings"></ul></details>
     <details class="box fold"><summary><h2>Tips</h2></summary><ul id="tips"></ul></details>
     <details class="box fold" id="packing"><summary><h2>Packing checklist</h2></summary><div id="packLists"></div></details>
@@ -266,7 +254,6 @@ let done = store.get("done", {}), stars = store.get("stars", {}), notes = store.
 let bookings = store.get("bookings", {});   // id -> {date, time}
 let nightsIn = store.get("nightsIn", {});   // date -> true
 let packed = store.get("packed", {});
-let confirmed = store.get("confirmed", {});  // id -> true once someone has rung and confirmed
 let filter = store.get("filter", "all"), view = "list", sort = "base";
 let me = null;  // {lat, lon} once Near me is used
 
@@ -390,7 +377,6 @@ function card(p){
     ${babyHtml(p)}
     ${p.cost?`<p class="info">💷 ${esc(p.cost)}</p>`:""}
     ${p.near?`<p class="near">📍 ${esc(p.near)}</p>`:""}
-    ${p.check?(confirmed[p.id]?`<span class="check ok">✓ Confirmed by phone</span>`:`<span class="check">${esc(T.checkLabel||"Ring ahead: not confirmed")}</span>`):""}
     ${photoHtml(p)}
     <div class="actions">
       <a class="btn primary" href="${me?fromHereUrl(p):dirUrl(p)}" target="_blank" rel="noopener">Directions</a>
@@ -521,22 +507,6 @@ function renderEmergency(){
   $("#emList").innerHTML = em.map(x=>`<li><div class="lbl">${esc(x.label||"")}</div><b>${esc(x.name)}</b>${x.address?`<br><span class="credits">${esc(x.address)}</span>`:""}${x.note?`<br><span style="font-size:.88rem">${esc(x.note)}</span>`:""}
     <div class="actions">${x.phone?`<a class="btn primary" href="tel:${esc(x.phone.replace(/\s/g,""))}">📞 ${esc(x.phone)}</a>`:""}${x.q?`<a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=${enc(x.q)}" target="_blank" rel="noopener">🧭 Directions from here</a>`:""}${x.url?`<a class="btn" href="${esc(x.url)}" target="_blank" rel="noopener">Website</a>`:""}${x.source?`<a class="btn small" href="${esc(x.source)}" target="_blank" rel="noopener">Source</a>`:""}</div></li>`).join("");
 }
-
-// ---------- ring-ahead checklist ----------
-function renderRing(){
-  const list = D.places.filter(p=>p.check).sort((a,b)=>a.n.localeCompare(b.n));
-  if(!list.length) return;
-  $("#ringahead").hidden=false;
-  const n = list.filter(p=>confirmed[p.id]).length;
-  $("#ringNote").textContent = `${n} of ${list.length} confirmed. Ring these before you go (${T.checkLabel||"not confirmed"}); tick each once it's confirmed. Ticks are saved on this phone.`;
-  $("#ringList").innerHTML = list.map(p=>`<li class="${confirmed[p.id]?"ok":""}"><span class="nm"><a href="#p-${p.id}">${esc(p.n)}</a></span>
-    ${p.phone?`<a class="btn small" href="${telHref(p.phone)}">📞 ${esc(p.phone)}</a>`:`<a class="btn small" href="https://www.google.com/search?q=${enc(p.q+" phone")}" target="_blank" rel="noopener">Find number</a>`}
-    <label class="tog"><input type="checkbox" data-confirm="${p.id}" ${confirmed[p.id]?"checked":""}> Confirmed</label></li>`).join("");
-}
-$("#ringList").addEventListener("change", e=>{
-  const c=e.target.closest("[data-confirm]"); if(!c) return;
-  c.checked ? confirmed[c.dataset.confirm]=true : delete confirmed[c.dataset.confirm]; store.set("confirmed",confirmed); renderRing(); render();
-});
 
 // ---------- nights & bookings ----------
 function renderNights(){
@@ -720,7 +690,7 @@ const net = () => document.body.classList.toggle("is-offline", !navigator.onLine
 addEventListener("online", net); addEventListener("offline", net); net();
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
 
-render(); renderNights(); renderEvents(); renderEmergency(); renderRing(); renderPacking(); renderNotes(); weather();
+render(); renderNights(); renderEvents(); renderEmergency(); renderPacking(); renderNotes(); weather();
 // a link to a folded section (or something inside one) opens it first
 function openFold(hash){ const t=hash.length>1 && document.getElementById(decodeURIComponent(hash.slice(1))); const f=t?.closest("details.fold"); if(f) f.open=true; return t; }
 document.addEventListener("click", e=>{ const a=e.target.closest('a[href^="#"]'); if(a) openFold(a.getAttribute("href")); });

@@ -51,8 +51,14 @@ body.is-offline .offline{display:block}
 /* auto margins centre the days when they fit, and still scroll from the first day when they don't */
 .day:first-child{margin-left:auto}
 .day:last-child{margin-right:auto}
+.box{scroll-margin-top:8px}
 .bar{position:sticky;top:0;z-index:500;background:var(--bg);padding:12px 0 8px;border-bottom:1px solid var(--line)}
-.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.cats{display:flex;gap:6px;align-items:flex-start}
+.chips{flex:1;min-width:0;display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;
+  -webkit-mask-image:linear-gradient(to right,#000 85%,transparent);mask-image:linear-gradient(to right,#000 85%,transparent)}
+/* "All ▾" lays every category out in rows, so none is hidden off the edge */
+.bar.cats-open .chips{flex-wrap:wrap;overflow:visible;-webkit-mask-image:none;mask-image:none}
+.cat-more{flex:0 0 auto;border:1px solid var(--brand);background:var(--card);color:var(--brand);padding:7px 10px;border-radius:999px;font-size:.9rem;font-weight:600;cursor:pointer}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:0 0 auto;border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:7px 12px;border-radius:999px;font-size:.9rem;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
@@ -65,7 +71,7 @@ label.tog{font-size:.85rem;color:var(--muted);white-space:nowrap;display:flex;ga
 .seg button[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink)}
 h2{font-size:1.05rem;margin:22px 0 4px}
 .area-note{color:var(--muted);font-size:.88rem;margin:0 0 8px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0;scroll-margin-top:150px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0;scroll-margin-top:calc(var(--bar-h,150px) + 8px)}
 .card.done{opacity:.6}
 .card.done h3{text-decoration:line-through;color:var(--done)}
 .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
@@ -173,8 +179,12 @@ footer{color:var(--muted);font-size:.8rem;margin-top:30px}
     <ul class="ev" id="events"></ul>
   </div>
 
+  <section id="places">
   <div class="bar">
-    <div class="chips" id="chips"></div>
+    <div class="cats">
+      <div class="chips" id="chips"></div>
+      <button type="button" class="cat-more" id="catMore" aria-expanded="false" aria-controls="chips">All ▾</button>
+    </div>
     <div class="row">
       <input type="search" id="q" placeholder="Search places…" aria-label="Search places">
       <label class="tog"><input type="checkbox" id="hideDone"> Hide done</label>
@@ -194,6 +204,7 @@ footer{color:var(--muted);font-size:.8rem;margin-top:30px}
 
   <div id="map" aria-label="Map of places"></div>
   <div id="list"></div>
+  </section>
 
   <div id="more">
     <div class="box" id="emergency"><h2>🚑 Emergency</h2><ul class="em" id="emList"></ul></div>
@@ -397,16 +408,27 @@ const chips = [["all","All"],["star","⭐ Shortlist"],["booked","✅ Booked"],
 const SPECIAL = ["all","star","booked","open","baby"];
 if(!chips.some(([k])=>k===filter)) filter="all";
 if(D.places.some(p=>p.price)) $("#price").hidden=false;
-$("#price").addEventListener("change", render);
+$("#price").addEventListener("change", ()=>{ render(); toResults(); });
 $("#chips").innerHTML = chips.map(([k,l])=>`<button class="chip" type="button" data-f="${k}" aria-pressed="${k===filter}">${esc(l)}</button>`).join("");
+// keep the sticky bar's height in a CSS variable so jumps to a card land just below it
+new ResizeObserver(()=>document.documentElement.style.setProperty("--bar-h", $(".bar").offsetHeight+"px")).observe($(".bar"));
+// after the results change, start them from the top rather than mid-list
+function toResults(){ const top=$("#places").getBoundingClientRect().top; if(top<0) scrollTo({top:scrollY+top}); }
 function setFilter(f){
   filter=f; store.set("filter",f);
   document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.f===f));
-  render();
+  render(); toResults();
 }
-$("#chips").addEventListener("click", e=>{ const b=e.target.closest(".chip"); if(b) setFilter(b.dataset.f); });
-$("#q").addEventListener("input", render);
-$("#hideDone").addEventListener("change", render);
+function showCats(open){
+  $(".bar").classList.toggle("cats-open", open);
+  $("#catMore").setAttribute("aria-expanded", open); $("#catMore").textContent = open ? "Close ▴" : "All ▾";
+  if(!open) $(".chip[aria-pressed=true]")?.scrollIntoView({block:"nearest",inline:"center"});
+}
+$("#catMore").addEventListener("click", ()=>showCats(!$(".bar").classList.contains("cats-open")));
+$("#chips").addEventListener("click", e=>{ const b=e.target.closest(".chip"); if(b){ setFilter(b.dataset.f); showCats(false); } });
+showCats(false);
+$("#q").addEventListener("input", ()=>{ render(); toResults(); });
+$("#hideDone").addEventListener("change", ()=>{ render(); toResults(); });
 
 function visible(){
   const q = $("#q").value.trim().toLowerCase();
@@ -566,7 +588,7 @@ $("#shareBtn").addEventListener("click", async ()=>{
 })();
 
 // ---------- near me ----------
-function setSort(s){ sort=s; document.querySelectorAll("[data-sort]").forEach(x=>x.setAttribute("aria-pressed", x.dataset.sort===s)); render(); }
+function setSort(s){ sort=s; document.querySelectorAll("[data-sort]").forEach(x=>x.setAttribute("aria-pressed", x.dataset.sort===s)); render(); toResults(); }
 document.querySelectorAll("[data-sort]").forEach(b=>b.addEventListener("click", ()=>{
   if(b.dataset.sort==="base") return setSort("base");
   if(!navigator.geolocation) return toast("Location isn't available on this device");
@@ -603,6 +625,7 @@ document.addEventListener("click", e=>{ const g=e.target.closest("[data-goto]");
 async function setView(v){
   view=v; document.body.classList.toggle("map-mode", v==="map");
   document.querySelectorAll("[data-view]").forEach(x=>x.setAttribute("aria-pressed", x.dataset.view===v));
+  toResults();
   if(v!=="map") return;
   try{ await loadLeaflet(); }catch(e){ toast("The map needs signal to load"); return setView("list"); }
   if(!map){
@@ -638,7 +661,7 @@ async function weather(){
   const wet = (d.precipitation_probability_max[i0]||0) >= 60;
   $("#weather").innerHTML = `<div class="weather">${days}</div>
     <p class="wx-note">${wet?`<button class="btn small" type="button" id="wetBtn">☔ Looks wet: show rainy-day ideas</button> `:""}Forecast for ${esc(O.name||"the base")} from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>${stale?" (saved copy, offline)":""}.</p>`;
-  $("#wetBtn")?.addEventListener("click", ()=>{ setFilter("rainy"); $(".bar").scrollIntoView({behavior:"smooth"}); });
+  $("#wetBtn")?.addEventListener("click", ()=>{ setFilter("rainy"); $("#places").scrollIntoView({behavior:"smooth"}); });
 }
 
 // ---------- packing ----------

@@ -147,6 +147,29 @@ footer{color:var(--muted);font-size:.8rem}
 .em .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
 #emergency{border-color:#c0392b}
 #emergency h2{color:#c0392b}
+/* header buttons have a long label and a short one for phones */
+.home .short{display:none}
+@media (max-width:600px){
+  header{padding:10px 0 10px}
+  h1{font-size:1.1rem;margin:0}
+  header p{display:none}
+  .home{flex-wrap:nowrap;overflow-x:auto;margin:8px -16px 0;padding:0 16px;scrollbar-width:none}
+  .home::-webkit-scrollbar{display:none}
+  .home a,.home button{flex:0 0 auto;padding:6px 11px;font-size:.85rem}
+  .home .long{display:none}
+  .home .short{display:inline}
+}
+/* cards start compact (name, tags, two lines of note) and open on tap */
+.card .top,.card .tags,.card .note{cursor:pointer}
+.card:not(.open) .note{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card:not(.open) .detail{display:none}
+.card.open .quick{display:none}
+.tag.soon{background:var(--warn-bg);color:var(--warn);font-weight:600}
+.tag.fit{background:var(--ok-bg);color:var(--ok)}
+@media (max-width:600px){ input[type=search]{min-width:110px} }
+.update{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:1001;background:var(--ink);color:var(--bg);padding:8px 8px 8px 14px;border-radius:12px;font-size:.9rem;display:flex;gap:10px;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.3);width:max-content;max-width:calc(100vw - 32px)}
+.update[hidden]{display:none}
+.fold-status{font-size:.8rem;color:var(--muted);font-weight:400;margin-left:auto;margin-right:8px}
 </style>
 </head>
 <body>
@@ -157,8 +180,8 @@ footer{color:var(--muted);font-size:.8rem}
     <p id="subtitle"></p>
     <div class="home">
       <a id="homeDir" href="#" target="_blank" rel="noopener">🏡 Directions back</a>
-      <a href="#plan">🍽️ Nights &amp; bookings</a>
-      <button id="shareBtn" type="button">📤 Share picks</button>
+      <a href="#plan">🍽️ <span class="long">Nights &amp; bookings</span><span class="short">Bookings</span></a>
+      <button id="shareBtn" type="button">📤 Share<span class="long"> picks</span></button>
       <a href="#emergency">🚑 Emergency</a>
       <a href="#more">More…</a>
     </div>
@@ -179,6 +202,7 @@ footer{color:var(--muted);font-size:.8rem}
       <input type="search" id="q" placeholder="Search places…" aria-label="Search places">
       <label class="tog"><input type="checkbox" id="hideDone"> Hide done</label>
       <select id="price" aria-label="Price" hidden><option value="">Any price</option><option>£</option><option>££</option><option>£££</option><option>££££</option></select>
+      <select id="time" aria-label="Time you have, including the drive there and back"><option value="">⏱️ Any</option><option value="60">⏱️ 1 hr</option><option value="120">⏱️ 2 hrs</option><option value="180">⏱️ 3 hrs</option><option value="240">⏱️ 4 hrs</option></select>
     </div>
     <div class="row">
       <div class="seg" role="group" aria-label="View">
@@ -207,6 +231,11 @@ footer{color:var(--muted);font-size:.8rem}
       <p class="area-note">Events during your stay. Check times and booking on each event's page.</p>
       <ul class="ev" id="events"></ul>
     </details>
+    <details class="box fold" id="offline">
+      <summary><h2>📥 Save for offline</h2><span class="fold-status" id="offlineState"></span></summary>
+      <p class="area-note">Signal is patchy in the forest. Tap this on wifi to keep every place photo and the map on this phone (about 5–10 MB). Map tiles are kept as you view them, so pan around the map on wifi too.</p>
+      <div class="actions"><button class="btn primary" id="saveOffline" type="button">📥 Save now</button><span class="credits" id="offlineMsg"></span></div>
+    </details>
     <details class="box fold" id="emergency"><summary><h2>🚑 Emergency</h2></summary><ul class="em" id="emList"></ul></details>
     <details class="box fold"><summary><h2>Good pairings</h2></summary><ul id="pairings"></ul></details>
     <details class="box fold"><summary><h2>Tips</h2></summary><ul id="tips"></ul></details>
@@ -226,6 +255,7 @@ footer{color:var(--muted);font-size:.8rem}
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="update" id="update" role="status" hidden>🆕 A newer version is ready <button class="btn small primary" id="updateBtn" type="button">Refresh</button></div>
 
 <script>
 (async function(){
@@ -234,8 +264,8 @@ const enc = encodeURIComponent;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const toast = msg => { const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2500); };
 
-let D;
-try { D = await (await fetch("data.json", {cache:"no-cache"})).json(); }
+let D, DTEXT;
+try { DTEXT = await (await fetch("data.json", {cache:"no-cache"})).text(); D = JSON.parse(DTEXT); }
 catch(e){ $("#list").innerHTML = `<p class="empty">Couldn't load the planner data. Open it once with signal so it can be saved for offline use.</p>`; return; }
 
 const T = D.trip, O = T.origin, PFX = (T.storagePrefix||"trip") + "-";
@@ -261,7 +291,7 @@ $("#title").textContent = (T.emoji || "🌲") + " " + T.title;
 $("#subtitle").textContent = T.subtitle || ("Distances are road times from " + (O.name||"the base") + " (OpenStreetMap routing). Tap Directions for live traffic.");
 const homeQ = (O.lat!=null) ? `${O.lat},${O.lon}` : O.address;
 $("#homeDir").href = `https://www.google.com/maps/dir/?api=1&destination=${enc(homeQ)}&travelmode=driving`;
-$("#homeDir").textContent = "🏡 Directions back to " + (O.name || "base");
+$("#homeDir").innerHTML = `🏡 <span class="long">Directions back to ${esc(O.name || "base")}</span><span class="short">Back to ${esc(O.name || "base")}</span>`;
 
 // ---------- helpers ----------
 const mapUrl = p => `https://www.google.com/maps/search/?api=1&query=${enc(p.q)}`;
@@ -278,7 +308,10 @@ const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-$
 function nights(){ const out=[]; const d=new Date(T.start+"T12:00:00"), e=new Date(T.end+"T12:00:00"); while(d<e){ out.push(iso(d)); d.setDate(d.getDate()+1);} return out; }
 const NIGHTS = nights();
 const dayName = s => new Date(s+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short", day:"numeric", month:"short"});
-const todayIso = iso(new Date());
+// ?now=2026-10-27T15:30 pretends it's that moment, for checking the on-the-day warnings before the trip
+const NOWQ = new URLSearchParams(location.search).get("now");
+const now = () => NOWQ ? new Date(NOWQ) : new Date();
+const todayIso = iso(now());
 
 function distText(p){
   if(!p.mi) return "On site";
@@ -334,7 +367,63 @@ function babyHtml(p){
   return `<p class="info">🚼 ${bits.map(esc).join(" · ")}${bits.length&&b.notes?". ":""}${esc(b.notes||"")}</p>`;
 }
 
+// ---------- on the day: closing soon, sunset, how long a visit takes ----------
+const toMin = t => { const [h,m]=t.split(":").map(Number); return h*60+m; };
+const fmtMin = m => { m=Math.round(m); m=((m%1440)+1440)%1440; return `${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`; };
+const fmtDur = m => { m=Math.round(m/5)*5; return m<60 ? `${m} min` : `${Math.floor(m/60)}h${m%60?` ${m%60}m`:""}`; };
+const nowMin = () => { const n=now(); return n.getHours()*60+n.getMinutes(); };
+const onTrip = TRIPDAYS.includes(todayIso);
+// Sunset (minutes after local midnight) worked out on the phone, so it needs no signal. NOAA's approximation, within a minute or two.
+function sunsetMin(dIso){
+  const d=new Date(dIso+"T12:00:00"), r=Math.PI/180;
+  const n=Math.round((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(d.getFullYear(),0,0))/864e5);
+  const g=2*Math.PI/365*(n-1);
+  const eq=229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g));
+  const dec=0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g);
+  const ha=Math.acos(Math.cos(90.833*r)/(Math.cos(O.lat*r)*Math.cos(dec))-Math.tan(O.lat*r)*Math.tan(dec))/r;
+  const utc=720-4*(O.lon-ha)-eq;                         // minutes after UTC midnight
+  return utc - new Date(dIso+"T12:00:00").getTimezoneOffset();
+}
+// Rough time spent there, for "Got X hours". A walk's own length wins (about 2 mph with a dog and a buggy).
+const STAY = {walk:60, breakfast:60, lunch:75, dinner:90, food:20, town:75, todo:120, ancient:40, rainy:120, essential:20};
+function walkMin(p){
+  const l=(p.walk?.length||"").toLowerCase();
+  const mi=[...l.matchAll(/(\d+(?:\.\d+)?)\s*(?:–\s*(\d+(?:\.\d+)?))?\s*mi/g)].map(m=>+(m[2]||m[1]));
+  if(mi.length) return Math.max(30, Math.round(Math.max(...mi)*30));
+  if(/short|under 1/.test(l)) return 40;
+  return 60;
+}
+const stayMin = p => p.visitMin || (p.walk && !p.t.some(t=>["breakfast","lunch","dinner"].includes(t)) ? walkMin(p) : Math.min(...p.t.map(t=>STAY[t]||60)));
+// one way, from you if Near me is on (straight line x1.3 at ~25 mph), otherwise from the base
+const driveMin = p => me && p.lat!=null ? Math.max(2, Math.round(haversineMi(me,p)*1.3/25*60)) : (p.mi ? p.min : 0);
+function nowTags(p){
+  if(!onTrip) return "";
+  let out = "";
+  const h = hoursOn(p, todayIso), t = nowMin(), arrive = t + driveMin(p);
+  if(h && h!=="closed"){
+    const spans = h.split(",").map(r=>r.split("-").map(toMin)).map(([a,b])=>[a, b<=a?b+1440:b]);
+    const cur = spans.find(([a,b])=>a<=t && t<b), next = spans.find(([a])=>a>t);
+    if(cur && cur[1]-t <= 90) out += `<span class="tag soon">⏳ Closes ${fmtMin(cur[1])}${cur[1]<arrive+30?` (${driveMin(p)} min away)`:""}</span>`;
+    else if(!cur && next) out += `<span class="tag soon">🕒 Opens ${fmtMin(next[0])}</span>`;
+    else if(!cur) out += `<span class="tag closed">Closed now</span>`;
+  }
+  if(p.walk && O.lat!=null){
+    const ss = sunsetMin(todayIso), end = arrive + walkMin(p);
+    if(arrive >= ss) out += `<span class="tag soon">🌙 Dark by the time you're there</span>`;
+    else if(end > ss-10) out += `<span class="tag soon">🌇 Sunset ${fmtMin(ss)}: you'd finish ~${fmtMin(end)}</span>`;
+  }
+  return out;
+}
+const timeBudget = () => +$("#time").value || 0;
+const tripMin = p => 2*driveMin(p) + stayMin(p);
+function fitTag(p){
+  if(!timeBudget()) return "";
+  const d = driveMin(p);
+  return `<span class="tag fit">⏱️ ~${fmtDur(tripMin(p))}${d?`: ${d} min each way`:""}</span>`;
+}
+
 // ---------- cards ----------
+const openCards = new Set();   // cards tapped open, kept across re-renders
 const bookable = p => p.t.some(t=>["dinner","lunch","breakfast"].includes(t));
 function walkHtml(p){
   const w = p.walk; if(!w) return "";
@@ -365,10 +454,18 @@ function card(p){
   const tags = p.t.map(t=>`<span class="tag">${esc(TYPES[t]||t)}</span>`).join("");
   const b = bookings[p.id];
   const meDist = me && p.lat!=null ? `<span class="me">📍 ${haversineMi(me,p).toFixed(1)} mi from you</span>` : "";
-  return `<div class="card${done[p.id]?" done":""}" id="p-${p.id}">
-    <div class="top"><h3>${esc(p.n)}</h3><div class="dist">${distText(p)}${meDist}</div></div>
-    <div class="tags">${b?`<span class="tag booked">✅ Booked ${esc(dayName(b.date))} ${esc(b.time)}</span>`:""}${closedTag(p)}${p.price?`<span class="tag price">${esc(p.price)}</span>`:""}${tags}</div>
-    <p class="note">${esc(p.note)}</p>
+  const dirHref = me?fromHereUrl(p):dirUrl(p), open = openCards.has(p.id);
+  const starBtn = `<button class="btn" type="button" data-star="${p.id}" aria-pressed="${!!stars[p.id]}">${stars[p.id]?"⭐ Starred":"☆ Star"}</button>`;
+  return `<div class="card${done[p.id]?" done":""}${open?" open":""}" id="p-${p.id}">
+    <div class="top" data-toggle="${p.id}"><h3>${esc(p.n)}</h3><div class="dist">${distText(p)}${meDist}</div></div>
+    <div class="tags" data-toggle="${p.id}">${b?`<span class="tag booked">✅ Booked ${esc(dayName(b.date))} ${esc(b.time)}</span>`:""}${nowTags(p)}${fitTag(p)}${closedTag(p)}${p.price?`<span class="tag price">${esc(p.price)}</span>`:""}${tags}</div>
+    <p class="note" data-toggle="${p.id}">${esc(p.note)}</p>
+    <div class="actions quick">
+      <a class="btn primary" href="${dirHref}" target="_blank" rel="noopener">Directions</a>
+      ${starBtn}
+      <button class="btn" type="button" data-toggle="${p.id}" aria-expanded="false">More ▾</button>
+    </div>
+    <div class="detail">
     ${walkHtml(p)}
     ${hoursHtml(p)}
     ${dogHtml(p)}
@@ -377,17 +474,19 @@ function card(p){
     ${p.near?`<p class="near">📍 ${esc(p.near)}</p>`:""}
     ${photoHtml(p)}
     <div class="actions">
-      <a class="btn primary" href="${me?fromHereUrl(p):dirUrl(p)}" target="_blank" rel="noopener">Directions</a>
+      <a class="btn primary" href="${dirHref}" target="_blank" rel="noopener">Directions</a>
       <a class="btn" href="${mapUrl(p)}" target="_blank" rel="noopener">Map</a>
       ${p.web ? `<a class="btn" href="${esc(p.web)}" target="_blank" rel="noopener">Website</a>`
               : (p.a!=="essentials" ? `<a class="btn" href="https://www.google.com/search?q=${enc(p.q)}" target="_blank" rel="noopener">Search</a>` : "")}
       ${p.phone?`<a class="btn" href="${telHref(p.phone)}" title="${esc(p.phone)}, from ${esc(p.phoneSource||"")}">📞 Call</a>`:""}
       ${bookable(p)?`<button class="btn" type="button" data-book="${p.id}">${b?"✅ Booked":"🗓️ Book"}</button>`:""}
-      <button class="btn" type="button" data-star="${p.id}" aria-pressed="${!!stars[p.id]}">${stars[p.id]?"⭐ Starred":"☆ Star"}</button>
+      ${starBtn}
       <button class="btn" type="button" data-done="${p.id}" aria-pressed="${!!done[p.id]}">${done[p.id]?"✓ Done":"Mark done"}</button>
+      <button class="btn" type="button" data-toggle="${p.id}" aria-expanded="true">Less ▴</button>
     </div>
     ${bookHtml(p)}
     ${notesHtml(p)}
+    </div>
   </div>`;
 }
 
@@ -422,6 +521,7 @@ $("#chips").addEventListener("click", e=>{ const b=e.target.closest(".chip"); if
 showCats(false);
 $("#q").addEventListener("input", ()=>{ render(); toResults(); });
 $("#hideDone").addEventListener("change", ()=>{ render(); toResults(); });
+$("#time").addEventListener("change", ()=>{ render(); toResults(); });
 
 function visible(){
   const q = $("#q").value.trim().toLowerCase();
@@ -433,6 +533,7 @@ function visible(){
     if(!SPECIAL.includes(filter) && !p.t.includes(filter)) return false;
     const pr=$("#price").value; if(pr && p.price!==pr) return false;
     if($("#hideDone").checked && done[p.id]) return false;
+    if(timeBudget() && tripMin(p) > timeBudget()) return false;
     if(q && !(p.n+" "+p.note+" "+(p.near||"")+" "+(p.town||"")).toLowerCase().includes(q)) return false;
     return true;
   });
@@ -456,7 +557,15 @@ function render(){
 }
 
 // ---------- card actions ----------
+function expand(card, open){
+  if(!card?.classList.contains("card")) return;
+  const id = card.id.slice(2);
+  open ? openCards.add(id) : openCards.delete(id);
+  card.classList.toggle("open", open);
+}
 $("#list").addEventListener("click", e=>{
+  const tg = e.target.closest("[data-toggle]");
+  if(tg && !e.target.closest("a, button:not([data-toggle])")){ const c=tg.closest(".card"); expand(c, !c.classList.contains("open")); return; }
   const t = e.target.closest("[data-star],[data-done],[data-book],[data-unbook],[data-rate]"); if(!t) return;
   if(t.dataset.star){ const id=t.dataset.star; stars[id] ? delete stars[id] : stars[id]=true; store.set("stars",stars); render(); }
   else if(t.dataset.done){ const id=t.dataset.done; done[id] ? delete done[id] : done[id]=true; store.set("done",done); render(); }
@@ -598,7 +707,7 @@ function drawMarkers(fit){
   });
   if(fit && pts.length) map.fitBounds(pts,{padding:[30,30],maxZoom:14});
 }
-document.addEventListener("click", e=>{ const g=e.target.closest("[data-goto]"); if(g){ e.preventDefault(); setView("list"); setTimeout(()=>document.getElementById("p-"+g.dataset.goto)?.scrollIntoView({behavior:"smooth",block:"start"}),50); } });
+document.addEventListener("click", e=>{ const g=e.target.closest("[data-goto]"); if(g){ e.preventDefault(); setView("list"); setTimeout(()=>openFold("#p-"+g.dataset.goto)?.scrollIntoView({behavior:"smooth",block:"start"}),50); } });
 async function setView(v){
   view=v; document.body.classList.toggle("map-mode", v==="map");
   document.querySelectorAll("[data-view]").forEach(x=>x.setAttribute("aria-pressed", x.dataset.view===v));
@@ -688,9 +797,62 @@ const net = () => document.body.classList.toggle("is-offline", !navigator.onLine
 addEventListener("online", net); addEventListener("offline", net); net();
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
 
+// ---------- save for offline ----------
+// Photos and Leaflet go in a cache the service worker reads from but never clears.
+// OpenStreetMap doesn't allow bulk-downloading map tiles, so tiles are only kept as they're viewed.
+const LEAFLET = ["https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css","https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"];
+function offlineState(){
+  const at = store.get("offlineAt", null);
+  $("#offlineState").textContent = at ? "✓ Saved " + new Date(at).toLocaleDateString("en-GB",{day:"numeric",month:"short"}) : "Not saved yet";
+}
+$("#saveOffline").addEventListener("click", async ()=>{
+  if(!("caches" in window)) return toast("This browser can't save for offline");
+  if(!navigator.onLine) return toast("You need signal to save");
+  const btn=$("#saveOffline"), msg=$("#offlineMsg"); btn.disabled=true;
+  const urls = [...new Set([...LEAFLET, ...Object.values(PH).map(ph=>ph.img).filter(Boolean)])];
+  const c = await caches.open("planner-offline");
+  let ok=0, bad=0;
+  const one = async u => {
+    try{ let r; try{ r=await fetch(u,{mode:"cors",cache:"no-cache"}); }catch(e){ r=await fetch(u,{mode:"no-cors"}); }
+      if(!r.ok && r.type!=="opaque") throw 0; await c.put(u, r); ok++; }
+    catch(e){ bad++; }
+    msg.textContent = `Saving ${ok+bad} of ${urls.length}…`;
+  };
+  const q=[...urls]; await Promise.all([1,2,3,4].map(async()=>{ while(q.length) await one(q.shift()); }));
+  btn.disabled=false;
+  msg.textContent = bad ? `Saved ${ok}, ${bad} failed. Try again on better signal.` : `All ${ok} saved.`;
+  if(!bad){ store.set("offlineAt", Date.now()); offlineState(); toast("Saved for offline"); }
+});
+offlineState();
+
+// ---------- newer version ----------
+// Compares this page's own code and data with what's online, so a phone that left the planner open
+// for days (or opened it from the offline copy) offers a refresh.
+const sig = s => { let h=0; for(let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))|0; return h; };
+const codeOf = html => { const st=html.match(/<style>([\s\S]*?)<\/style>/), sc=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].pop(); return (st?.[1]||"") + (sc?.[1]||""); };
+const loaded = { code: sig($("style").textContent + document.scripts[document.scripts.length-1].textContent), data: sig(DTEXT) };
+let lastCheck = 0;
+async function checkUpdate(){
+  if(!navigator.onLine || Date.now()-lastCheck < 120000) return; lastCheck = Date.now();
+  try{
+    const get = u => fetch(u+"?_check="+Date.now(), {cache:"no-store"}).then(r=>r.ok?r.text():Promise.reject());
+    const [html, data] = await Promise.all([get("index.html"), get("data.json")]);
+    if(sig(codeOf(html))!==loaded.code || sig(data)!==loaded.data) $("#update").hidden = false;
+  }catch(e){}
+}
+$("#updateBtn").addEventListener("click", ()=>location.reload());
+setTimeout(checkUpdate, 5000);
+// coming back to the planner: refresh the "closes soon" and sunset tags, and look for a newer version
+let lastRender = Date.now();
+document.addEventListener("visibilitychange", ()=>{
+  if(document.hidden) return;
+  checkUpdate();
+  if(onTrip && Date.now()-lastRender > 300000 && !document.activeElement?.matches("textarea,input")){ lastRender=Date.now(); render(); }
+});
+
 render(); renderNights(); renderEvents(); renderEmergency(); renderPacking(); renderNotes(); weather();
 // a link to a folded section (or something inside one) opens it first
-function openFold(hash){ const t=hash.length>1 && document.getElementById(decodeURIComponent(hash.slice(1))); const f=t?.closest("details.fold"); if(f) f.open=true; return t; }
+function openFold(hash){ const t=hash.length>1 && document.getElementById(decodeURIComponent(hash.slice(1))); const f=t?.closest("details.fold"); if(f) f.open=true; expand(t, true); return t; }
 document.addEventListener("click", e=>{ const a=e.target.closest('a[href^="#"]'); if(a) openFold(a.getAttribute("href")); });
 if(location.hash) setTimeout(()=>openFold(location.hash)?.scrollIntoView(), 100);
 })();

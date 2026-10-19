@@ -169,18 +169,6 @@ footer{color:var(--muted);font-size:.8rem}
   <div class="share-banner" id="shareBanner"></div>
   <div id="weather"></div>
 
-  <details class="box fold" id="plan">
-    <summary><h2>Nights &amp; bookings</h2></summary>
-    <p class="area-note">Tap "Book" on a place to add a booking. Tap "Eating in" on a night to mark it. Use Share picks to send these to the others.</p>
-    <ul class="nights" id="nights"></ul>
-  </details>
-
-  <div class="box" id="whatson" hidden>
-    <h2>What's on</h2>
-    <p class="area-note">Events during your stay. Check times and booking on each event's page.</p>
-    <ul class="ev" id="events"></ul>
-  </div>
-
   <section id="places">
   <div class="bar">
     <div class="cats">
@@ -209,6 +197,16 @@ footer{color:var(--muted);font-size:.8rem}
   </section>
 
   <div id="more">
+    <details class="box fold" id="plan">
+      <summary><h2>Nights &amp; bookings</h2></summary>
+      <p class="area-note">Tap "Book" on a place to add a booking. Tap "Eating in" on a night to mark it. Use Share picks to send these to the others.</p>
+      <ul class="nights" id="nights"></ul>
+    </details>
+    <details class="box fold" id="whatson" hidden>
+      <summary><h2>What's on</h2></summary>
+      <p class="area-note">Events during your stay. Check times and booking on each event's page.</p>
+      <ul class="ev" id="events"></ul>
+    </details>
     <details class="box fold" id="emergency"><summary><h2>🚑 Emergency</h2></summary><ul class="em" id="emList"></ul></details>
     <details class="box fold"><summary><h2>Good pairings</h2></summary><ul id="pairings"></ul></details>
     <details class="box fold"><summary><h2>Tips</h2></summary><ul id="tips"></ul></details>
